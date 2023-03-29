@@ -1,4 +1,4 @@
-#include "Piece.h"
+#include "headers/Piece.h"
 
 Piece::Piece(colorType color) :
     pColor{color} {}
