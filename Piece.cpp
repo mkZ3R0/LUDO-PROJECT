@@ -3,6 +3,6 @@
 Piece::Piece(colorType color) :
     pColor{color} {}
 
-colorType Piece::getColor() {
+colorType Piece::getColor() const {
     return pColor;
 }

@@ -7,7 +7,7 @@ class Piece {
     const colorType pColor;
 public:
     Piece(colorType);
-    colorType getColor();
+    colorType getColor() const;
 };
 
 #endif
