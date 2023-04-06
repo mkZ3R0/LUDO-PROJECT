@@ -2,7 +2,6 @@
 #include<iostream>
 #include<string>
 #include "Board.h"
-#include<conio.h>
 
 using namespace std;
 
