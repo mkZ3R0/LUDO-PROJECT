@@ -26,7 +26,7 @@ Board::Board() {
         i = (i+1)%2;
     }
     // make home path -> this is the position just outside the home line
-    for (int j = 11, next=size+1; j < regSize; j+=13, next+=6) {
+    for (int j = 11, next=regSize+1; j < regSize; j+=13, next+=6) {
         path[j].makeSpecial(Home);
         path[j].setNext(next);
     }  
