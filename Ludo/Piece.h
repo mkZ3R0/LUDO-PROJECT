@@ -8,7 +8,7 @@ class Piece {
 public:
     Piece(colorType);
     colorType getColor()const;
-    void displayPiece(sf::RenderWindow&);
+    void displayPiece(sf::RenderWindow&,const int);
 };
 
 #endif
