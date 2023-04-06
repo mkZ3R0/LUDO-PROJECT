@@ -8,11 +8,12 @@
 class Board {
     std::vector<Position> path;
     std::vector<Player*> players;
-    static vector<position>boardPos;
-    static void calculateBoardPos();
+    static vector<placement>boardPlc;
 public:
     Board();
     static void displayBoard(sf::RenderWindow&);
+    static placement getBoardPlc(const int);
+    static void calculateBoardPlc();//for now public for testing, but later turn it private
 
 };
 

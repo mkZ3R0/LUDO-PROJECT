@@ -8,49 +8,18 @@ using namespace std;
 
 
 
-// Function to get the position on screen by mouse
-void static getRowColbyLeftClick(int& rpos, int& cpos, sf::RenderWindow& window)
-{
-    while (true)
-    {
-        if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-        {
-            sf::Vector2i p = sf::Mouse::getPosition(window);
-
-            cpos = p.x;
-            rpos = p.y;
-            break;
-        }
-    }
-}
-
-
-// Function to print image on screen
-
-void print(sf::RenderWindow& window,string name,int column, int row,int scx,int scy)
-{
-    sf::Texture temp;
-    if (!temp.loadFromFile(name))  //  img ==> file name for image
-    {
-        cout << "cannot Load immage";
-    }
-
-    sf::Sprite s(temp);
-    s.setColor(sf::Color::White);
-    s.setScale(scx,scy); //  (width and heigth of image to be printed)
-
-    s.setPosition(column, row); // position of image
-    window.draw(s);	// draw() will only draw image on backend, image will not display on screen
-    window.display();  // display() will show image on screen
-}
-
-
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");//,sf::Style::Fullscreen);
     //sf::CircleShape shape(100.f);
     //shape.setFillColor(sf::Color::Green);
-
+    Board::calculateBoardPlc();
+    int indexR = 71;
+    int indexO = 13;
+    int indexB = 58;
+    int indexP = 0;
+    int indexG = 26;
+    int indexY = 45;
     while (window.isOpen())
     {
         sf::Event event;
@@ -60,7 +29,38 @@ int main()
                 window.close();
         }
         Board myBoard;
-        myBoard.displayBoard(window);
+        Piece r(Red);
+        Piece g(Green);
+        Piece p(Purple);
+        Piece b(Blue);
+        Piece y(Yellow);
+        Piece o(Orange);
+        // displaying pieces
+        while (indexR != -1)
+        {
+            if (indexR == 90)
+                indexR = 0;
+            if (indexY == 90)
+                indexY = 0;
+            if (indexG == 90)
+                indexG = 0;
+            if (indexB == 90)
+                indexB = 0;
+            if (indexP == 90)
+                indexP = 0;
+            if (indexO == 90)
+                indexO = 0;
+            myBoard.displayBoard(window);
+            r.displayPiece(window, indexR++);
+            o.displayPiece(window, indexO++);
+            b.displayPiece(window, indexB++);
+            g.displayPiece(window, indexG++);
+            y.displayPiece(window, indexY++);
+            p.displayPiece(window, indexP++);
+            window.display();
+            Sleep(500);
+        }
+
     }
 
     return 0;

@@ -1,5 +1,5 @@
 #include "Piece.h"
-
+#include "Board.h"
 Piece::Piece(colorType c)
     :pColor(c)
 {
@@ -10,7 +10,7 @@ colorType Piece::getColor()const
     return this->pColor;
 }
 
-void Piece::displayPiece(sf::RenderWindow& window)
+void Piece::displayPiece(sf::RenderWindow& window,const int index)
 {
     sf::Texture temp;
     temp.setSmooth(true);
@@ -57,10 +57,11 @@ void Piece::displayPiece(sf::RenderWindow& window)
         }
     }
     sf::Sprite p(temp);
+    placement image=Board::getBoardPlc(index);
     //p.setColor(sf::Color::White);
     p.setOrigin(256.f, 256.f);
     p.setScale(0.089, 0.075);
-    p.setPosition(242.4,503.4);//y axis off set 37.1
+    p.setPosition(image.x,image.y);//y axis off set 37.1
     //p.setPosition(354,617);//x axis offset 37.3
     //317,392
     window.draw(p);
