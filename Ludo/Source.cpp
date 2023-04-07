@@ -5,13 +5,9 @@
 
 using namespace std;
 
-
-
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "SFML works!");//,sf::Style::Fullscreen);
-    //sf::CircleShape shape(100.f);
-    //shape.setFillColor(sf::Color::Green);
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Madni Ludo");
     Board::calculateBoardPlc();
     int indexR = 71;
     int indexO = 13;
