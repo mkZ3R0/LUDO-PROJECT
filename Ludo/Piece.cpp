@@ -1,9 +1,6 @@
 #include "Piece.h"
 #include "Board.h"
 
-//float Board::yOffSet;
-//float Board::xOffSet;
-
 Piece::Piece(colorType c)
     :pColor(c)
 {
@@ -47,6 +44,6 @@ void Piece::displayPiece(sf::RenderWindow& window,const int index)
     p.setOrigin(_pieceSize.x/2, _pieceSize.y/2);
     p.setScale(scaleFactor, scaleFactor);
     p.setPosition(image.x,image.y);
-    
+
     window.draw(p);
 }
