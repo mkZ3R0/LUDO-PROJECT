@@ -12,51 +12,27 @@ colorType Piece::getColor()const
 
 void Piece::displayPiece(sf::RenderWindow& window,const int index)
 {
-    sf::Texture temp;
-    temp.setSmooth(true);
-    if(this->pColor==Blue)
-    {
-        if (!temp.loadFromFile("Assets/blue.png"))
-        {
-            cout << "cannot Load image";
-        }
+    sf::Sprite p;
+    if(this->pColor==Blue) {
+        p.setTexture(blue);
     }
-    else if (this->pColor == Green)
-    {
-        if (!temp.loadFromFile("Assets/green.png"))
-        {
-            cout << "cannot Load image";
-        }
+    else if (this->pColor == Green) {
+        p.setTexture(green);
     }
-    else if (this->pColor == Red)
-    {
-        if (!temp.loadFromFile("Assets/red.png"))
-        {
-            cout << "cannot Load image";
-        }
+    else if (this->pColor == Red) {
+        p.setTexture(red);
     }
-    else if (this->pColor == Yellow)
-    {
-        if (!temp.loadFromFile("Assets/yellow.png"))
-        {
-            cout << "cannot Load image";
-        }
+    else if (this->pColor == Yellow) {
+        p.setTexture(yellow);
     }
-    else if (this->pColor == Purple)
-    {
-        if (!temp.loadFromFile("Assets/purple.png"))
-        {
-            cout << "cannot Load image";
-        }
+    else if (this->pColor == Purple) {
+        p.setTexture(purple);
     }
-    else if (this->pColor == Orange)
-    {
-        if (!temp.loadFromFile("Assets/orange.png"))
-        {
-            cout << "cannot Load image";
-        }
+    else if (this->pColor == Orange) {
+        p.setTexture(orange);
     }
-    sf::Sprite p(temp);
+
+    //sf::Sprite p(temp);
     placement image=Board::getBoardPlc(index);
     //p.setColor(sf::Color::White);
     p.setOrigin(256.f, 256.f);

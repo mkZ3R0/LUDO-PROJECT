@@ -10,10 +10,12 @@ class Board {
     std::vector<Player*> players;
     static vector<placement>boardPlc;
 public:
+    static sf::Texture boardBg;
     Board();
     static void displayBoard(sf::RenderWindow&);
     static placement getBoardPlc(const int);
     static void calculateBoardPlc();//for now public for testing, but later turn it private
+    void loadAssets();
 
 };
 

@@ -1,21 +1,56 @@
 #include "Board.h"
+#include "Piece.h"
 
-Board::Board()
-{
+sf::Texture Piece::red;
+sf::Texture Piece::blue;
+sf::Texture Piece::yellow;
+sf::Texture Piece::green;
+sf::Texture Piece::orange;
+sf::Texture Piece::purple;
+sf::Texture Board::boardBg;
+
+void Board::loadAssets() {
+    if (!Piece::blue.loadFromFile("Assets/blue.png")) {
+            cerr << "Cannot load blue.png" << endl;
+            exit(1);
+    }
+    if (!Piece::green.loadFromFile("Assets/green.png")) {
+        cerr << "Cannot load green.png" << endl;
+        exit(1);        
+    }
+    if (!Piece::red.loadFromFile("Assets/red.png")) {
+        cerr << "Cannot load red.png" << endl;
+        exit(1);   
+    }
+    if (!Piece::yellow.loadFromFile("Assets/yellow.png")) {
+        cerr << "Cannot load yellow.png" << endl;
+        exit(1);
+    }
+    if (!Piece::purple.loadFromFile("Assets/purple.png")) {
+        cerr << "Cannot load purple.png" << endl;
+        exit(1);
+    }
+    if (!Piece::orange.loadFromFile("Assets/orange.png")) {
+        cerr << "Cannot load orange.png" << endl;
+        exit(1);
+    }
+    if (!Board::boardBg.loadFromFile("Assets/board6.png")) {
+        cerr << "Cannot load board6.png" << endl;
+        exit(1);
+    }
 }
 
+Board::Board() {
+    this->loadAssets();
+}
 
 vector<placement> Board::boardPlc(90);
 void Board::calculateBoardPlc()
 {
-    sf::Texture temp;
-    if (!temp.loadFromFile("Assets/board6.png"))
-    {
-        cout << "cannot Load image";
-    }
     int index = 1;
-    float yOffSet =temp.getSize().y/15.0;
-    float xOffSet = temp.getSize().x/24.0;
+    auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
+    float yOffSet = bgSize.y/15.0; // 15 boxes from top to bottom
+    float xOffSet = bgSize.x/24.0; // 24 boxes from left to right
     boardPlc[0] = {242.4,503.4 };
     while (index >=1 && index <=4 )
     {
@@ -160,13 +195,8 @@ void Board::calculateBoardPlc()
 }
 void Board::displayBoard(sf::RenderWindow& window)
 {
-    sf::Texture temp;
     int index = 0;
-    if (!temp.loadFromFile("Assets/board6.png"))  //  img ==> file name for image
-    {
-        cout << "cannot Load image";
-    }
-    sf::Sprite s(temp);
+    sf::Sprite s(boardBg);
     s.setColor(sf::Color::White);
     s.setScale(1,1); //  (width and heigth of image to be printed)
     s.setPosition(0,0); // position of image

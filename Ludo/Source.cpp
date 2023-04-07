@@ -7,7 +7,8 @@ using namespace std;
 
 int main()
 {
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "Madni Ludo");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
+    Board myBoard;
     Board::calculateBoardPlc();
     int indexR = 71;
     int indexO = 13;
@@ -23,7 +24,6 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        Board myBoard;
         Piece r(Red);
         Piece g(Green);
         Piece p(Purple);
