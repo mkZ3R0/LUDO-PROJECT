@@ -9,6 +9,9 @@ sf::Texture Piece::orange;
 sf::Texture Piece::purple;
 sf::Texture Board::boardBg;
 
+float Board::yOffSet;
+float Board::xOffSet;
+
 void Board::loadAssets() {
     if (!Piece::blue.loadFromFile("Assets/blue.png")) {
             cerr << "Cannot load blue.png" << endl;
@@ -42,15 +45,16 @@ void Board::loadAssets() {
 
 Board::Board() {
     this->loadAssets();
+    auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
+    yOffSet = bgSize.y/15.0; // 15 boxes from top to bottom
+    xOffSet = bgSize.x/24.0; // 24 boxes from left to right
 }
 
 vector<placement> Board::boardPlc(90);
 void Board::calculateBoardPlc()
 {
     int index = 1;
-    auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
-    float yOffSet = bgSize.y/15.0; // 15 boxes from top to bottom
-    float xOffSet = bgSize.x/24.0; // 24 boxes from left to right
+
     boardPlc[0] = {242.4,503.4 };
     while (index >=1 && index <=4 )
     {
@@ -193,6 +197,7 @@ void Board::calculateBoardPlc()
         index++;
     }
 }
+
 void Board::displayBoard(sf::RenderWindow& window)
 {
     int index = 0;
@@ -201,8 +206,8 @@ void Board::displayBoard(sf::RenderWindow& window)
     s.setScale(1,1); //  (width and heigth of image to be printed)
     s.setPosition(0,0); // position of image
     window.draw(s);	// draw() will only draw image on backend, image will not display on screen
-    //window.display();  // display() will show image on screen
 }
+
 placement Board::getBoardPlc(const int index)
 {
     return boardPlc[index];

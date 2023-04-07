@@ -1,5 +1,9 @@
 #include "Piece.h"
 #include "Board.h"
+
+//float Board::yOffSet;
+//float Board::xOffSet;
+
 Piece::Piece(colorType c)
     :pColor(c)
 {
@@ -13,32 +17,36 @@ colorType Piece::getColor()const
 void Piece::displayPiece(sf::RenderWindow& window,const int index)
 {
     sf::Sprite p;
-    if(this->pColor==Blue) {
+    switch (pColor) {
+    case Blue:
         p.setTexture(blue);
-    }
-    else if (this->pColor == Green) {
+        break;
+    case Green:
         p.setTexture(green);
-    }
-    else if (this->pColor == Red) {
+        break;
+    case Red:
         p.setTexture(red);
-    }
-    else if (this->pColor == Yellow) {
+        break;
+    case Yellow:
         p.setTexture(yellow);
-    }
-    else if (this->pColor == Purple) {
+        break;
+    case Purple:
         p.setTexture(purple);
-    }
-    else if (this->pColor == Orange) {
+        break;
+    case Orange:
         p.setTexture(orange);
+        break;
+    default:
+        break;
     }
 
-    //sf::Sprite p(temp);
     placement image=Board::getBoardPlc(index);
-    //p.setColor(sf::Color::White);
-    p.setOrigin(256.f, 256.f);
-    p.setScale(0.089, 0.075);
-    p.setPosition(image.x,image.y);//y axis off set 37.1
-    //p.setPosition(354,617);//x axis offset 37.3
-    //317,392
+    auto _pieceSize = static_cast<sf::Vector2f>(p.getTexture()->getSize());
+    auto scaleFactor = std::min(Board::xOffSet / _pieceSize.x, Board::yOffSet / _pieceSize.y);
+
+    p.setOrigin(_pieceSize.x/2, _pieceSize.y/2);
+    p.setScale(scaleFactor, scaleFactor);
+    p.setPosition(image.x,image.y);
+    
     window.draw(p);
 }

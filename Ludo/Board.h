@@ -11,6 +11,8 @@ class Board {
     static vector<placement>boardPlc;
 public:
     static sf::Texture boardBg;
+    static float yOffSet;
+    static float xOffSet;
     Board();
     static void displayBoard(sf::RenderWindow&);
     static placement getBoardPlc(const int);

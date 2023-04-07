@@ -33,25 +33,14 @@ int main()
         // displaying pieces
         while (indexR != -1)
         {
-            if (indexR == 90)
-                indexR = 0;
-            if (indexY == 90)
-                indexY = 0;
-            if (indexG == 90)
-                indexG = 0;
-            if (indexB == 90)
-                indexB = 0;
-            if (indexP == 90)
-                indexP = 0;
-            if (indexO == 90)
-                indexO = 0;
             myBoard.displayBoard(window);
-            r.displayPiece(window, indexR++);
-            o.displayPiece(window, indexO++);
-            b.displayPiece(window, indexB++);
-            g.displayPiece(window, indexG++);
-            y.displayPiece(window, indexY++);
-            p.displayPiece(window, indexP++);
+            r.displayPiece(window, indexR++%90);
+            o.displayPiece(window, indexO++%90);
+            b.displayPiece(window, indexB++%90);
+            g.displayPiece(window, indexG++%90);
+            y.displayPiece(window, indexY++%90);
+            p.displayPiece(window, indexP++%90);
+
             window.display();
             _sleep(500);
         }
