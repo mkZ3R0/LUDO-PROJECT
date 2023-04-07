@@ -57,7 +57,7 @@ int main()
             y.displayPiece(window, indexY++);
             p.displayPiece(window, indexP++);
             window.display();
-            Sleep(500);
+            _sleep(500);
         }
 
     }
