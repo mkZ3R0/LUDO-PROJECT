@@ -13,7 +13,7 @@
 
 using namespace std;
 
-void _sleep(unsigned int);
+void __sleep(unsigned int);
 
 enum colorType { Red, Green, Blue, Yellow,Purple,Orange };
 

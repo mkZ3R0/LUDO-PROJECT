@@ -42,7 +42,7 @@ int main()
             p.displayPiece(window, indexP++%90);
 
             window.display();
-            _sleep(500);
+            __sleep(500);
         }
 
     }

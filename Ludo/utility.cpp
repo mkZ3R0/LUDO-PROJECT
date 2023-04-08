@@ -1,6 +1,6 @@
 #include "utility.h"
 
-void _sleep(unsigned int milli) {
+void __sleep(unsigned int milli) {
     #ifdef _WIN32
     Sleep(milli);
     #else
