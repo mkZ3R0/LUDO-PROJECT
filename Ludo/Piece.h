@@ -13,9 +13,10 @@ public:
     static sf::Texture green;
     static sf::Texture orange;
     static sf::Texture purple;
-    
     Piece(colorType);
     colorType getColor()const;
+    bool canGoHome()const;
+    void changeKilledStatus();
     void displayPiece(sf::RenderWindow&,const int);
 };
 

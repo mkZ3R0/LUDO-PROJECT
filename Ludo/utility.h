@@ -25,4 +25,12 @@ struct placement
 	float y;
 };
 
+struct playerKeyPoints
+{
+	int myStart;
+	int myEnd;
+	int myPathToVic;
+	int vicEntry;
+};
+
 #endif

@@ -10,7 +10,14 @@ colorType Piece::getColor()const
 {
     return this->pColor;
 }
-
+bool Piece::canGoHome()const
+{
+    return this->hasKilled;
+}
+void Piece::changeKilledStatus()
+{
+    this->hasKilled = !(this->hasKilled);
+}
 void Piece::displayPiece(sf::RenderWindow& window,const int index)
 {
     sf::Sprite p;

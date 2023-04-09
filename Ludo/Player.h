@@ -1,8 +1,21 @@
 #ifndef _PLAYER
 #define _PLAYER
 
-class Player {
+#include "utility.h"
 
+class Player 
+{
+	//static helpers:
+	static void assignKeyAndHome(Player&, const colorType);
+	//attributes
+	playerKeyPoints pK;
+	colorType plC;
+	vector<int> myHome;
+public:
+	Player(const colorType);
+	colorType getPlayerColor()const;
+	vector<int> getPlayerHome()const;
+	bool isMyPiece(const colorType)const;
 };
 
 #endif
