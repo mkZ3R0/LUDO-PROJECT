@@ -116,6 +116,85 @@ void Board::calculateBoardPlc()
             index++;
         }
     }
+    while (index != 126)
+    {
+        while ((index >= 91 && index <= 95) || (index >= 121 && index <= 125))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
+            index++;
+        }
+        while (index >= 97 && index <= 101)
+        {
+            boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y };
+            index++;
+        }
+        while ((index >= 103 && index <= 107) || (index >= 109 && index <= 113))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet };
+            index++;
+        }
+        while (index >= 115 && index <= 119)
+        {
+            boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y };
+            index++;
+        }
+        if (index == 90)
+        {
+            boardPlc[index] = { boardPlc[88].x, boardPlc[88].y - yOffSet };
+            index++;
+        }
+        if (index == 96)
+        {
+            boardPlc[index] = { boardPlc[11].x+xOffSet, boardPlc[11].y};
+            index++;
+        }
+        if (index == 102)
+        {
+            boardPlc[index] = { boardPlc[24].x , boardPlc[24].y +yOffSet};
+            index++;
+        }
+        if (index == 108)
+        {
+            boardPlc[index] = { boardPlc[43].x,boardPlc[43].y + yOffSet };
+            index++;
+        }
+        if (index == 114)
+        {
+            boardPlc[index] = { boardPlc[56].x-xOffSet, boardPlc[56].y};
+            index++;
+        }
+        if (index == 120)
+        {
+            boardPlc[index] = { boardPlc[69].x, boardPlc[69].y -yOffSet};
+            index++;
+        }
+    }
+    while (index != 150)
+    {
+        boardPlc[126] = { boardPlc[2].x - (4 * xOffSet), boardPlc[2].y };
+        boardPlc[130] = { boardPlc[14].x, boardPlc[14].y - (4 * yOffSet) };
+        boardPlc[134] = { boardPlc[27].x + (3 * xOffSet), boardPlc[27].y };
+        boardPlc[138] = { boardPlc[46].x + (3 * xOffSet), boardPlc[46].y };
+        boardPlc[142] = { boardPlc[60].x , boardPlc[60].y + (3 * yOffSet) };
+        boardPlc[146] = { boardPlc[73].x - (4 * xOffSet), boardPlc[73].y };
+        if (index == 126 || index == 130 || index == 134 || index == 138 || index == 142 || index == 146)
+            index++;
+        if (index == 127 || index == 131 || index == 135 || index == 139 || index == 143 || index == 147)
+        {
+            boardPlc[index] = { boardPlc[index-1].x + xOffSet, boardPlc[index-1].y };
+            index++;
+        }
+        if (index == 128 || index == 132 || index == 136 || index == 140 ||  index == 144 || index == 148)
+        {
+            boardPlc[index] = { boardPlc[index-1].x - xOffSet, boardPlc[index-1].y + yOffSet };
+            index++;
+        }
+        if (index == 129 || index == 133 || index == 137 || index == 141 || index == 145 || index == 149)
+        {
+            boardPlc[index] = { boardPlc[index-1].x + xOffSet, boardPlc[index-1].y };
+            index++;
+        }
+    }
 }
 
 void Board::displayBoard(sf::RenderWindow& window)

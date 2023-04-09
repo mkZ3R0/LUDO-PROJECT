@@ -34,12 +34,12 @@ int main()
         while (indexR != -1)
         {
             myBoard.displayBoard(window);
-            r.displayPiece(window, indexR++%90);
-            o.displayPiece(window, indexO++%90);
-            b.displayPiece(window, indexB++%90);
-            g.displayPiece(window, indexG++%90);
-            y.displayPiece(window, indexY++%90);
-            p.displayPiece(window, indexP++%90);
+            r.displayPiece(window, indexR++%150);
+            o.displayPiece(window, indexO++%150);
+            b.displayPiece(window, indexB++%150);
+            g.displayPiece(window, indexG++%150);
+            y.displayPiece(window, indexY++%150);
+            p.displayPiece(window, indexP++%150);
 
             window.display();
             __sleep(500);
