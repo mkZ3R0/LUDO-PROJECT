@@ -50,151 +50,71 @@ Board::Board() {
     xOffSet = bgSize.x/24.0; // 24 boxes from left to right
 }
 
-vector<placement> Board::boardPlc(90);
+
+//Board Indexes Guide: ( total 150, still working on more)
+//indexes 0-89 board path
+//90-95 purple path to victory
+//96-101 orange path to victory
+//102-107 green path to victory
+//108-113 yellow path to victory
+//114-119 blue path to victory
+//120-125 red path to victory
+//126-129 purple home
+//130-133 orange home
+//134-137 green home
+//138-141 yellow home
+//142-145 blue home
+//146-149 red home
+
+
+vector<placement> Board::boardPlc(150);
 void Board::calculateBoardPlc()
 {
     int index = 1;
 
     boardPlc[0] = {242.4,503.4 };
-    while (index >=1 && index <=4 )
+    while (index != 90)
     {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    if (index == 5)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 6 && index <= 10)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y };
-        index++;
-    }
-    while (index >= 11 && index <= 12)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 13 && index <= 17)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y };
-        index++;
-    }
-    if (index == 18)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 19 && index <= 23)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 24 && index <= 25)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y };
-        index++;
-    }
-    while (index >= 26 && index <= 30)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    if (index == 31)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 32 && index <= 36)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y};
-        index++;
-    }
-    if (index == 37)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 38 && index <= 42)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 43 && index <= 44)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y };
-        index++;
-    }
-    while (index >= 45 && index <= 49)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet};
-        index++;
-    }
-    if (index == 50)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 51 && index <= 55)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y};
-        index++;
-    }
-    while (index >= 56 && index <= 57)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 58 && index <= 62)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y};
-        index++;
-    }
-    if (index == 63)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 64 && index <= 68)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 69 && index <=70)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y};
-        index++;
-    }
-    while (index >= 71 && index <= 75)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    if (index == 76)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet,boardPlc[index - 1].y - yOffSet };
-        index++;
-    }
-    while (index >= 77 && index <= 81)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet,boardPlc[index - 1].y };
-        index++;
-    }
-    if (index == 82)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet,boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 83 && index <= 87)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet };
-        index++;
-    }
-    while (index >= 88 && index <= 89)
-    {
-        boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y};
-        index++;
+        while ((index >= 1 && index <= 4) || (index >= 11 && index <= 12) || (index >= 19 && index <= 23) || (index >= 38 && index <= 42) || (index >= 71 && index <= 75))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y - yOffSet };
+            index++;
+        }
+        if ((index == 5) || (index == 76))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y - yOffSet };
+            index++;
+        }
+        while ((index >= 6 && index <= 10) || (index >= 58 && index <= 62) || (index >= 69 && index <= 70) || (index >= 77 && index <= 81) || (index >= 88 && index <= 89))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y };
+            index++;
+        }
+        while ((index >= 13 && index <= 17) || (index >= 24 && index <= 25) || (index >= 32 && index <= 36) || (index >= 43 && index <= 44) || (index >= 51 && index <= 55))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y };
+            index++;
+        }
+        if ((index == 18) || (index == 37))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y - yOffSet };
+            index++;
+        }
+        while ((index >= 26 && index <= 30) || (index >= 45 && index <= 49) || (index >= 56 && index <= 57) || (index >= 64 && index <= 68) || (index >= 83 && index <= 87))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x, boardPlc[index - 1].y + yOffSet };
+            index++;
+        }
+        if ((index == 31) || (index == 50))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x + xOffSet, boardPlc[index - 1].y + yOffSet };
+            index++;
+        }
+        if ((index == 63) || (index == 82))
+        {
+            boardPlc[index] = { boardPlc[index - 1].x - xOffSet, boardPlc[index - 1].y + yOffSet };
+            index++;
+        }
     }
 }
 
