@@ -5,6 +5,7 @@
 
 class Piece {
     const colorType pColor;
+    bool hasKilled;
 public:
     static sf::Texture red;
     static sf::Texture blue;

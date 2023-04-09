@@ -4,7 +4,7 @@
 Piece::Piece(colorType c)
     :pColor(c)
 {
-
+    this->hasKilled = false;
 }
 colorType Piece::getColor()const
 {
