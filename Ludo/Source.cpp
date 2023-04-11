@@ -2,6 +2,7 @@
 #include<iostream>
 #include<string>
 #include "Board.h"
+#include "Dice.h"
 
 using namespace std;
 
@@ -24,12 +25,19 @@ int main()
             if (event.type == sf::Event::Closed)
                 window.close();
         }
-        Piece r(Red);
-        Piece g(Green);
-        Piece p(Purple);
-        Piece b(Blue);
-        Piece y(Yellow);
-        Piece o(Orange);
+        Player green(Green);
+        Player red(Red);
+        Player purple(Purple);
+        Player blue(Blue);
+        Player yellow(Yellow);
+        Player orange(Orange);
+        Piece r(&red);
+        Piece g(&green);
+        Piece p(&purple);
+        Piece b(&blue);
+        Piece y(&yellow);
+        Piece o(&yellow);
+        Dice d;
         // displaying pieces
         while (indexR != -1)
         {
@@ -40,7 +48,8 @@ int main()
             g.displayPiece(window, indexG++%150);
             y.displayPiece(window, indexY++%150);
             p.displayPiece(window, indexP++%150);
-
+            d.rollDice();
+            d.displayRoll(window);
             window.display();
             __sleep(500);
         }
