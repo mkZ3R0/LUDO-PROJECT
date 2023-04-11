@@ -48,8 +48,13 @@ int main()
             g.displayPiece(window, indexG++%150);
             y.displayPiece(window, indexY++%150);
             p.displayPiece(window, indexP++%150);
-            d.rollDice();
-            d.displayRoll(window);
+            int id = 0;
+            while (id != 3)
+            {
+                d.rollDice();
+                d.displayRoll(window,id);
+                id++;
+            }
             window.display();
             __sleep(500);
         }

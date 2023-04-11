@@ -3,9 +3,12 @@
 
 #include "Position.h"
 #include "Player.h"
+#include "Dice.h"
 #include "utility.h"
 
+
 class Board {
+    friend class Dice;
     std::vector<Position> path;
     std::vector<Player*> players;
     static vector<placement>boardPlc;

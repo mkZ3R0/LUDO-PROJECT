@@ -15,6 +15,7 @@ Dice::Dice()
 	:roll(0)
 {
     loadDice();
+    calculateDicePlc();
 }
 
 void Dice::loadDice()
@@ -50,7 +51,7 @@ int Dice::rollDice()
 	return roll=(rand() % 6) + 1;
 }
 
-void Dice::displayRoll(sf::RenderWindow& window)const
+void Dice::displayRoll(sf::RenderWindow& window,const int rollNumber)const
 {
     sf::Sprite d;
     switch (roll) {
@@ -78,11 +79,19 @@ void Dice::displayRoll(sf::RenderWindow& window)const
     auto _diceSize = static_cast<sf::Vector2f>(d.getTexture()->getSize());
     auto scaleFactor = std::min(Board::xOffSet / _diceSize.x, Board::yOffSet / _diceSize.y);
 
-    d.setOrigin(_diceSize.x / 2, _diceSize.y / 2);
+    d.setOrigin(_diceSize.x / 2, _diceSize.y / 2 +4);//+4 to compensate for change in origin of image
     d.setScale(scaleFactor, scaleFactor);
-    d.setPosition(Board::boardBg.getSize().x*1.1,Board::boardBg.getSize().y*0.25);
+    d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
 
     window.draw(d);
+}
+
+vector<placement> Dice::boardDicePlc(3);
+void Dice::calculateDicePlc()
+{
+    boardDicePlc[0] = { Board::boardPlc[79].x ,Board::boardPlc[79].y - Board::yOffSet};
+    for (int i = 1; i <= 2; i++)
+        boardDicePlc[i] = { boardDicePlc[i-1].x + Board::xOffSet ,boardDicePlc[i-1].y };
 }
 
 

@@ -5,6 +5,8 @@ class Dice
 {
 	int roll;
 	static void loadDice();
+	static void calculateDicePlc();
+	static vector<placement>boardDicePlc;
 public:
 	static sf::Texture one;
 	static sf::Texture two;
@@ -14,6 +16,6 @@ public:
 	static sf::Texture six;
 	Dice();
 	int rollDice();
-	void displayRoll(sf::RenderWindow&)const;
+	void displayRoll(sf::RenderWindow&,const int)const;
 };
 
