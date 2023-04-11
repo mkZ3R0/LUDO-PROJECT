@@ -48,12 +48,9 @@ int main()
             g.displayPiece(window, indexG++%150);
             y.displayPiece(window, indexY++%150);
             p.displayPiece(window, indexP++%150);
-            int id = 0;
-            while (id != 3)
-            {
+            for (size_t id = 0; id < 3; id++) {
                 d.rollDice();
                 d.displayRoll(window,id);
-                id++;
             }
             window.display();
             __sleep(500);
