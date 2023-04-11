@@ -1,8 +1,8 @@
 #include "Piece.h"
 #include "Board.h"
 
-Piece::Piece(colorType c)
-    :pColor(c)
+Piece::Piece(const Player* ply)
+    :myPlayer(ply),pColor(ply->getPlayerColor())
 {
     this->hasKilled = false;
 }

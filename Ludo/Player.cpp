@@ -10,7 +10,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myStart = 0 ;
 			p.pK.myEnd = 95 ;
 			p.pK.myPathToVic = 88;
-			p.pK.vicEntry = 90;
+			p.pK.vicDoor = 90;
 			for (int i = 126; i <= 128; i++)
 				p.myHome.push_back(i);
 			return;
@@ -20,7 +20,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myStart = 13;
 			p.pK.myEnd = 101;
 			p.pK.myPathToVic = 11;
-			p.pK.vicEntry = 96;
+			p.pK.vicDoor = 96;
 			for (int i = 130; i <= 133; i++)
 				p.myHome.push_back(i);
 			return;
@@ -30,7 +30,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myStart = 26;
 			p.pK.myEnd = 107;
 			p.pK.myPathToVic = 24;
-			p.pK.vicEntry = 102;
+			p.pK.vicDoor = 102;
 			for (int i = 134; i <= 137; i++)
 				p.myHome.push_back(i);
 			return;
@@ -40,7 +40,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myStart = 45;
 			p.pK.myEnd = 113;
 			p.pK.myPathToVic = 43;
-			p.pK.vicEntry = 108;
+			p.pK.vicDoor = 108;
 			for (int i = 138; i <= 141; i++)
 				p.myHome.push_back(i);
 			return;
@@ -50,7 +50,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myStart = 58;
 			p.pK.myEnd = 119;
 			p.pK.myPathToVic = 56;
-			p.pK.vicEntry = 114;
+			p.pK.vicDoor = 114;
 			for (int i = 142; i <= 145; i++)
 				p.myHome.push_back(i);
 			return;
@@ -60,7 +60,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myStart = 71;
 			p.pK.myEnd = 125;
 			p.pK.myPathToVic = 69;
-			p.pK.vicEntry = 120;
+			p.pK.vicDoor = 120;
 			for (int i = 146; i <= 149; i++)
 				p.myHome.push_back(i);
 			return;
@@ -82,6 +82,30 @@ colorType Player::getPlayerColor()const
 vector<int> Player::getPlayerHome()const
 {
 	return this->myHome;// returns deep copy;
+}
+
+int Player::getPlayerKey(const char c)const
+{
+	assert(c == 's' || c == 'e' || c == 'd' || c == 'v');
+	switch (c)
+	{
+		case 's':
+		{
+			return this->pK.myStart;
+		}
+		case 'e':
+		{
+			return this->pK.myEnd;
+		}
+		case 'd':
+		{
+			return this->pK.vicDoor;
+		}
+		case 'v':
+		{
+			return this->pK.myPathToVic;
+		}
+	}
 }
 
 bool Player::isMyPiece(const colorType pieceColor)const

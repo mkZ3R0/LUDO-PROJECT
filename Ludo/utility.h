@@ -4,6 +4,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include<vector>
+#include <cassert>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -30,7 +31,7 @@ struct playerKeyPoints
 	int myStart;
 	int myEnd;
 	int myPathToVic;
-	int vicEntry;
+	int vicDoor;
 };
 
 #endif

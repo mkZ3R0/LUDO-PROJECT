@@ -3,8 +3,11 @@
 
 #include "utility.h"
 
+class Player;
+
 class Piece {
     const colorType pColor;
+    const Player* myPlayer;
     bool hasKilled;
 public:
     static sf::Texture red;
@@ -13,7 +16,7 @@ public:
     static sf::Texture green;
     static sf::Texture orange;
     static sf::Texture purple;
-    Piece(colorType);
+    Piece(const Player*);
     colorType getColor()const;
     bool canGoHome()const;
     void changeKilledStatus();
