@@ -1,5 +1,4 @@
 #include "Player.h"
-#include <stdexcept>
 
 void Player::assignKeyAndHome(Player& p, const colorType cl)
 {
@@ -106,7 +105,6 @@ int Player::getPlayerKey(const char c)const
 			return this->pK.myPathToVic;
 		}
 	}
-	throw exception();
 	return -1; // compiler warning
 }
 
