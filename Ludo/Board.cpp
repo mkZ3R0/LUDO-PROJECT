@@ -178,6 +178,8 @@ Board::Board() {
     for(auto sp: mapping) {
         path[sp.first].makeSpecial(sp.second);
     }
+
+    Board::calculateBoardPlc();
 }
 
 

@@ -8,7 +8,6 @@ Ludo::Ludo() {
 
 void Ludo::play() {
     Board myBoard;
-    Board::calculateBoardPlc();
     int indexR = 71;
     int indexO = 13;
     int indexB = 58;
