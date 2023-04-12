@@ -8,6 +8,7 @@
 
 class Ludo {
     static sf::RenderWindow window;
+    static Board myBoard;
 
 public:
     Ludo();
