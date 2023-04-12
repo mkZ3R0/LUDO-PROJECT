@@ -57,7 +57,27 @@ vector<Player*> Ludo::allocatePlayers(const int num)
     }
 }
 
+vector<Piece *> Ludo::allocatePiece(const Player* player) {
+    auto pieces = vector<Piece*>(4);
+    for (int i = 0; i < 4; i++) {
+        pieces.push_back(new Piece(player));
+    }
+    
+    return pieces;
+}
+
 Ludo::Ludo() {
+    int noOfPlayers=2; // input this with a different window
+
+    auto players = allocatePlayers(noOfPlayers);
+
+    for(auto& player: players) {
+        auto pieces = allocatePiece(player);
+        auto homeArea = player->getPlayerHome();
+        for (int i=0; i<4; i++) {
+            myBoard.path[homeArea[i]].myPiece.push_back(pieces[i]);
+        }
+    }
 }
 
 void Ludo::play() {

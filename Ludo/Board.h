@@ -9,6 +9,7 @@
 
 class Board {
     friend class Dice;
+    friend class Ludo;
     std::vector<Position> path;
     std::vector<Player*> players;
     static vector<placement>boardPlc;

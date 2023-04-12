@@ -6,6 +6,8 @@
 #include <vector>
 
 class Position {
+    friend class Board;
+    friend class Ludo;
     bool special;
     positionType type;
     std::vector<Piece*> myPiece;
