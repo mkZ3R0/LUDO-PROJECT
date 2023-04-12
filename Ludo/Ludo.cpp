@@ -58,7 +58,7 @@ vector<Player*> Ludo::allocatePlayers(const int num)
 }
 
 vector<Piece *> Ludo::allocatePiece(const Player* player) {
-    auto pieces = vector<Piece*>(4);
+    vector<Piece*> pieces;
     for (int i = 0; i < 4; i++) {
         pieces.push_back(new Piece(player));
     }

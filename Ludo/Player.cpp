@@ -10,7 +10,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myEnd = 95 ;
 			p.pK.myPathToVic = 88;
 			p.pK.vicDoor = 90;
-			for (int i = 126; i <= 128; i++)
+			for (int i = 126; i <= 129; i++)
 				p.myHome.push_back(i);
 			return;
 		}
@@ -80,7 +80,7 @@ colorType Player::getPlayerColor()const
 
 const vector<int>& Player::getPlayerHome()const
 {
-	return this->myHome;// returns deep copy;
+	return this->myHome;// returns shallow copy;
 }
 
 int Player::getPlayerKey(const char c)const
