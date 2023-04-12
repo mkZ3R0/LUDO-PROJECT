@@ -2,6 +2,60 @@
 
 sf::RenderWindow Ludo::window(sf::VideoMode(895, 558), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
 
+vector<Player*> Ludo::allocatePlayers(const int num)
+{
+    assert(num > 0 && num <= 6);
+    vector<Player*> p;
+    switch (num)
+    {
+        case 1:
+        {
+            p.push_back(new Player(Purple));
+            return p;
+        }
+        case 2:
+        {
+            p.push_back(new Player(Purple));
+            p.push_back(new Player(Yellow));
+            return p;
+        }
+        case 3:
+        {
+            p.push_back(new Player(Purple));
+            p.push_back(new Player(Green));
+            p.push_back(new Player(Blue));
+            return p;
+        }
+        case 4:
+        {
+            p.push_back(new Player(Purple));
+            p.push_back(new Player(Orange));
+            p.push_back(new Player(Yellow));
+            p.push_back(new Player(Blue));
+            return p;
+        }
+        case 5:
+        {
+            p.push_back(new Player(Purple));
+            p.push_back(new Player(Orange));
+            p.push_back(new Player(Green));
+            p.push_back(new Player(Yellow));
+            p.push_back(new Player(Blue));
+            return p;
+        }
+        case 6:
+        {
+            p.push_back(new Player(Purple));
+            p.push_back(new Player(Orange));
+            p.push_back(new Player(Green));
+            p.push_back(new Player(Yellow));
+            p.push_back(new Player(Blue));
+            p.push_back(new Player(Red));
+            return p;
+        }
+    }
+}
+
 Ludo::Ludo() {
 
 }

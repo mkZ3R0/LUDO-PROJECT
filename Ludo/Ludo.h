@@ -4,11 +4,12 @@
 #include "utility.h"
 #include "Board.h"
 #include "Dice.h"
+#include "Player.h"
 
 
 class Ludo {
     static sf::RenderWindow window;
-
+    static vector<Player*> allocatePlayers(const int);
 public:
     Ludo();
     void play();
