@@ -9,6 +9,7 @@
 
 class Ludo {
     static sf::RenderWindow window;
+    static Board myBoard;
     static vector<Player*> allocatePlayers(const int);
 public:
     Ludo();

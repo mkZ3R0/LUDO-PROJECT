@@ -1,6 +1,7 @@
 #include "Ludo.h"
 
 sf::RenderWindow Ludo::window(sf::VideoMode(895, 558), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
+Board Ludo::myBoard;
 
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
@@ -57,11 +58,9 @@ vector<Player*> Ludo::allocatePlayers(const int num)
 }
 
 Ludo::Ludo() {
-
 }
 
 void Ludo::play() {
-    Board myBoard;
     int indexR = 71;
     int indexO = 13;
     int indexB = 58;
@@ -99,8 +98,6 @@ void Ludo::play() {
             }
             window.display();
             cout << myBoard.clickToIndex(Board::mouseClick(window)) << endl;
-
-            //__sleep(500);
         }
     }
 }
