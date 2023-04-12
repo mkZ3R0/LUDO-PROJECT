@@ -14,7 +14,7 @@ class Player
 public:
 	Player(const colorType);
 	colorType getPlayerColor()const;
-	vector<int> getPlayerHome()const;
+	const vector<int>& getPlayerHome()const;
 	int getPlayerKey(const char)const;
 	bool isMyPiece(const colorType)const;
 };

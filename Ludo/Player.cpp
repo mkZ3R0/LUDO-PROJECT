@@ -79,7 +79,7 @@ colorType Player::getPlayerColor()const
 	return this->plC;
 }
 
-vector<int> Player::getPlayerHome()const
+const vector<int>& Player::getPlayerHome()const
 {
 	return this->myHome;// returns deep copy;
 }
