@@ -18,7 +18,7 @@ void __sleep(unsigned int);
 
 enum colorType { Red, Green, Blue, Yellow,Purple,Orange };
 
-enum positionType { Normal, Star, Home };
+enum positionType { Normal, Star, Home , Death };
 
 struct placement
 {

@@ -1,5 +1,6 @@
 #include "Board.h"
 #include "Piece.h"
+#include "Position.h"
 
 sf::Texture Piece::red;
 sf::Texture Piece::blue;
@@ -145,6 +146,38 @@ Board::Board() {
     auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
     yOffSet = bgSize.y/15.0; // 15 boxes from top to bottom
     xOffSet = bgSize.x/24.0; // 24 boxes from left to right
+
+    int size = 150;
+    int regSize = 89;
+
+    this->path = std::vector<Position>(size);
+
+    map<int, positionType> mapping = {
+        {0, Star},
+        {8, Death},
+        {11, Home},
+        {13, Star},
+        {21, Death},
+        {24, Home},
+        {26, Star},
+        {34, Death},
+        {40, Death},
+        {43, Home},
+        {45, Star},
+        {53, Death},
+        {56, Home},
+        {58, Star},
+        {66, Death},
+        {69, Home},
+        {71, Star},
+        {79, Death},
+        {85, Death},
+        {88, Home}
+    };
+
+    for(auto sp: mapping) {
+        path[sp.first].makeSpecial(sp.second);
+    }
 }
 
 

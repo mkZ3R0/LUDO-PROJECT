@@ -6,6 +6,7 @@ Position::Position() {
     myPiece = std::vector<Piece*>();
 }
 
-void Position::makeSpecial() {
+void Position::makeSpecial(positionType _type) {
     special = true;
+    type = _type;
 }

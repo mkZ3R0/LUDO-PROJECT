@@ -11,7 +11,7 @@ class Position {
     std::vector<Piece*> myPiece;
 public:
     Position();
-    void makeSpecial();
+    void makeSpecial(positionType);
 };
 
 
