@@ -151,8 +151,12 @@ int Board::clickToIndex(placement click) {
             return 144+(x-20);
         }   
     }
-    //throw exception(); //temp
-    return -1;
+    if (y==7) {
+        if (x==11) return -1;
+        else if (x==12) return -2;
+        else if (x==13) return -3;
+    }
+    return -99;
 }
 
 placement Board::mouseClick(sf::RenderWindow& window) {
