@@ -19,12 +19,6 @@ int main()
     int indexY = 45;
     while (window.isOpen())
     {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
         Player green(Green);
         Player red(Red);
         Player purple(Purple);
@@ -53,7 +47,9 @@ int main()
                 d.displayRoll(window,id);
             }
             window.display();
-            __sleep(500);
+            cout << myBoard.clickToIndex(Board::mouseClick(window)) << endl;
+
+            //__sleep(500);
         }
 
     }

@@ -43,6 +43,103 @@ void Board::loadAssets() {
     }
 }
 
+int Board::clickToIndex(placement click) {
+    int x = click.x / xOffSet;
+    int y = click.y / yOffSet;
+
+    printf("x=%d, y=%d :- index:", x, y);
+
+
+    // orange area
+    if (x >= 0 && x <= 5) {
+        if (y==6) {
+            return 12+x;
+        } else if (y==8) {
+            return 10-x;
+        } else if (y==7 && x==0) { // todo home path orange
+            return 11;
+        }
+    // darmian wala arrow area
+    } else if (x>= 9 && x<= 14) {
+        if (y==6) {
+            return 31 + (x-9);
+        } else if (y==8) {
+            return 81 - (x-9);
+        }
+    // blue area
+    } else if (x>= 18 && x<= 23) {
+        if (y==6) {
+            return 50 + (x-18);
+        } else if (y==8) {
+            return 62 - (x-18); 
+        } else if (y==7 && x==23) { //todo home path blue
+            return 56;
+        }
+    }
+    if (y>=0 && y<=5) {
+        //green side
+        if (x==6) {
+            return 23 - y;
+        } else if (x==8) {
+            return 25 + y;
+        } else if (x==7 && y==0) { //todo home path green
+            return 24;
+        // yellow side
+        } else if (x==15) {
+            return 42 - y;
+        } else if (x==17) {
+            return 44 + y;
+        } else if (x==16 && y==0) { // todo yellow home path
+            return 43;
+        }
+    } else if (y>=9 && y<=14) {
+        // purple area
+        if (x==6) {
+            if (y<=13) {
+                return 4 - (y-9);
+            } else {
+                return 89;
+            }
+        } else if (x==8) {
+            return 82 + (y-9);
+        } else if (x==7 && y==14) { //todo home path purple
+            return 88;
+        // red area
+        } else if (x==15) {
+            return 75 - (y-9);
+        } else if (x==17) {
+            return 63 + (y-9);
+        } else if (x==16 && y==14) { // todo home path red
+            return 69; //nice
+        }
+    }
+
+    throw exception(); //temp
+}
+
+placement Board::mouseClick(sf::RenderWindow& window) {
+    placement raw{-1, -1};
+    sf::Event event;
+    while (window.waitEvent(event)) {
+        switch (event.type) {
+            case sf::Event::Closed:
+                window.close();
+                exit(0);
+                break;
+            case sf::Event::MouseButtonReleased:
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    raw.y = event.mouseButton.y;
+                    raw.x = event.mouseButton.x;
+                    return raw;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+    return raw;
+}
+
 Board::Board() {
     this->loadAssets();
     auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
