@@ -204,7 +204,7 @@ void Ludo::play() {
         do
         {
             roll= myDice.rollDice();
-            myDice.displayRoll(window,rollCount);
+            myDice.displayRoll(window,rollCount);//only working once change
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
@@ -231,7 +231,7 @@ void Ludo::play() {
             }
             else
             {
-                myBoard.movePiece(window, selectedBoardIndex,currentRoll);
+                myBoard.movePiece(window, selectedBoardIndex,currentRoll);//no check for killing insert it
                 myBoard.displayBoard(window);
             }
             window.display();
