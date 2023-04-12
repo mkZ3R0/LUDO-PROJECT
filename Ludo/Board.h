@@ -21,12 +21,9 @@ public:
     static placement getBoardPlc(const int);
     static void calculateBoardPlc();//for now public for testing, but later turn it private
     void loadAssets();
-<<<<<<< HEAD
     static placement mouseClick(sf::RenderWindow&); //TODO: make private
     int clickToIndex(placement);
-=======
     void movePiece(sf::RenderWindow&, int, int, int=0);
->>>>>>> dd11435 (Piece Movement)
 
 };
 

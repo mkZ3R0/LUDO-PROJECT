@@ -1,10 +1,7 @@
 #include "Board.h"
 #include "Piece.h"
-<<<<<<< HEAD
 #include "Position.h"
-=======
 #include "Player.h"
->>>>>>> dd11435 (Piece Movement)
 
 sf::Texture Piece::red;
 sf::Texture Piece::blue;
