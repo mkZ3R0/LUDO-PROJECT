@@ -57,8 +57,9 @@ int Board::clickToIndex(placement click) {
             return 12+x;
         } else if (y==8) {
             return 10-x;
-        } else if (y==7 && x==0) { // todo home path orange
-            return 11;
+        } else if (y==7) {
+            if (x==0) return 11;
+            else return 95+x;
         }
     // darmian wala arrow area
     } else if (x>= 9 && x<= 14) {
@@ -73,8 +74,9 @@ int Board::clickToIndex(placement click) {
             return 50 + (x-18);
         } else if (y==8) {
             return 62 - (x-18); 
-        } else if (y==7 && x==23) { //todo home path blue
-            return 56;
+        } else if (y==7) {
+            if (x==23) return 56;
+            else return 118-(x-18);
         }
     }
     if (y>=0 && y<=5) {
@@ -83,15 +85,17 @@ int Board::clickToIndex(placement click) {
             return 23 - y;
         } else if (x==8) {
             return 25 + y;
-        } else if (x==7 && y==0) { //todo home path green
-            return 24;
+        } else if (x==7) {
+            if(y==0) return 24;
+            else return 101 + y;
         // yellow side
         } else if (x==15) {
             return 42 - y;
         } else if (x==17) {
             return 44 + y;
-        } else if (x==16 && y==0) { // todo yellow home path
-            return 43;
+        } else if (x==16) {
+            if(y==0) return 43;
+            else return 107+y;
         }
     } else if (y>=9 && y<=14) {
         // purple area
@@ -103,15 +107,17 @@ int Board::clickToIndex(placement click) {
             }
         } else if (x==8) {
             return 82 + (y-9);
-        } else if (x==7 && y==14) { //todo home path purple
-            return 88;
+        } else if (x==7) {
+            if(y==14) return 88;
+            else return 94 - (y-9);
         // red area
         } else if (x==15) {
             return 75 - (y-9);
         } else if (x==17) {
             return 63 + (y-9);
-        } else if (x==16 && y==14) { // todo home path red
-            return 69; //nice
+        } else if (x==16) {
+            if(y==14) return 69; //nice
+            else return 124 - (y-9);
         }
     }
 
