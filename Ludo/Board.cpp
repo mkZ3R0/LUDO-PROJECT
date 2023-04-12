@@ -1,6 +1,10 @@
 #include "Board.h"
 #include "Piece.h"
+<<<<<<< HEAD
 #include "Position.h"
+=======
+#include "Player.h"
+>>>>>>> dd11435 (Piece Movement)
 
 sf::Texture Piece::red;
 sf::Texture Piece::blue;
@@ -340,4 +344,57 @@ void Board::displayBoard(sf::RenderWindow& window)
 placement Board::getBoardPlc(const int index)
 {
     return boardPlc[index];
+}
+
+void Board::movePiece(sf::RenderWindow& window,int boardIndex, int rolledNumber,int indexPieceNum)
+{
+    Piece* pToMove = path[boardIndex].myPiece[indexPieceNum];
+    auto playerTurn = pToMove->getMyPlayer();
+    path[boardIndex].myPiece.erase(path[boardIndex].myPiece.begin()+indexPieceNum);
+    int currentIndex = boardIndex;
+    while (rolledNumber != 0)
+    {
+        if (path[currentIndex].special)
+        {
+            if (path[currentIndex].type == Home && playerTurn->getPlayerKey('d') == currentIndex && pToMove->canGoHome())
+            {
+                rolledNumber--;
+                currentIndex = playerTurn->getPlayerKey('v');
+                displayBoard(window);
+                pToMove->displayPiece(window, currentIndex);
+                window.display();
+                __sleep(100);
+            }
+        }
+        else
+        {
+            rolledNumber--;
+            if (currentIndex == 89)
+                currentIndex = 0;
+            else
+                currentIndex++;
+            displayBoard(window);
+            pToMove->displayPiece(window, currentIndex);
+            window.display();
+            __sleep(100);
+        }
+    }
+    //winning condition;
+    path[currentIndex].myPiece.push_back(pToMove);
+    if (path[currentIndex].special && path[currentIndex].type==Death)
+    {
+        path[currentIndex].myPiece.erase(find(path[currentIndex].myPiece.begin(), path[currentIndex].myPiece.end(), pToMove));
+        auto goHome = playerTurn->getPlayerHome();
+        for (auto i = goHome.begin(); i != goHome.end(); i++)
+        {
+            if (path[*i].myPiece.empty())
+            {
+                path[*i].myPiece.push_back(pToMove);
+                displayBoard(window);
+                pToMove->displayPiece(window, *i);
+                window.display();
+                break;
+            }
+        }
+    }
 }
