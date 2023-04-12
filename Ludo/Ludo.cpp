@@ -2,6 +2,7 @@
 
 sf::RenderWindow Ludo::window(sf::VideoMode(895, 558), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
 Board Ludo::myBoard;
+Dice Ludo::myDice;
 
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
@@ -67,9 +68,10 @@ vector<Piece *> Ludo::allocatePiece(const Player* player) {
 }
 
 Ludo::Ludo() {
-    int noOfPlayers=2; // input this with a different window
-
-    auto players = allocatePlayers(noOfPlayers);
+    srand(time(0));
+    noOfPlayers=2; // input this with a different window
+    currentTurn = rand()%noOfPlayers;
+    Ludo::players = allocatePlayers(noOfPlayers);
 
     for(auto& player: players) {
         auto pieces = allocatePiece(player);
@@ -80,44 +82,161 @@ Ludo::Ludo() {
     }
 }
 
+int Ludo::selectPiece()
+{
+    cout << "selecting Piece" << endl;//for testing purpose remove later on
+    return myBoard.clickToIndex(Board::mouseClick(window));
+}
+
+bool Ludo::isValidSelection(const int index,const Player* p)
+{
+    cout << "checking if valid selection Piece" << endl;//for testing purpose remove later on
+    //for now thinking only one piece at an index extend to multiple pieces on an index
+    if (index < 0)
+        return false;
+    if (index==95 || index==101 || index==107 || index==113  || index==119 || index==125 )
+        return false;
+    for (auto iT = myBoard.path[index].myPiece.begin(); iT != myBoard.path[index].myPiece.end();iT++)
+    {
+        if (p->isMyPiece((*iT)->getColor()))
+            return true;
+    }
+    return false;
+}
+
+int Ludo::selectDiceRoll()
+{
+    cout << "selecting Dice roll" << endl;//for testing purpose remove later on
+    return myBoard.clickToIndex(Board::mouseClick(window));  
+}
+
+bool Ludo::allSixes(const vector<int>& myRolls)
+{
+    cout << "checking if all sixes" << endl;//for testing purpose remove later on
+    if (myRolls.size() != 3)
+        return false;
+    for (auto iT = myRolls.begin(); iT != myRolls.end(); iT++)
+    {
+        if ((*iT != 6))
+            return false;
+    }
+    return true;
+}
+
+bool Ludo::isValidDiceSelect(const int totalRolls, int clickIndex)
+{
+    cout << "checking if valid dice selection" << endl;//for testing purpose remove later on
+    if (clickIndex >= 0)
+        return false;
+    clickIndex = abs(clickIndex) - 1;
+    if (clickIndex >= totalRolls)
+        return false;
+    return true;
+}
+
+int Ludo::convertIndexToDice(const vector<int>& dicesRolled,int index)
+{
+    cout << "converting index to dice roll" << endl;//for testing purpose remove later on
+    index = abs(index) - 1;
+    return dicesRolled[index];
+}
+
+void Ludo::changeTurn(int& Turn, const int totalPlayers)
+{
+    cout << "changing turn" << endl;//for testing purpose remove later on
+    Turn = (Turn + 1) % totalPlayers;
+}
+
+bool Ludo::isReleased(const int roll, const Player* plyr, const int boardIndex)
+{
+    cout << "check if wanting to release piece" << endl;//for testing purpose remove later on
+    if (roll != 6)
+        return false;
+    bool isHomeEmpty = true;
+    auto home = plyr->getPlayerHome();
+    for (auto iT = home.begin(); iT != home.end(); iT++)
+    {
+        if (!(myBoard.path[*iT].myPiece.empty()))
+        {
+            isHomeEmpty = false;
+            break;
+        }
+    }
+    if (isHomeEmpty)
+        return false;
+    for (auto iT = home.begin(); iT != home.end(); iT++)
+    {
+        if ((*iT) == boardIndex)
+            return true;
+    }
+    return false;
+}
+
+void Ludo::releasePiece(const int boardIndex)
+{
+    cout << "releasing piece" << endl;//for testing purpose remove later on
+    Piece* p = myBoard.path[boardIndex].myPiece[0];
+    myBoard.path[boardIndex].myPiece.erase(myBoard.path[boardIndex].myPiece.begin());
+    int startIndex = p->getMyPlayer()->getPlayerKey('s');
+    myBoard.path[startIndex].myPiece.push_back(p);
+    myBoard.displayBoard(window);
+}
+
+int Ludo::convertIndexToDiceIndex(const int index)
+{
+    return (abs(index)-1);
+}
+
 void Ludo::play() {
-    int indexR = 71;
-    int indexO = 13;
-    int indexB = 58;
-    int indexP = 0;
-    int indexG = 26;
-    int indexY = 45;
+
     while (window.isOpen())
     {
-        Player green(Green);
-        Player red(Red);
-        Player purple(Purple);
-        Player blue(Blue);
-        Player yellow(Yellow);
-        Player orange(Orange);
-        Piece r(&red);
-        Piece g(&green);
-        Piece p(&purple);
-        Piece b(&blue);
-        Piece y(&yellow);
-        Piece o(&yellow);
-        Dice d;
-        // displaying pieces
-        while (indexR != -1)
+        Ludo::myBoard.displayBoard(Ludo::window);
+        window.display();
+        cout << "Current turn" << players[currentTurn]->getPlayerColor() << endl;//turn to proper prompt function;
+        int rollCount = 0;
+        int roll=0;
+        myBoard.displayBoard(window);//so that dices are displayed over the board;
+        myDice.giveSix();//cheats
+        myDice.displayRoll(window, 0);
+        diceRolls.push_back(6);
+        rollCount++;
+        do
         {
-            myBoard.displayBoard(window);
-            r.displayPiece(window, indexR++%150);
-            o.displayPiece(window, indexO++%150);
-            b.displayPiece(window, indexB++%150);
-            g.displayPiece(window, indexG++%150);
-            y.displayPiece(window, indexY++%150);
-            p.displayPiece(window, indexP++%150);
-            for (size_t id = 0; id < 3; id++) {
-                d.rollDice();
-                d.displayRoll(window,id);
+            roll= myDice.rollDice();
+            myDice.displayRoll(window,rollCount);
+            diceRolls.push_back(roll);
+            rollCount++;
+        } while (roll==6 && rollCount!=3);
+        window.display();
+        while (!diceRolls.empty() && !allSixes(diceRolls))
+        {
+            int diceIndex=-1;
+            do
+            {
+                diceIndex = selectDiceRoll();
+
+            } while (!isValidDiceSelect(diceRolls.size(),diceIndex));
+            int currentRoll = convertIndexToDice(diceRolls,diceIndex);
+            int selectedBoardIndex = -1;
+            do
+            {
+                selectedBoardIndex = selectPiece();
+
+            } while (!isValidSelection(selectedBoardIndex,players[currentTurn]));
+            diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
+            if (isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
+            {
+                releasePiece(selectedBoardIndex);
+            }
+            else
+            {
+                myBoard.movePiece(window, selectedBoardIndex,currentRoll);
+                myBoard.displayBoard(window);
             }
             window.display();
-            cout << myBoard.clickToIndex(Board::mouseClick(window)) << endl;
         }
+        changeTurn(currentTurn,noOfPlayers);
+
     }
 }

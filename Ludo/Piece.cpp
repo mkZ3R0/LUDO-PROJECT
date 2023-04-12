@@ -54,3 +54,7 @@ void Piece::displayPiece(sf::RenderWindow& window,const int index)
 
     window.draw(p);
 }
+const Player* Piece::getMyPlayer()const
+{
+    return this->myPlayer;
+}

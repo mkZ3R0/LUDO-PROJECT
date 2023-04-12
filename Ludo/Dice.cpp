@@ -51,6 +51,12 @@ int Dice::rollDice()
 	return roll=(rand() % 6) + 1;
 }
 
+int Dice::giveSix()
+{
+    roll = 6;
+    return 6;
+}
+
 void Dice::displayRoll(sf::RenderWindow& window,const int rollNumber)const
 {
     sf::Sprite d;

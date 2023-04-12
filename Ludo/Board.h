@@ -18,12 +18,13 @@ public:
     static float yOffSet;
     static float xOffSet;
     Board();
-    static void displayBoard(sf::RenderWindow&);
+    void displayBoard(sf::RenderWindow&)const;
     static placement getBoardPlc(const int);
     static void calculateBoardPlc();//for now public for testing, but later turn it private
     void loadAssets();
     static placement mouseClick(sf::RenderWindow&); //TODO: make private
     int clickToIndex(placement);
+    void movePiece(sf::RenderWindow&, int, int, int = 0);
 
 };
 

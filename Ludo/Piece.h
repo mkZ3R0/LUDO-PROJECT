@@ -21,6 +21,7 @@ public:
     bool canGoHome()const;
     void changeKilledStatus();
     void displayPiece(sf::RenderWindow&,const int);
+    const Player* getMyPlayer()const;
 };
 
 #endif

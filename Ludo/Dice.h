@@ -16,6 +16,7 @@ public:
 	static sf::Texture six;
 	Dice();
 	int rollDice();
+	int giveSix();//cheat;
 	void displayRoll(sf::RenderWindow&,const int)const;
 };
 
