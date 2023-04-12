@@ -120,8 +120,39 @@ int Board::clickToIndex(placement click) {
             else return 124 - (y-9);
         }
     }
-
-    throw exception(); //temp
+    if (x>=2 && x<=3) {
+        if (y==2) {
+            return 130 + (x-2);
+        } else if (y==3) {
+            return 132 + (x-2);
+        } else if (y==11) {
+            return 126 + (x-2);
+        } else if (y==12) {
+            return 128 + (x-2);
+        }
+    } else if (x>= 11 && x<=12) {
+        if (y==2) {
+            return 134+(x-11);
+        } else if (y==3) {
+            return 136+(x-11);
+        } else if (y==11) {
+            return 146+(x-11);
+        } else if (y==12) {
+            return 148+(x-11);
+        }
+    } else if (x>=20 && x<=21) {
+        if (y==2) {
+            return 138+(x-20);
+        } else if (y==3) {
+            return 140+(x-20);
+        } else if (y==11) {
+            return 142+(x-20);
+        } else if (y==12) {
+            return 144+(x-20);
+        }   
+    }
+    //throw exception(); //temp
+    return -1;
 }
 
 placement Board::mouseClick(sf::RenderWindow& window) {
