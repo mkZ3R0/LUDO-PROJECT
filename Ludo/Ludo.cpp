@@ -187,6 +187,15 @@ int Ludo::convertIndexToDiceIndex(const int index)
     return (abs(index)-1);
 }
 
+void Ludo::displayRolls(const vector<int>& myRolls)
+{
+    int index = 0;
+    for (auto iT = myRolls.begin(); iT != myRolls.end(); iT++)
+    {
+        myDice.displayRoll(window, index++, *iT);
+    }
+}
+
 void Ludo::play() {
 
     while (window.isOpen())
@@ -196,21 +205,20 @@ void Ludo::play() {
         cout << "Current turn" << players[currentTurn]->getPlayerColor() << endl;//turn to proper prompt function;
         int rollCount = 0;
         int roll=0;
-        myBoard.displayBoard(window);//so that dices are displayed over the board;
         myDice.giveSix();//cheats
-        myDice.displayRoll(window, 0);
         diceRolls.push_back(6);
         rollCount++;
         do
         {
             roll= myDice.rollDice();
-            myDice.displayRoll(window,rollCount);//only working once change
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
-        window.display();
         while (!diceRolls.empty() && !allSixes(diceRolls))
         {
+            myBoard.displayBoard(window);//so that dices are displayed over the board;
+            displayRolls(diceRolls);
+            window.display();
             int diceIndex=-1;
             do
             {

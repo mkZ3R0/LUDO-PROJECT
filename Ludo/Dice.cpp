@@ -57,10 +57,10 @@ int Dice::giveSix()
     return 6;
 }
 
-void Dice::displayRoll(sf::RenderWindow& window,const int rollNumber)const
+void Dice::displayRoll(sf::RenderWindow& window,const int rollNumber,const int myRoll)const
 {
     sf::Sprite d;
-    switch (roll) {
+    switch (myRoll) {
     case 1:
         d.setTexture(one);
         break;

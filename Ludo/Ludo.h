@@ -24,6 +24,7 @@ class Ludo {
     static void releasePiece(const int);
     static bool allSixes(const vector<int>&);
     static int convertIndexToDiceIndex(const int);
+    static void displayRolls(const vector<int>&);
     // private attributes
     vector<int> diceRolls;
     vector<Player*> players;
