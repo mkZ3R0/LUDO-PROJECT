@@ -191,6 +191,26 @@ void Ludo::displayRolls(const vector<int>& myRolls)
     }
 }
 
+bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer) {
+    auto homeArea = currentPlayer->getPlayerHome();
+    auto winI = currentPlayer->getPlayerKey(_end);
+    
+    int emptyCount=0; 
+    for (int i=0; i<4; i++) {
+        if (myBoard.path[homeArea[i]].myPiece.empty()) { // home empty
+            emptyCount++;
+        }
+    }
+
+    if (find(diceRolls.begin(), diceRolls.end(), 6) == diceRolls.end()) { // no 6 in die
+        if (emptyCount == myBoard.path[winI].myPiece.size()) { // no piece on regular board
+            return false;
+        }
+        return true; // have some free piece on board
+    }
+    return true; // have 6, come on you can play
+}
+
 void Ludo::play() {
 
     while (window.isOpen())
@@ -200,16 +220,16 @@ void Ludo::play() {
         cout << "Current turn" << players[currentTurn]->getPlayerColor() << endl;//turn to proper prompt function;
         int rollCount = 0;
         int roll=0;
-        myDice.giveSix();//cheats
-        diceRolls.push_back(6);
-        rollCount++;
+        //myDice.giveSix();//cheats
+        //diceRolls.push_back(6);
+        //rollCount++;
         do
         {
             roll= myDice.rollDice();
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
-        while (!diceRolls.empty() && !allSixes(diceRolls))
+        while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(diceRolls, players[currentTurn]))
         {
             myBoard.displayBoard(window);//so that dices are displayed over the board;
             displayRolls(diceRolls);
