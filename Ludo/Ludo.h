@@ -14,8 +14,7 @@ class Ludo {
     static Dice myDice;
     static vector<Player*> allocatePlayers(const int);
     static vector<Piece*> allocatePiece(const Player*);
-    static int selectPiece();
-    static int selectDiceRoll();
+    static int select();
     static bool isValidDiceSelect(const int,int);
     static int convertIndexToDice(const vector<int>&,int);
     static bool isValidSelection(const int,const Player*, const int);
