@@ -48,9 +48,6 @@ int Board::clickToIndex(placement click) {
     int x = click.x / xOffSet;
     int y = click.y / yOffSet;
 
-    printf("x=%d, y=%d :- index:", x, y);
-
-
     // orange area
     if (x >= 0 && x <= 5) {
         if (y==6) {
