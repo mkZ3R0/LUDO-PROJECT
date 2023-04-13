@@ -83,30 +83,26 @@ Ludo::Ludo() {
     }
 }
 
-int Ludo::selectPiece()
-{
-    cout << "selecting Piece" << endl;//for testing purpose remove later on
+int Ludo::select() {
     return myBoard.clickToIndex(Board::mouseClick(window));
 }
 
-bool Ludo::isValidSelection(const int index,const Player* p)
+bool Ludo::isValidSelection(const int index,const Player* p, const int currentRoll)
 {
     cout << "checking if valid selection Piece" << endl;//for testing purpose remove later on
     //for now thinking only one piece at an index extend to multiple pieces on an index
     if (index < 0)
         return false;
+    auto home = p->getPlayerHome();
+    if (find(home.begin(), home.end(), index) != home.end() && currentRoll!=6) {
+        return false;
+    }
     for (auto iT = myBoard.path[index].myPiece.begin(); iT != myBoard.path[index].myPiece.end();iT++)
     {
         if (p->isMyPiece((*iT)->getColor()))
             return true;
     }
     return false;
-}
-
-int Ludo::selectDiceRoll()
-{
-    cout << "selecting Dice roll" << endl;//for testing purpose remove later on
-    return myBoard.clickToIndex(Board::mouseClick(window));  
 }
 
 bool Ludo::allSixes(const vector<int>& myRolls)
@@ -221,16 +217,21 @@ void Ludo::play() {
             int diceIndex=-1;
             do
             {
-                diceIndex = selectDiceRoll();
+                diceIndex = select();
 
             } while (!isValidDiceSelect(diceRolls.size(),diceIndex));
             int currentRoll = convertIndexToDice(diceRolls,diceIndex);
             int selectedBoardIndex = -1;
             do
             {
-                selectedBoardIndex = selectPiece();
-
-            } while (!isValidSelection(selectedBoardIndex,players[currentTurn]));
+                selectedBoardIndex = select();
+                if (isValidDiceSelect(diceRolls.size(), selectedBoardIndex)) {
+                    currentRoll = convertIndexToDice(diceRolls, selectedBoardIndex);
+                    diceIndex = selectedBoardIndex;
+                    selectedBoardIndex = -1;
+                }
+                else if (isValidSelection(selectedBoardIndex,players[currentTurn], currentRoll)) break;
+            } while (true);
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
             if (isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
             {
