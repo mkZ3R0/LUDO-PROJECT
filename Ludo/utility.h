@@ -5,6 +5,7 @@
 #include <iostream>
 #include<vector>
 #include <cassert>
+#include <unordered_set>
 
 #ifdef _WIN32
 #include <windows.h>

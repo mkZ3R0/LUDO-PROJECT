@@ -248,6 +248,46 @@ bool Ludo::isLegal(int boardIndex, int rolledNumber, const Player* player) {
     return true;
 }
 
+void Ludo::checkLeaderBoard(Player* currentPly, unordered_set<Player*>& leaderBoard)
+{
+    if (myBoard.path[currentPly->getPlayerKey(_end)].myPiece.size() == 4)
+    {
+        if (leaderBoard.find(currentPly) == leaderBoard.end())
+        {
+            leaderBoard.insert(currentPly);
+        }
+    }
+}
+
+bool Ludo::isGameEnd(unordered_set<Player*>& leaderBoard, const vector<Player*>& gamePlayers)
+{
+    if (leaderBoard.size() == (gamePlayers.size() - 1))
+    {
+        for (auto iT = gamePlayers.begin(); iT != gamePlayers.end(); iT++)
+        {
+            Player* p = *iT;
+            if (leaderBoard.find(*iT) != leaderBoard.end())
+            {
+                leaderBoard.insert(p);
+                return true;
+            }
+        }
+        throw("Invalid Case found");
+    }
+    else
+        return false;
+}
+
+void Ludo::displayResult(const unordered_set<Player*>& result)//for now printing on console
+{
+    int count = 1;
+    cout << "Results are in" << endl;
+    for (auto iT = result.begin(); iT != result.end(); iT++)
+    {
+        cout << count++ <<"- Player "<< (*iT)->getPlayerColor() << endl;
+    }
+}
+
 void Ludo::play() {
 
     while (window.isOpen())
@@ -305,6 +345,11 @@ void Ludo::play() {
             window.display();
         }
         diceRolls.clear();
+        checkLeaderBoard(players[currentTurn], leaderBoard);
+        if (isGameEnd(leaderBoard,players))
+        {
+            displayResult(leaderBoard);//change to proper leader board display
+        }
         changeTurn(currentTurn,noOfPlayers);
 
     }

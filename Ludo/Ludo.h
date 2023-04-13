@@ -25,11 +25,15 @@ class Ludo {
     static int convertIndexToDiceIndex(const int);
     static void displayRolls(const vector<int>&);
     static int countPieceColor(const colorType,const int);
+    static void checkLeaderBoard(Player*, unordered_set<Player*>&);
+    static bool isGameEnd(unordered_set<Player*>&, const vector<Player*>&);
+    static void displayResult(const unordered_set<Player*>&);
     bool canPlayMore(const vector<int>&, const Player*);
     bool isLegal(const int, const int, const Player*);
     // private attributes
     vector<int> diceRolls;
     vector<Player*> players;
+    unordered_set <Player*> leaderBoard;
     int noOfPlayers;
     int currentTurn;
 public:
