@@ -51,6 +51,53 @@ int Dice::rollDice()
 	return roll=(rand() % 6) + 1;
 }
 
+int Dice::cheatRoll(sf::RenderWindow& window)
+{
+    sf::Event event;
+    while (window.waitEvent(event)) {
+        switch (event.type) {
+        case sf::Event::Closed:
+            window.close();
+            exit(0);
+            break;
+        case sf::Event::KeyPressed:
+        {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num6))
+            {
+                roll = 6;
+                return roll;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num5))
+            {
+                roll = 5;
+                return roll;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num4))
+            {
+                roll = 4;
+                return roll;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num3))
+            {
+                roll = 3;
+                return roll;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num2))
+            {
+                roll = 2;
+                return roll;
+            }
+            else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Num1))
+            {
+                roll = 1;
+                return roll;
+            }
+            break;
+        }
+        }
+    }
+}
+
 int Dice::giveSix()
 {
     roll = 6;

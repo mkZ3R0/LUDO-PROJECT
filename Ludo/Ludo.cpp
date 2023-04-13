@@ -257,12 +257,10 @@ void Ludo::play() {
         cout << "Current turn" << players[currentTurn]->getPlayerColor() << endl;//turn to proper prompt function;
         int rollCount = 0;
         int roll=0;
-        //myDice.giveSix();//cheats
-        //diceRolls.push_back(6);
-        //rollCount++;
         do
         {
-            roll= myDice.rollDice();
+            //roll= myDice.rollDice();
+            roll = myDice.cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);

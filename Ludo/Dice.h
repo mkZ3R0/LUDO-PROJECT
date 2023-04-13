@@ -17,6 +17,7 @@ public:
 	Dice();
 	int rollDice();
 	int giveSix();//cheat;
+	int cheatRoll(sf::RenderWindow&);//cheat;
 	void displayRoll(sf::RenderWindow&,const int,const int)const;
 };
 
