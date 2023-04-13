@@ -15,7 +15,7 @@ public:
 	Player(const colorType);
 	colorType getPlayerColor()const;
 	const vector<int>& getPlayerHome()const;
-	int getPlayerKey(const char)const;
+	int getPlayerKey(const keys)const;
 	bool isMyPiece(const colorType)const;
 };
 

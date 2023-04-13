@@ -83,24 +83,23 @@ const vector<int>& Player::getPlayerHome()const
 	return this->myHome;// returns shallow copy;
 }
 
-int Player::getPlayerKey(const char c)const
+int Player::getPlayerKey(const keys c)const
 {
-	assert(c == 's' || c == 'e' || c == 'd' || c == 'v');
 	switch (c)
 	{
-		case 's':
+		case myStart:
 		{
 			return this->pK.myStart;
 		}
-		case 'e':
+		case MyEnd:
 		{
 			return this->pK.myEnd;
 		}
-		case 'd':
+		case myDoor:
 		{
 			return this->pK.vicDoor;
 		}
-		case 'v':
+		case myVictory:
 		{
 			return this->pK.myPathToVic;
 		}

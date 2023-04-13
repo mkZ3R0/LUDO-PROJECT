@@ -20,6 +20,8 @@ enum colorType { Red, Green, Blue, Yellow,Purple,Orange };
 
 enum positionType { Normal, Star, Home , Death };
 
+enum keys {myStart, MyEnd, myDoor, myVictory};
+
 struct placement
 {
 	float x;
