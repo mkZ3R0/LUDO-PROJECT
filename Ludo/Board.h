@@ -24,7 +24,8 @@ public:
     void loadAssets();
     static placement mouseClick(sf::RenderWindow&); //TODO: make private
     int clickToIndex(placement);
-    void movePiece(sf::RenderWindow&, int, int, int = 0);
+    int movePiece(sf::RenderWindow&, int, int, int = 0);
+    void kill(sf::RenderWindow&, int, Player*);
 
 };
 

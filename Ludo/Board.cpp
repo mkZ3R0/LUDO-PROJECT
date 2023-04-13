@@ -392,7 +392,7 @@ placement Board::getBoardPlc(const int index)
     return boardPlc[index];
 }
 
-void Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber, int indexPieceNum)
+int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber, int indexPieceNum)
 {
     Piece* pToMove = path[boardIndex].myPiece[indexPieceNum];
     auto playerTurn = pToMove->getMyPlayer();
@@ -437,6 +437,26 @@ void Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber
                 pToMove->displayPiece(window, *i);
                 window.display();
                 break;
+            }
+        }
+    }
+    return currentIndex;
+}
+
+void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlayer) {
+    if (path[currentIndex].myPiece.size()>1 && !path[currentIndex].special) {
+        if (path[currentIndex].myPiece[0]->getMyPlayer()->getPlayerColor() != currentPlayer->getPlayerColor()) {
+            auto pToKill = path[currentIndex].myPiece[0];
+            auto home = pToKill->getMyPlayer()->getPlayerHome();
+            path[currentIndex].myPiece.erase(path[currentIndex].myPiece.begin());
+            for (auto i = home.begin(); i != home.end(); i++) {
+                if (path[*i].myPiece.empty()) {
+                    path[*i].myPiece.push_back(pToKill);
+                    displayBoard(window);
+                    pToKill->displayPiece(window, *i);
+                    window.display();
+                    break;
+                }
             }
         }
     }

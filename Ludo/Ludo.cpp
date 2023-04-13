@@ -238,7 +238,8 @@ void Ludo::play() {
             }
             else
             {
-                myBoard.movePiece(window, selectedBoardIndex,currentRoll);//no check for killing insert it
+                auto currentIndex = myBoard.movePiece(window, selectedBoardIndex,currentRoll);//no check for killing insert it
+                myBoard.kill(window, currentIndex, players[currentTurn]);
                 myBoard.displayBoard(window);
             }
             window.display();
