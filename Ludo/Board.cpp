@@ -245,7 +245,7 @@ void Board::calculateBoardPlc()
 {
     int index = 1;
 
-    boardPlc[0] = {242.4,503.4 };
+    boardPlc[0] = {static_cast<float>(xOffSet*6 + xOffSet/2.0), static_cast<float>(yOffSet*13 + yOffSet/2.0)};
     while (index != 90)
     {
         while ((index >= 1 && index <= 4) || (index >= 11 && index <= 12) || (index >= 19 && index <= 23) || (index >= 38 && index <= 42) || (index >= 71 && index <= 75))
