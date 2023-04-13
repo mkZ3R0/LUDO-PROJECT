@@ -447,6 +447,9 @@ void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlay
     if (path[currentIndex].myPiece.size()>1 && !path[currentIndex].special) {
         if (path[currentIndex].myPiece[0]->getMyPlayer()->getPlayerColor() != currentPlayer->getPlayerColor()) {
             auto pToKill = path[currentIndex].myPiece[0];
+            if (pToKill->canGoHome()) {
+                pToKill->changeKilledStatus();
+            }
             auto home = pToKill->getMyPlayer()->getPlayerHome();
             path[currentIndex].myPiece.erase(path[currentIndex].myPiece.begin());
             for (auto i = home.begin(); i != home.end(); i++) {
@@ -457,6 +460,9 @@ void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlay
                     window.display();
                     break;
                 }
+            }
+            if (!path[currentIndex].myPiece[0]->canGoHome()) {
+                path[currentIndex].myPiece[0]->changeKilledStatus();
             }
         }
     }
