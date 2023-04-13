@@ -56,6 +56,7 @@ vector<Player*> Ludo::allocatePlayers(const int num)
             return p;
         }
     }
+    return p; //compiler warning
 }
 
 vector<Piece *> Ludo::allocatePiece(const Player* player) {
