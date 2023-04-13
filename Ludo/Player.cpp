@@ -87,19 +87,19 @@ int Player::getPlayerKey(const keys c)const
 {
 	switch (c)
 	{
-		case myStart:
+		case _start:
 		{
 			return this->pK.myStart;
 		}
-		case MyEnd:
+		case _end:
 		{
 			return this->pK.myEnd;
 		}
-		case myDoor:
+		case _door:
 		{
 			return this->pK.vicDoor;
 		}
-		case myVictory:
+		case _victory:
 		{
 			return this->pK.myPathToVic;
 		}

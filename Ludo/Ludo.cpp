@@ -172,7 +172,7 @@ void Ludo::releasePiece(const int boardIndex)
     cout << "releasing piece" << endl;//for testing purpose remove later on
     Piece* p = myBoard.path[boardIndex].myPiece[0];
     myBoard.path[boardIndex].myPiece.erase(myBoard.path[boardIndex].myPiece.begin());
-    int startIndex = p->getMyPlayer()->getPlayerKey(myStart);
+    int startIndex = p->getMyPlayer()->getPlayerKey(_start);
     myBoard.path[startIndex].myPiece.push_back(p);
     myBoard.displayBoard(window);
 }
