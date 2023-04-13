@@ -424,7 +424,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
     }
     //winning condition;
     path[currentIndex].myPiece.push_back(pToMove);
-    if (path[currentIndex].special && path[currentIndex].type == Death)
+    if (false && path[currentIndex].special && path[currentIndex].type == Death)
     {
         path[currentIndex].myPiece.erase(find(path[currentIndex].myPiece.begin(), path[currentIndex].myPiece.end(), pToMove));
         auto goHome = playerTurn->getPlayerHome();
