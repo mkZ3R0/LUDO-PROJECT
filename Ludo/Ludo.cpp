@@ -264,6 +264,10 @@ void Ludo::play() {
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
+        Ludo::myBoard.displayBoard(Ludo::window);
+        displayRolls(diceRolls);
+        window.display();
+        __sleep(500);
         while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(diceRolls, players[currentTurn]))
         {
             myBoard.displayBoard(window);//so that dices are displayed over the board;
