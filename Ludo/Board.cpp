@@ -400,17 +400,14 @@ void Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber
     int currentIndex = boardIndex;
     while (rolledNumber != 0)
     {
-        if (path[currentIndex].special && path[currentIndex].type == Home)
+        if (path[currentIndex].special && path[currentIndex].type == Home && playerTurn->getPlayerKey('d') == currentIndex && pToMove->canGoHome())
         {
-            if (playerTurn->getPlayerKey('d') == currentIndex && pToMove->canGoHome())
-            {
-                rolledNumber--;
-                currentIndex = playerTurn->getPlayerKey('v');
-                displayBoard(window);
-                pToMove->displayPiece(window, currentIndex);
-                window.display();
-                __sleep(100);
-            }
+            rolledNumber--;
+            currentIndex = playerTurn->getPlayerKey('v');
+            displayBoard(window);
+            pToMove->displayPiece(window, currentIndex);
+            window.display();
+            __sleep(100);
         }
         else
         {
