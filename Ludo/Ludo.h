@@ -25,6 +25,7 @@ class Ludo {
     static int convertIndexToDiceIndex(const int);
     static void displayRolls(const vector<int>&);
     bool canPlayMore(const vector<int>&, const Player*);
+    bool isLegal(const int, const int, const Player*);
     // private attributes
     vector<int> diceRolls;
     vector<Player*> players;
