@@ -18,7 +18,7 @@ class Ludo {
     static int selectDiceRoll();
     static bool isValidDiceSelect(const int,int);
     static int convertIndexToDice(const vector<int>&,int);
-    static bool isValidSelection(const int,const Player*);
+    static bool isValidSelection(const int,const Player*, const int);
     static void changeTurn(int&,const int);
     static bool isReleased(const int, const Player*, const int);
     static void releasePiece(const int);

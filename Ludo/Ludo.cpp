@@ -89,12 +89,16 @@ int Ludo::selectPiece()
     return myBoard.clickToIndex(Board::mouseClick(window));
 }
 
-bool Ludo::isValidSelection(const int index,const Player* p)
+bool Ludo::isValidSelection(const int index,const Player* p, const int currentRoll)
 {
     cout << "checking if valid selection Piece" << endl;//for testing purpose remove later on
     //for now thinking only one piece at an index extend to multiple pieces on an index
     if (index < 0)
         return false;
+    auto home = p->getPlayerHome();
+    if (find(home.begin(), home.end(), index) != home.end() && currentRoll!=6) {
+        return false;
+    }
     for (auto iT = myBoard.path[index].myPiece.begin(); iT != myBoard.path[index].myPiece.end();iT++)
     {
         if (p->isMyPiece((*iT)->getColor()))
@@ -230,7 +234,7 @@ void Ludo::play() {
             {
                 selectedBoardIndex = selectPiece();
 
-            } while (!isValidSelection(selectedBoardIndex,players[currentTurn]));
+            } while (!isValidSelection(selectedBoardIndex,players[currentTurn], currentRoll));
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
             if (isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
             {
