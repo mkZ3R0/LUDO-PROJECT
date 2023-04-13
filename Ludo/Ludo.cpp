@@ -224,6 +224,30 @@ int Ludo::countPieceColor(const colorType c, const int bIndex)
 
 //will be used for legal movement involving joota
 
+bool Ludo::isLegal(int boardIndex, int rolledNumber, const Player* player) {
+    if (isReleased(rolledNumber, player, boardIndex)) return true;
+    Piece* pToMove = myBoard.path[boardIndex].myPiece[0];
+    auto playerTurn = pToMove->getMyPlayer();
+    int currentIndex = boardIndex;
+    while (rolledNumber != 0) {
+        if (myBoard.path[currentIndex].special && myBoard.path[currentIndex].type == Home && playerTurn->getPlayerKey(_victory) == currentIndex && pToMove->canGoHome()) {
+            rolledNumber--;
+            currentIndex = playerTurn->getPlayerKey(_door);
+        }
+        else {
+            rolledNumber--;
+            if (currentIndex == 89)
+                currentIndex = 0;
+            else
+                currentIndex++;
+        }
+    }
+    if (currentIndex > playerTurn->getPlayerKey(_end)) {
+        return false;
+    } 
+    return true;
+}
+
 void Ludo::play() {
 
     while (window.isOpen())
@@ -263,7 +287,7 @@ void Ludo::play() {
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
                 }
-                else if (isValidSelection(selectedBoardIndex,players[currentTurn], currentRoll)) break;
+                else if (isValidSelection(selectedBoardIndex,players[currentTurn], currentRoll) && isLegal(selectedBoardIndex, currentRoll, players[currentTurn])) break;
             } while (true);
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
             if (isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
@@ -272,7 +296,7 @@ void Ludo::play() {
             }
             else
             {
-                auto currentIndex = myBoard.movePiece(window, selectedBoardIndex,currentRoll);//no check for killing insert it
+                auto currentIndex = myBoard.movePiece(window, selectedBoardIndex, currentRoll);//no check for killing insert it
                 myBoard.kill(window, currentIndex, players[currentTurn]);
                 myBoard.displayBoard(window);
             }

@@ -26,6 +26,7 @@ class Ludo {
     static void displayRolls(const vector<int>&);
     static int countPieceColor(const colorType,const int);
     bool canPlayMore(const vector<int>&, const Player*);
+    bool isLegal(const int, const int, const Player*);
     // private attributes
     vector<int> diceRolls;
     vector<Player*> players;
