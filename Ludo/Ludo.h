@@ -24,6 +24,7 @@ class Ludo {
     static bool allSixes(const vector<int>&);
     static int convertIndexToDiceIndex(const int);
     static void displayRolls(const vector<int>&);
+    static int countPieceColor(const colorType,const int);
     bool canPlayMore(const vector<int>&, const Player*);
     // private attributes
     vector<int> diceRolls;

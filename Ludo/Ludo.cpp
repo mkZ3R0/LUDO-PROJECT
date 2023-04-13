@@ -211,6 +211,19 @@ bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer
     return true; // have 6, come on you can play
 }
 
+int Ludo::countPieceColor(const colorType c, const int bIndex)
+{
+    int count = 0;
+    for (auto iT = myBoard.path[bIndex].myPiece.begin(); iT != myBoard.path[bIndex].myPiece.end(); iT++)
+    {
+        if ((*iT)->getColor() == c)
+            count++;
+    }
+    return count;
+}
+
+//will be used for legal movement involving joota
+
 void Ludo::play() {
 
     while (window.isOpen())
