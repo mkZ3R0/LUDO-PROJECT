@@ -242,6 +242,7 @@ void Ludo::play() {
             }
             window.display();
         }
+        diceRolls.clear();
         changeTurn(currentTurn,noOfPlayers);
 
     }
