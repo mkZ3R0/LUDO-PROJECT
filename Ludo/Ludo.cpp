@@ -94,8 +94,6 @@ bool Ludo::isValidSelection(const int index,const Player* p)
     //for now thinking only one piece at an index extend to multiple pieces on an index
     if (index < 0)
         return false;
-    if (index==95 || index==101 || index==107 || index==113  || index==119 || index==125 )
-        return false;
     for (auto iT = myBoard.path[index].myPiece.begin(); iT != myBoard.path[index].myPiece.end();iT++)
     {
         if (p->isMyPiece((*iT)->getColor()))
