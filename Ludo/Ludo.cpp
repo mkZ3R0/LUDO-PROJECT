@@ -215,7 +215,19 @@ bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer
                 if(std::any_of(diceRolls.begin(), diceRolls.end(), [=](int i) { return i <= cmp; })) {
                     return true;
                 } else {
-                    return false;
+                    // if only pieces remaining are on the win path, then return false, else can probably
+                    auto rem = 4-((4-emptyCount)+myBoard.path[winI].myPiece.size());
+                    if (rem == 1) {
+                        return false;
+                    } else {
+                        for (int j = i+1; j < winI; j++) {
+                            if (myBoard.path[i].myPiece.size()>0) {
+                                return false;
+                            } else {
+                                return true;
+                            }
+                        }
+                    }
                 }
             }
         }
