@@ -216,7 +216,7 @@ Board::Board(sf::RenderWindow& window) {
     float scaleY = (float)window.getSize().y / boardBg.getSize().y;
     float scale = std::min(scaleX, scaleY);
     auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
-    
+
     yOffSet = (bgSize.y*scale)/15.0; // 15 boxes from top to bottom
     xOffSet = (bgSize.x*scale)/24.0; // 24 boxes from left to right
 

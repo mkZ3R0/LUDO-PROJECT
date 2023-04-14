@@ -1,4 +1,5 @@
 #include "Ludo.h"
+#include <algorithm>
 
 sf::RenderWindow Ludo::window(sf::VideoMode(1600, 800), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
 Board Ludo::myBoard(window);
@@ -194,6 +195,7 @@ void Ludo::displayRolls(const vector<int>& myRolls)
 bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer) {
     auto homeArea = currentPlayer->getPlayerHome();
     auto winI = currentPlayer->getPlayerKey(_end);
+    auto doorI = currentPlayer->getPlayerKey(_door);
     
     int emptyCount=0; 
     for (int i=0; i<4; i++) {
@@ -206,6 +208,18 @@ bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer
         if (emptyCount == myBoard.path[winI].myPiece.size()) { // no piece on regular board
             return false;
         }
+        for (int i = doorI; i < winI; i++) {
+            if (myBoard.path[i].myPiece.size()>0) {
+                auto cmp = winI-i;
+                // check if the remainder path is present in dice, less or equal
+                if(std::any_of(diceRolls.begin(), diceRolls.end(), [=](int i) { return i <= cmp; })) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+        
         return true; // have some free piece on board
     }
     return true; // have 6, come on you can play
