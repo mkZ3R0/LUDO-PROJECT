@@ -214,11 +214,10 @@ Board::Board(sf::RenderWindow& window) {
 
     float scaleX = (float)window.getSize().x / boardBg.getSize().x;
     float scaleY = (float)window.getSize().y / boardBg.getSize().y;
-    float scale = std::min(scaleX, scaleY);
     auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
 
-    yOffSet = (bgSize.y*scale)/15.0; // 15 boxes from top to bottom
-    xOffSet = (bgSize.x*scale)/24.0; // 24 boxes from left to right
+    yOffSet = (bgSize.y*scaleY)/15.0; // 15 boxes from top to bottom
+    xOffSet = (bgSize.x*scaleX)/24.0; // 24 boxes from left to right
 
     int size = 150;
     int regSize = 89;
@@ -413,8 +412,7 @@ void Board::displayBoard(sf::RenderWindow& window)const
     // scale to window
     float scaleX = (float)window.getSize().x / boardBg.getSize().x;
     float scaleY = (float)window.getSize().y / boardBg.getSize().y;
-    float scale = std::min(scaleX, scaleY);
-    s.setScale(scale, scale);
+    s.setScale(scaleX, scaleY);
 
     window.draw(s);
     for (int i = 0; i < path.size(); i++)
