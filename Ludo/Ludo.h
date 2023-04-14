@@ -9,6 +9,7 @@
 
 
 class Ludo {
+    friend class Dice;
     static sf::RenderWindow window;
     static Board myBoard;
     static Dice myDice;

@@ -148,5 +148,46 @@ void Dice::calculateDicePlc()
         boardDicePlc[i] = { boardDicePlc[i-1].x + Board::xOffSet ,boardDicePlc[i-1].y };
 }
 
-
+void Dice::rollingDice(const vector<int>& myRolls,const int rollNumber)
+{
+    cout << "Entering dice animation" <<endl;//for testing
+    sf::Sprite d;
+    int random = 0;
+    for (int i = 0; i < 5; i++)
+    {
+        random = (rand() % 6) + 1;
+        switch (random) {
+        case 1:
+            d.setTexture(one);
+            break;
+        case 2:
+            d.setTexture(two);
+            break;
+        case 3:
+            d.setTexture(three);
+            break;
+        case 4:
+            d.setTexture(four);
+            break;
+        case 5:
+            d.setTexture(five);
+            break;
+        case 6:
+            d.setTexture(six);
+            break;
+        default:
+            break;
+        }
+        auto _diceSize = static_cast<sf::Vector2f>(d.getTexture()->getSize());
+        auto scaleFactor = std::min(Board::xOffSet / _diceSize.x, Board::yOffSet / _diceSize.y);
+        d.setOrigin(_diceSize.x / 2, _diceSize.y / 2);
+        d.setScale(scaleFactor, scaleFactor);
+        d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
+        Ludo::myBoard.displayBoard(Ludo::window);
+        Ludo::displayRolls(myRolls);
+        Ludo::window.draw(d);
+        Ludo::window.display();
+        __sleep(175);
+    }
+}
 

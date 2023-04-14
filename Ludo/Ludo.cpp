@@ -325,8 +325,9 @@ void Ludo::play() {
         int roll=0;
         do
         {
-            //roll= myDice.rollDice();
-            roll = myDice.cheatRoll(window);//cheat
+            myDice.rollingDice(diceRolls, rollCount);
+            roll = myDice.rollDice();
+            //roll = myDice.cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
