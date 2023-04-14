@@ -1,7 +1,7 @@
 #include "Ludo.h"
 
-sf::RenderWindow Ludo::window(sf::VideoMode(895, 558), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
-Board Ludo::myBoard;
+sf::RenderWindow Ludo::window(sf::VideoMode(1600, 800), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
+Board Ludo::myBoard(window);
 Dice Ludo::myDice;
 
 vector<Player*> Ludo::allocatePlayers(const int num)

@@ -17,7 +17,7 @@ public:
     static sf::Texture boardBg;
     static float yOffSet;
     static float xOffSet;
-    Board();
+    Board(sf::RenderWindow&);
     void displayBoard(sf::RenderWindow&)const;
     static placement getBoardPlc(const int);
     static void calculateBoardPlc();//for now public for testing, but later turn it private

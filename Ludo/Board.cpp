@@ -209,11 +209,16 @@ placement Board::mouseClick(sf::RenderWindow& window) {
     return raw;
 }
 
-Board::Board() {
+Board::Board(sf::RenderWindow& window) {
     this->loadAssets();
+
+    float scaleX = (float)window.getSize().x / boardBg.getSize().x;
+    float scaleY = (float)window.getSize().y / boardBg.getSize().y;
+    float scale = std::min(scaleX, scaleY);
     auto bgSize = static_cast<sf::Vector2f>(boardBg.getSize());
-    yOffSet = bgSize.y/15.0; // 15 boxes from top to bottom
-    xOffSet = bgSize.x/24.0; // 24 boxes from left to right
+    
+    yOffSet = (bgSize.y*scale)/15.0; // 15 boxes from top to bottom
+    xOffSet = (bgSize.x*scale)/24.0; // 24 boxes from left to right
 
     int size = 150;
     int regSize = 89;
@@ -402,8 +407,15 @@ void Board::displayBoard(sf::RenderWindow& window)const
     int index = 0;
     sf::Sprite s(boardBg);
     s.setColor(sf::Color::White);
-    s.setScale(1,1);
+
     s.setPosition(0,0);
+
+    // scale to window
+    float scaleX = (float)window.getSize().x / boardBg.getSize().x;
+    float scaleY = (float)window.getSize().y / boardBg.getSize().y;
+    float scale = std::min(scaleX, scaleY);
+    s.setScale(scale, scale);
+
     window.draw(s);
     for (int i = 0; i < path.size(); i++)
     {
