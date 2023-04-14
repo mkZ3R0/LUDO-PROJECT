@@ -1,7 +1,7 @@
 #include "Ludo.h"
 #include <algorithm>
 
-sf::RenderWindow Ludo::window(sf::VideoMode(1216, 760), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close | sf::Style::Resize);
+sf::RenderWindow Ludo::window(sf::VideoMode(1216, 760), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close);
 Board Ludo::myBoard(window);
 Dice Ludo::myDice;
 
