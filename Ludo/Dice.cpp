@@ -96,6 +96,7 @@ int Dice::cheatRoll(sf::RenderWindow& window)
         }
         }
     }
+    return 1; // compiler warning
 }
 
 int Dice::giveSix()
