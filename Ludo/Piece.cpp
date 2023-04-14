@@ -23,23 +23,42 @@ void Piece::displayPiece(sf::RenderWindow& window,const int index)
     sf::Sprite p;
     switch (pColor) {
     case Blue:
-        p.setTexture(blue);
+        if (this->canGoHome()) {
+            p.setTexture(blue_k);
+        } else {
+            p.setTexture(blue);
+        }
         break;
     case Green:
-        p.setTexture(green);
-        break;
+        if (this->canGoHome()) {
+            p.setTexture(green_k);
+        } else {
+            p.setTexture(green);
+        }        break;
     case Red:
-        p.setTexture(red);
-        break;
+        if (this->canGoHome()) {
+            p.setTexture(red_k);
+        } else {
+            p.setTexture(red);
+        }        break;
     case Yellow:
-        p.setTexture(yellow);
-        break;
+        if (this->canGoHome()) {
+            p.setTexture(yellow_k);
+        } else {
+            p.setTexture(yellow);
+        }        break;
     case Purple:
-        p.setTexture(purple);
-        break;
+        if (this->canGoHome()) {
+            p.setTexture(purple_k);
+        } else {
+            p.setTexture(purple);
+        }        break;
     case Orange:
-        p.setTexture(orange);
-        break;
+        if (this->canGoHome()) {
+            p.setTexture(orange_k);
+        } else {
+            p.setTexture(orange);
+        }        break;
     default:
         break;
     }

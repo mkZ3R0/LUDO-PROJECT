@@ -8,6 +8,12 @@ sf::Texture Piece::yellow;
 sf::Texture Piece::green;
 sf::Texture Piece::orange;
 sf::Texture Piece::purple;
+sf::Texture Piece::red_k;
+sf::Texture Piece::blue_k;
+sf::Texture Piece::yellow_k;
+sf::Texture Piece::green_k;
+sf::Texture Piece::orange_k;
+sf::Texture Piece::purple_k;
 sf::Texture Board::boardBg;
 
 float Board::yOffSet;
@@ -36,6 +42,30 @@ void Board::loadAssets() {
     }
     if (!Piece::orange.loadFromFile("Assets/orange.png")) {
         cerr << "Cannot load orange.png" << endl;
+        exit(1);
+    }
+    if (!Piece::blue_k.loadFromFile("Assets/blue_k.png")) {
+            cerr << "Cannot load blue_k.png" << endl;
+            exit(1);
+    }
+    if (!Piece::green_k.loadFromFile("Assets/green_k.png")) {
+        cerr << "Cannot load green_k.png" << endl;
+        exit(1);        
+    }
+    if (!Piece::red_k.loadFromFile("Assets/red_k.png")) {
+        cerr << "Cannot load red_k.png" << endl;
+        exit(1);   
+    }
+    if (!Piece::yellow_k.loadFromFile("Assets/yellow_k.png")) {
+        cerr << "Cannot load yellow_k.png" << endl;
+        exit(1);
+    }
+    if (!Piece::purple_k.loadFromFile("Assets/purple_k.png")) {
+        cerr << "Cannot load purple_k.png" << endl;
+        exit(1);
+    }
+    if (!Piece::orange.loadFromFile("Assets/orange.png")) {
+        cerr << "Cannot load orange_k.png" << endl;
         exit(1);
     }
     if (!Board::boardBg.loadFromFile("Assets/board6.png")) {
