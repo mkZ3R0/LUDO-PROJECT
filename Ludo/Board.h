@@ -10,6 +10,7 @@
 class Board {
     std::vector<Position> path;
     std::vector<Player*> players;
+    static void calculateBoardPlc();
 public:
     static sf::Texture boardBg;
     static sf::Texture turnBg;
@@ -19,7 +20,6 @@ public:
     Board(sf::RenderWindow&);
     void displayBoard(sf::RenderWindow&, const Player* = nullptr)const;
     static placement getBoardPlc(const int);
-    static void calculateBoardPlc();// for now public for testing, but later turn it private
     void loadAssets();
     static placement mouseClick(sf::RenderWindow&); // TODO: make private
     static int clickToIndex(placement);
