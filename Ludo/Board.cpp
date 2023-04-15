@@ -504,7 +504,6 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             __sleep(100);
         }
     }
-    // winning condition;
     path[currentIndex].myPiece.push_back(pToMove);
     if (false && path[currentIndex].special && path[currentIndex].type == Death)
     {
@@ -525,9 +524,42 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
     return currentIndex;
 }
 
-void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlayer) {
-    if (path[currentIndex].myPiece.size()>1 && path[currentIndex].type != Star) {
+void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlayer)
+{
+    if (path[currentIndex].myPiece.size() == 2 && path[currentIndex].type != Star)
+    {
         if (path[currentIndex].myPiece[0]->getMyPlayer()->getPlayerColor() != currentPlayer->getPlayerColor()) {
+            auto pToKill = path[currentIndex].myPiece[0];
+            if (pToKill->canGoHome()) {
+                pToKill->changeKilledStatus();
+            }
+            auto home = pToKill->getMyPlayer()->getPlayerHome();
+            path[currentIndex].myPiece.erase(path[currentIndex].myPiece.begin());
+            for (auto i = home.begin(); i != home.end(); i++) {
+                if (path[*i].myPiece.empty()) {
+                    path[*i].myPiece.push_back(pToKill);
+                    displayBoard(window, pToKill->getMyPlayer());
+                    pToKill->displayPiece(window, getBoardPlc(*i));
+                    window.display();
+                    break;
+                }
+            }
+            if (!path[currentIndex].myPiece[0]->canGoHome()) {
+                path[currentIndex].myPiece[0]->changeKilledStatus();
+            }
+        }
+    }
+}
+
+void Board::killTeam(sf::RenderWindow& window, int currentIndex, Player* currentPlayer, const vector<Player*>& team) {
+    if (path[currentIndex].myPiece.size()==2 && path[currentIndex].type != Star) {
+        colorType pieceClr = path[currentIndex].myPiece[0]->getMyPlayer()->getPlayerColor();
+        for (int i = 0; i < team.size(); i++)
+        {
+            if (team[i]->getPlayerColor() == pieceClr)
+                return;
+        }
+        if (pieceClr != currentPlayer->getPlayerColor()) {
             auto pToKill = path[currentIndex].myPiece[0];
             if (pToKill->canGoHome()) {
                 pToKill->changeKilledStatus();

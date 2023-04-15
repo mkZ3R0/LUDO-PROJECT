@@ -27,7 +27,8 @@ public:
     static placement mouseClick(sf::RenderWindow&); // TODO: make private
     static int clickToIndex(placement);
     int movePiece(sf::RenderWindow&, int, int, int = 0);
-    void kill(sf::RenderWindow&, int, Player*);
+    void kill(sf::RenderWindow& window, int currentIndex, Player* currentPlayer);//for individual
+    void killTeam(sf::RenderWindow&, int, Player*,const vector<Player*>&);//for teams
     Position& operator[](const int);
     const Position& operator[](const int) const;
 };

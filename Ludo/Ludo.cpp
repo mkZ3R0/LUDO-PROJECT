@@ -61,15 +61,91 @@ vector<Piece *> Ludo::allocatePiece(const Player* player) {
     return pieces;
 }
 
+vector<vector<Player*>> Ludo::allocateTeams(const int totalPlayers, const int totalTeamMembers)
+{
+    vector<vector<Player*>> teams;
+    int totalTeams = totalPlayers / totalTeamMembers;
+    if (totalTeams == 2 && totalPlayers == 4)
+    {
+        vector<Player*>p;
+        p.push_back(new Player(Purple));
+        p.push_back(new Player(Yellow));
+        teams.push_back(p);
+        p.clear();
+        p.push_back(new Player(Orange));
+        p.push_back(new Player(Blue));
+        teams.push_back(p);
+        return teams;
+    }
+    else if (totalTeams == 2 && totalPlayers == 6)
+    {
+        vector<Player*>p;
+        p.push_back(new Player(Purple));
+        p.push_back(new Player(Green));
+        p.push_back(new Player(Blue));
+        teams.push_back(p);
+        p.clear();
+        p.push_back(new Player(Orange));
+        p.push_back(new Player(Red));
+        p.push_back(new Player(Yellow));
+        teams.push_back(p);
+        return teams;
+    }
+    else
+    {
+        vector<Player*>p;
+        p.push_back(new Player(Purple));
+        p.push_back(new Player(Yellow));
+        teams.push_back(p);
+        p.clear();
+        p.push_back(new Player(Orange));
+        p.push_back(new Player(Blue));
+        teams.push_back(p);
+        p.push_back(new Player(Green));
+        p.push_back(new Player(Red));
+        teams.push_back(p);
+        p.clear();
+        return teams;
+    }
+}//TODO = IMPLEMENT IN GAME
+
+bool Ludo::isTeamPiece(const Player* plyr, const colorType selectedPieceClr)const // TODO = IMPLEMENT IN TEAM GAME MODE
+{
+    int teamIndex = -1;
+    teamIndex = getPlayerTeamIndex(plyr, teams);
+    assert(teamIndex != -1);
+    for (auto iT = teams[teamIndex].begin(); iT != teams[teamIndex].end(); iT++)
+    {
+        if ((*iT)->getPlayerColor() == selectedPieceClr)
+            return true;
+    }
+    return false;
+}
+
+int Ludo::getPlayerTeamIndex(const Player* plyr, const vector<vector<Player*>>& teams)
+{
+    for (int i = 0; i < teams.size(); i++)
+    {
+        for (auto iT = teams[i].begin(); iT != teams[i].end(); iT++)
+        {
+            if ((*iT) == plyr)
+            {
+                return i;
+            }
+        }
+    }
+    throw("Unexpected Case");
+}
+
 Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
 {
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
-    noOfPlayers=6; // input this with a different window
+    noOfPlayers=2; // input this with a different window
     currentTurn = rand()%noOfPlayers;
     Ludo::players = allocatePlayers(noOfPlayers);
-
+    isTeamMode = false;
     for(auto& player: players) {
         auto pieces = allocatePiece(player);
         auto homeArea = player->getPlayerHome();
@@ -331,11 +407,13 @@ void Ludo::displayResult() const // for now printing on console
 
 void Ludo::play() {
 
+    int teamIndex = 0;
     while (window.isOpen())
     {
         Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         window.display();
-        cout << "Current turn" << players[currentTurn]->getPlayerColor() << endl;// turn to proper prompt function;
+        if (isTeamMode)
+            teamIndex = getPlayerTeamIndex(players[currentTurn], teams);
         int rollCount = 0;
         int roll=0;
         do
@@ -392,8 +470,11 @@ void Ludo::play() {
             }
             else
             {
-                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);//TODO=no check for killing insert it
-                myBoard->kill(window, currentIndex, players[currentTurn]);//TODO=enhance for teams
+                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);
+                if (isTeamMode)
+                    myBoard->killTeam(window, currentIndex, players[currentTurn], teams[teamIndex]);
+                else
+                    myBoard->kill(window, currentIndex, players[currentTurn]);
                 myBoard->displayBoard(window, players[currentTurn]);
             }
             window.display();
