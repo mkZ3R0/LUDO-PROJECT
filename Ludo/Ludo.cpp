@@ -231,6 +231,7 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
+    isTeamMode = false;
     noOfPlayers=2; // input this with a different window
     /*
     //Changing game mode to teams here
@@ -685,7 +686,7 @@ void Ludo::play() {
                 displayResult();// TODO=change to proper leader board display and end game
             }
         }
-        else if(isGameEndTeams)
+        else if(isGameEndTeams(teams.size()))
         {
             if (isTeamMode)
                 displayResultTeams();
