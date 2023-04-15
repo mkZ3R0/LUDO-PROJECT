@@ -8,16 +8,14 @@
 
 
 class Board {
-    friend class Dice;
-    friend class Ludo;
     std::vector<Position> path;
     std::vector<Player*> players;
-    static vector<placement>boardPlc;
 public:
     static sf::Texture boardBg;
     static sf::Texture turnBg;
     static float yOffSet;
     static float xOffSet;
+    static vector<placement>boardPlc;
     Board(sf::RenderWindow&);
     void displayBoard(sf::RenderWindow&, const Player* = nullptr)const;
     static placement getBoardPlc(const int);
@@ -27,7 +25,8 @@ public:
     static int clickToIndex(placement);
     int movePiece(sf::RenderWindow&, int, int, int = 0);
     void kill(sf::RenderWindow&, int, Player*);
-
+    Position& operator[](const int);
+    const Position& operator[](const int) const;
 };
 
 

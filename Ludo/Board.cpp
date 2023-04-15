@@ -524,3 +524,11 @@ void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlay
         }
     }
 }
+
+Position& Board::operator[](const int i) {
+    return this->path[i];
+}
+
+const Position &Board::operator[](const int i) const {
+    return this->path[i];
+}
