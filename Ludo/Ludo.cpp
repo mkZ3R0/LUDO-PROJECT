@@ -233,9 +233,9 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     srand(time(0));
     noOfPlayers=4; // input this with a different window
     //Changing game mode to teams here
-    isTeamMode = false;//true;// here have option to choose game mode and call allocate teams accordingly
+    isTeamMode = true;// here have option to choose game mode and call allocate teams accordingly
     players = allocatePlayers(noOfPlayers);
-    //teams = allocateTeams(4, 2,players);//takes totalPlayers and total members in each team;
+    teams = allocateTeams(4, 2,players);//takes totalPlayers and total members in each team;
     //uptil here
     currentTurn = rand()%noOfPlayers;
     //Ludo::players = allocatePlayers(noOfPlayers);
