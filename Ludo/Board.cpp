@@ -15,6 +15,7 @@ sf::Texture Piece::green_k;
 sf::Texture Piece::orange_k;
 sf::Texture Piece::purple_k;
 sf::Texture Board::boardBg;
+sf::Texture Board::turnBg;
 
 float Board::yOffSet;
 float Board::xOffSet;
@@ -71,6 +72,10 @@ void Board::loadAssets() {
     if (!Board::boardBg.loadFromFile("Assets/board6.png")) {
         cerr << "Cannot load board6.png" << endl;
         exit(1);
+    }
+    if (!Board::turnBg.loadFromFile("Assets/turn.png")) {
+        cerr << "Cannot load board6.png" << endl;
+        exit(1); 
     }
 }
 
@@ -401,7 +406,7 @@ void Board::calculateBoardPlc()
     }
 }
 
-void Board::displayBoard(sf::RenderWindow& window)const
+void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)const
 {
     int index = 0;
     sf::Sprite s(boardBg);
@@ -422,6 +427,21 @@ void Board::displayBoard(sf::RenderWindow& window)const
             (*iT)->displayPiece(window, getBoardPlc(i));
         }
     }
+
+    if (currentPlayer != nullptr) {
+        auto home = currentPlayer->getPlayerHome()[3];
+        auto pos = getBoardPlc(home);
+        placement p = {(float)(pos.x-(0.50*xOffSet)), (float)(pos.y-(0.50*yOffSet))};
+        sf::Sprite highlight(turnBg);
+
+        auto _Size = static_cast<sf::Vector2f>(turnBg.getSize());
+
+        highlight.setOrigin(_Size.x/2, _Size.y/2);
+
+        highlight.setPosition(p.x, p.y);
+        highlight.setScale(scaleX, scaleY);
+        window.draw(highlight);
+    }
 }
 
 placement Board::getBoardPlc(const int index)
@@ -441,7 +461,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
         {
             rolledNumber--;
             currentIndex = playerTurn->getPlayerKey(_door);
-            displayBoard(window);
+            displayBoard(window, playerTurn);
             pToMove->displayPiece(window, getBoardPlc(currentIndex));
             window.display();
             __sleep(100);
@@ -453,7 +473,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
                 currentIndex = 0;
             else
                 currentIndex++;
-            displayBoard(window);
+            displayBoard(window, playerTurn);
             pToMove->displayPiece(window, getBoardPlc(currentIndex));
             window.display();
             __sleep(100);
@@ -470,7 +490,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             if (path[*i].myPiece.empty())
             {
                 path[*i].myPiece.push_back(pToMove);
-                displayBoard(window);
+                displayBoard(window, playerTurn);
                 pToMove->displayPiece(window, getBoardPlc(*i));
                 window.display();
                 break;
@@ -492,7 +512,7 @@ void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlay
             for (auto i = home.begin(); i != home.end(); i++) {
                 if (path[*i].myPiece.empty()) {
                     path[*i].myPiece.push_back(pToKill);
-                    displayBoard(window);
+                    displayBoard(window, pToKill->getMyPlayer());
                     pToKill->displayPiece(window, getBoardPlc(*i));
                     window.display();
                     break;

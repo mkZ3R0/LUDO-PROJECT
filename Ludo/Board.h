@@ -15,10 +15,11 @@ class Board {
     static vector<placement>boardPlc;
 public:
     static sf::Texture boardBg;
+    static sf::Texture turnBg;
     static float yOffSet;
     static float xOffSet;
     Board(sf::RenderWindow&);
-    void displayBoard(sf::RenderWindow&)const;
+    void displayBoard(sf::RenderWindow&, const Player* = nullptr)const;
     static placement getBoardPlc(const int);
     static void calculateBoardPlc();//for now public for testing, but later turn it private
     void loadAssets();

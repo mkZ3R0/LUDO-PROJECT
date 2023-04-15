@@ -195,7 +195,7 @@ void Ludo::releasePiece(sf::RenderWindow& window, Board* myBoard, const int boar
     myBoard->path[boardIndex].myPiece.erase(myBoard->path[boardIndex].myPiece.begin());
     int startIndex = p->getMyPlayer()->getPlayerKey(_start);
     myBoard->path[startIndex].myPiece.push_back(p);
-    myBoard->displayBoard(window);
+    myBoard->displayBoard(window, p->getMyPlayer());
 }
 
 int Ludo::convertIndexToDiceIndex(const int index)
@@ -338,26 +338,26 @@ void Ludo::play() {
 
     while (window.isOpen())
     {
-        Ludo::myBoard->displayBoard(Ludo::window);
+        Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         window.display();
         cout << "Current turn" << players[currentTurn]->getPlayerColor() << endl;//turn to proper prompt function;
         int rollCount = 0;
         int roll=0;
         do
         {
-            //myDice.rollingDice(diceRolls, rollCount);
-            //roll = myDice.rollDice();
-            roll = myDice->cheatRoll(window);//cheat
+            myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn]);
+            roll = myDice->rollDice();
+            //roll = myDice->cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
-        Ludo::myBoard->displayBoard(Ludo::window);
+        Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         displayRolls(window,diceRolls,myDice);
         window.display();
         __sleep(500);
         while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(diceRolls, players[currentTurn]))
         {
-            myBoard->displayBoard(window);//so that dices are displayed over the board;
+            myBoard->displayBoard(window, players[currentTurn]);//so that dices are displayed over the board;
             displayRolls(window,diceRolls,myDice);
             window.display();
             int diceIndex=-1;
@@ -399,7 +399,7 @@ void Ludo::play() {
             {
                 auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);//no check for killing insert it
                 myBoard->kill(window, currentIndex, players[currentTurn]);
-                myBoard->displayBoard(window);
+                myBoard->displayBoard(window, players[currentTurn]);
             }
             window.display();
         }
