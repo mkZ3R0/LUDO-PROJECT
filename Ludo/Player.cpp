@@ -3,9 +3,9 @@
 void Player::assignKeyAndHome(Player& p, const colorType cl)
 {
 	switch (cl)
-	{
+	 {
 		case Purple:
-		{
+		 {
 			p.pK.myStart = 0 ;
 			p.pK.myEnd = 95 ;
 			p.pK.myPathToVic = 88;
@@ -15,7 +15,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			return;
 		}
 		case Orange:
-		{
+		 {
 			p.pK.myStart = 13;
 			p.pK.myEnd = 101;
 			p.pK.myPathToVic = 11;
@@ -25,7 +25,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			return;
 		}
 		case Green:
-		{
+		 {
 			p.pK.myStart = 26;
 			p.pK.myEnd = 107;
 			p.pK.myPathToVic = 24;
@@ -35,7 +35,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			return;
 		}
 		case Yellow:
-		{
+		 {
 			p.pK.myStart = 45;
 			p.pK.myEnd = 113;
 			p.pK.myPathToVic = 43;
@@ -45,7 +45,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			return;
 		}
 		case Blue:
-		{
+		 {
 			p.pK.myStart = 58;
 			p.pK.myEnd = 119;
 			p.pK.myPathToVic = 56;
@@ -55,7 +55,7 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			return;
 		}
 		case Red:
-		{
+		 {
 			p.pK.myStart = 71;
 			p.pK.myEnd = 125;
 			p.pK.myPathToVic = 69;
@@ -86,21 +86,21 @@ const vector<int>& Player::getPlayerHome()const
 int Player::getPlayerKey(const keys c)const
 {
 	switch (c)
-	{
+	 {
 		case _start:
-		{
+		 {
 			return this->pK.myStart;
 		}
 		case _end:
-		{
+		 {
 			return this->pK.myEnd;
 		}
 		case _door:
-		{
+		 {
 			return this->pK.vicDoor;
 		}
 		case _victory:
-		{
+		 {
 			return this->pK.myPathToVic;
 		}
 	}

@@ -27,11 +27,11 @@ void Board::loadAssets() {
     }
     if (!Piece::green.loadFromFile("Assets/green.png")) {
         cerr << "Cannot load green.png" << endl;
-        exit(1);        
+        exit(1);
     }
     if (!Piece::red.loadFromFile("Assets/red.png")) {
         cerr << "Cannot load red.png" << endl;
-        exit(1);   
+        exit(1);
     }
     if (!Piece::yellow.loadFromFile("Assets/yellow.png")) {
         cerr << "Cannot load yellow.png" << endl;
@@ -51,11 +51,11 @@ void Board::loadAssets() {
     }
     if (!Piece::green_k.loadFromFile("Assets/green_k.png")) {
         cerr << "Cannot load green_k.png" << endl;
-        exit(1);        
+        exit(1);
     }
     if (!Piece::red_k.loadFromFile("Assets/red_k.png")) {
         cerr << "Cannot load red_k.png" << endl;
-        exit(1);   
+        exit(1);
     }
     if (!Piece::yellow_k.loadFromFile("Assets/yellow_k.png")) {
         cerr << "Cannot load yellow_k.png" << endl;
@@ -75,7 +75,7 @@ void Board::loadAssets() {
     }
     if (!Board::turnBg.loadFromFile("Assets/turn.png")) {
         cerr << "Cannot load board6.png" << endl;
-        exit(1); 
+        exit(1);
     }
 }
 
@@ -105,14 +105,14 @@ int Board::clickToIndex(placement click) {
         if (y==6) {
             return 50 + (x-18);
         } else if (y==8) {
-            return 62 - (x-18); 
+            return 62 - (x-18);
         } else if (y==7) {
             if (x==23) return 56;
             else return 118-(x-18);
         }
     }
     if (y>=0 && y<=5) {
-        //green side
+        // green side
         if (x==6) {
             return 23 - y;
         } else if (x==8) {
@@ -148,7 +148,7 @@ int Board::clickToIndex(placement click) {
         } else if (x==17) {
             return 63 + (y-9);
         } else if (x==16) {
-            if(y==14) return 69; //nice
+            if(y==14) return 69; // nice
             else return 124 - (y-9);
         }
     }
@@ -181,7 +181,7 @@ int Board::clickToIndex(placement click) {
             return 142+(x-20);
         } else if (y==12) {
             return 144+(x-20);
-        }   
+        }
     }
     if (y==7) {
         if (x==11) return -1;
@@ -260,20 +260,20 @@ Board::Board(sf::RenderWindow& window) {
 }
 
 
-//Board Indexes Guide: ( total 150, still working on more)
-//indexes 0-89 board path
-//90-95 purple path to victory
-//96-101 orange path to victory
-//102-107 green path to victory
-//108-113 yellow path to victory
-//114-119 blue path to victory
-//120-125 red path to victory
-//126-129 purple home
-//130-133 orange home
-//134-137 green home
-//138-141 yellow home
-//142-145 blue home
-//146-149 red home
+// Board Indexes Guide: ( total 150, still working on more)
+// indexes 0-89 board path
+// 90-95 purple path to victory
+// 96-101 orange path to victory
+// 102-107 green path to victory
+// 108-113 yellow path to victory
+// 114-119 blue path to victory
+// 120-125 red path to victory
+// 126-129 purple home
+// 130-133 orange home
+// 134-137 green home
+// 138-141 yellow home
+// 142-145 blue home
+// 146-149 red home
 
 
 vector<placement> Board::boardPlc(150);
@@ -364,7 +364,7 @@ void Board::calculateBoardPlc()
         }
         if (index == 108)
         {
-            boardPlc[index] = { boardPlc[43].x,boardPlc[43].y + yOffSet };
+            boardPlc[index] = { boardPlc[43].x, boardPlc[43].y + yOffSet };
             index++;
         }
         if (index == 114)
@@ -412,7 +412,7 @@ void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)c
     sf::Sprite s(boardBg);
     s.setColor(sf::Color::White);
 
-    s.setPosition(0,0);
+    s.setPosition(0, 0);
 
     // scale to window
     float scaleX = (float)window.getSize().x / boardBg.getSize().x;
@@ -479,7 +479,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             __sleep(100);
         }
     }
-    //winning condition;
+    // winning condition;
     path[currentIndex].myPiece.push_back(pToMove);
     if (false && path[currentIndex].special && path[currentIndex].type == Death)
     {

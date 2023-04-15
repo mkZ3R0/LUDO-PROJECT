@@ -19,9 +19,9 @@ public:
 	static sf::Texture six;
 	Dice();
 	int rollDice();
-	int giveSix();//cheat;
-	int cheatRoll(sf::RenderWindow&);//cheat;
-	void rollingDice(sf::RenderWindow&,const Board*,const vector<int>&,const int, const Player* = nullptr);//for animation
-	void displayRoll(sf::RenderWindow&,const int,const int)const;
+	int giveSix();// cheat;
+	int cheatRoll(sf::RenderWindow&);// cheat;
+	void rollingDice(sf::RenderWindow&, const Board*, const vector<int>&, const int, const Player* = nullptr);// for animation
+	void displayRoll(sf::RenderWindow&, const int, const int)const;
 };
 

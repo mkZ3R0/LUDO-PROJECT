@@ -3,7 +3,7 @@
 #include<iostream>
 using namespace std;
 
-//dice faces textures;
+// dice faces textures;
 sf::Texture Dice::one;
 sf::Texture Dice::two;
 sf::Texture Dice::three;
@@ -105,7 +105,7 @@ int Dice::giveSix()
     return 6;
 }
 
-void Dice::displayRoll(sf::RenderWindow& window,const int rollNumber,const int myRoll)const
+void Dice::displayRoll(sf::RenderWindow& window, const int rollNumber, const int myRoll)const
 {
     sf::Sprite d;
     switch (myRoll) {
@@ -143,14 +143,14 @@ void Dice::displayRoll(sf::RenderWindow& window,const int rollNumber,const int m
 vector<placement> Dice::boardDicePlc(3);
 void Dice::calculateDicePlc()
 {
-    boardDicePlc[0] = { Board::boardPlc[79].x ,Board::boardPlc[79].y - Board::yOffSet};
+    boardDicePlc[0] = { Board::boardPlc[79].x , Board::boardPlc[79].y - Board::yOffSet};
     for (int i = 1; i <= 2; i++)
-        boardDicePlc[i] = { boardDicePlc[i-1].x + Board::xOffSet ,boardDicePlc[i-1].y };
+        boardDicePlc[i] = { boardDicePlc[i-1].x + Board::xOffSet , boardDicePlc[i-1].y };
 }
 
-void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard,const vector<int>& myRolls,const int rollNumber, const Player* currentPlayer)
+void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vector<int>& myRolls, const int rollNumber, const Player* currentPlayer)
 {
-    cout << "Entering dice animation" <<endl;//for testing
+    cout << "Entering dice animation" <<endl;// for testing
     sf::Sprite d;
     int random = 0;
     for (int i = 0; i < 5; i++)
@@ -184,7 +184,7 @@ void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard,const vect
         d.setScale(scaleFactor, scaleFactor);
         d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
         myBoard->displayBoard(window, currentPlayer);
-        Ludo::displayRolls(window,myRolls,this);
+        Ludo::displayRolls(window, myRolls, this);
         window.draw(d);
         window.display();
         __sleep(100);

@@ -2,7 +2,7 @@
 #include "Board.h"
 
 Piece::Piece(const Player* ply)
-    :myPlayer(ply),pColor(ply->getPlayerColor())
+    :myPlayer(ply), pColor(ply->getPlayerColor())
 {
     this->hasKilled = false;
 }
@@ -18,7 +18,7 @@ void Piece::changeKilledStatus()
 {
     this->hasKilled = !(this->hasKilled);
 }
-void Piece::displayPiece(sf::RenderWindow& window,const placement image)
+void Piece::displayPiece(sf::RenderWindow& window, const placement image)
 {
     sf::Sprite p;
     switch (pColor) {
@@ -68,7 +68,7 @@ void Piece::displayPiece(sf::RenderWindow& window,const placement image)
 
     p.setOrigin(_pieceSize.x/2, _pieceSize.y/2);
     p.setScale(scaleFactor, scaleFactor);
-    p.setPosition(image.x,image.y);
+    p.setPosition(image.x, image.y);
 
     window.draw(p);
 }

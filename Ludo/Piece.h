@@ -26,7 +26,7 @@ public:
     colorType getColor()const;
     bool canGoHome()const;
     void changeKilledStatus();
-    void displayPiece(sf::RenderWindow&,const placement);
+    void displayPiece(sf::RenderWindow&, const placement);
     const Player* getMyPlayer()const;
 };
 

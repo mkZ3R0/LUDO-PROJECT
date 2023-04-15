@@ -3,11 +3,11 @@
 
 #include "utility.h"
 
-class Player 
+class Player
 {
-	//static helpers:
+	// static helpers:
 	static void assignKeyAndHome(Player&, const colorType);
-	//attributes
+	// attributes
 	playerKeyPoints pK;
 	colorType plC;
 	vector<int> myHome;
