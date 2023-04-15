@@ -7,6 +7,8 @@
 #include "Player.h"
 #include "Position.h"
 
+class Board;
+class Dice;
 
 class Ludo {
     friend class Dice;
