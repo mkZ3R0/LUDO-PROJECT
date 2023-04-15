@@ -61,58 +61,147 @@ vector<Piece *> Ludo::allocatePiece(const Player* player) {
     return pieces;
 }
 
-vector<vector<Player*>> Ludo::allocateTeams(const int totalPlayers, const int totalTeamMembers)
+vector<vector<Player*>> Ludo::allocateTeams(const int totalPlayers, const int totalTeamMembers,const vector<Player*>& gamePlayers)
 {
     vector<vector<Player*>> teams;
     int totalTeams = totalPlayers / totalTeamMembers;
     if (totalTeams == 2 && totalPlayers == 4)
     {
-        vector<Player*>p;
-        p.push_back(new Player(Purple));
-        p.push_back(new Player(Yellow));
-        teams.push_back(p);
-        p.clear();
-        p.push_back(new Player(Orange));
-        p.push_back(new Player(Blue));
-        teams.push_back(p);
+        vector<Player*>p1;
+        vector<Player*>p2;
+        for (int i = 0; i < gamePlayers.size(); i++)
+        {
+            switch (gamePlayers[i]->getPlayerColor())
+            {
+                case Purple:
+                {
+                    p1.push_back(gamePlayers[i]);
+                    break;
+                }
+                case Yellow:
+                {
+                    p1.push_back(gamePlayers[i]);
+                    break;
+                }
+                case Orange:
+                {
+                    p2.push_back(gamePlayers[i]);
+                    break;
+                }
+                case Blue:
+                {
+                    p2.push_back(gamePlayers[i]);
+                    break;
+                }
+            }
+        }
+        teams.push_back(p1);
+        p1.clear();
+        teams.push_back(p2);
+        p2.clear();
         return teams;
     }
     else if (totalTeams == 2 && totalPlayers == 6)
     {
-        vector<Player*>p;
-        p.push_back(new Player(Purple));
-        p.push_back(new Player(Green));
-        p.push_back(new Player(Blue));
-        teams.push_back(p);
-        p.clear();
-        p.push_back(new Player(Orange));
-        p.push_back(new Player(Red));
-        p.push_back(new Player(Yellow));
-        teams.push_back(p);
+        vector<Player*>p1;
+        vector<Player*>p2;
+        for (int i = 0; i < gamePlayers.size(); i++)
+        {
+            switch (gamePlayers[i]->getPlayerColor())
+            {
+            case Purple:
+            {
+                p1.push_back(gamePlayers[i]);
+                break;
+            }
+            case Green:
+            {
+                p1.push_back(gamePlayers[i]);
+                break;
+            }
+            case Blue:
+            {
+                p1.push_back(gamePlayers[i]);
+                break;
+            }
+            case Orange:
+            {
+                p2.push_back(gamePlayers[i]);
+                break;
+            }
+            case Red:
+            {
+                p2.push_back(gamePlayers[i]);
+                break;
+            }
+            case Yellow:
+            {
+                p2.push_back(gamePlayers[i]);
+                break;
+            }
+            }
+        }
+        teams.push_back(p1);
+        p1.clear();
+        teams.push_back(p2);
+        p2.clear();
         return teams;
     }
     else
     {
-        vector<Player*>p;
-        p.push_back(new Player(Purple));
-        p.push_back(new Player(Yellow));
-        teams.push_back(p);
-        p.clear();
-        p.push_back(new Player(Orange));
-        p.push_back(new Player(Blue));
-        teams.push_back(p);
-        p.push_back(new Player(Green));
-        p.push_back(new Player(Red));
-        teams.push_back(p);
-        p.clear();
+        vector<Player*>p1;
+        vector<Player*>p2;
+        vector<Player*>p3;
+        for (int i = 0; i < gamePlayers.size(); i++)
+        {
+            switch (gamePlayers[i]->getPlayerColor())
+            {
+            case Purple:
+            {
+                p1.push_back(gamePlayers[i]);
+                break;
+            }
+            case Green:
+            {
+                p3.push_back(gamePlayers[i]);
+                break;
+            }
+            case Blue:
+            {
+                p2.push_back(gamePlayers[i]);
+                break;
+            }
+            case Orange:
+            {
+                p2.push_back(gamePlayers[i]);
+                break;
+            }
+            case Red:
+            {
+                p3.push_back(gamePlayers[i]);
+                break;
+            }
+            case Yellow:
+            {
+                p1.push_back(gamePlayers[i]);
+                break;
+            }
+            }
+        }
+        teams.push_back(p1);
+        p1.clear();
+        teams.push_back(p2);
+        p2.clear();
+        teams.push_back(p3);
+        p3.clear();
         return teams;
     }
-}//TODO = IMPLEMENT IN GAME
+}
 
-bool Ludo::isTeamPiece(const Player* plyr, const colorType selectedPieceClr)const // TODO = IMPLEMENT IN TEAM GAME MODE
+bool Ludo::isTeamPiece(const colorType selectedPieceClr)const // TODO = IMPLEMENT IN TEAM GAME MODE
 {
     int teamIndex = -1;
-    teamIndex = getPlayerTeamIndex(plyr, teams);
+    teamIndex = getPlayerTeamIndex(players[currentTurn], teams);
     assert(teamIndex != -1);
     for (auto iT = teams[teamIndex].begin(); iT != teams[teamIndex].end(); iT++)
     {
@@ -142,10 +231,14 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
-    noOfPlayers=2; // input this with a different window
+    noOfPlayers=4; // input this with a different window
+    //Changing game mode to teams here
+    isTeamMode = false;//true;// here have option to choose game mode and call allocate teams accordingly
+    players = allocatePlayers(noOfPlayers);
+    //teams = allocateTeams(4, 2,players);//takes totalPlayers and total members in each team;
+    //uptil here
     currentTurn = rand()%noOfPlayers;
-    Ludo::players = allocatePlayers(noOfPlayers);
-    isTeamMode = false;
+    //Ludo::players = allocatePlayers(noOfPlayers);
     for(auto& player: players) {
         auto pieces = allocatePiece(player);
         auto homeArea = player->getPlayerHome();
@@ -191,7 +284,18 @@ bool Ludo::isValidSelection(const int index, const Player* p, const int currentR
     }
     for (auto iT = (*myBoard)[index].myPiece.begin(); iT != (*myBoard)[index].myPiece.end();iT++)
     {
-        if (p->isMyPiece((*iT)->getColor()))
+        if (isTeamMode)
+        {
+            int end = p->getPlayerKey(_end);
+            if ((*myBoard)[end].myPiece.size() == 4)
+            {
+                if (isTeamPiece((*iT)->getColor()))
+                    return true;
+            }
+            else if(p->isMyPiece((*iT)->getColor()))
+                return true;
+        }
+        else if (p->isMyPiece((*iT)->getColor()))
             return true;
     }
     return false;
@@ -343,7 +447,7 @@ int Ludo::countPieceColor(const colorType c, const int bIndex) const
 
 bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, const Player* player) const {
     if (isReleased(rolledNumber, player, boardIndex)) return true;
-    Piece* pToMove = (*myBoard)[boardIndex].myPiece[0];
+    Piece* pToMove = (*myBoard)[boardIndex].myPiece[0];//TODO CONFIRM IF DEFAULT 0 INDEX OR SHOULD BE SELECTEDPIECEINDEX
     auto playerTurn = pToMove->getMyPlayer();
     int currentIndex = boardIndex;
     while (rolledNumber != 0) {
@@ -361,6 +465,15 @@ bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, con
     }
     if (currentIndex > playerTurn->getPlayerKey(_end)) {
         return false;
+    }//added for teamMode
+    if (isTeamMode)
+    {
+        colorType c = (*myBoard)[boardIndex].myPiece[selectedPieceIndex]->getColor();
+        if (isTeamPiece(c) && player->getPlayerColor() != c)
+        {
+            if ((*myBoard)[player->getPlayerKey(_end)].myPiece.size() != 4)
+                return false;
+        }
     }
     return true;
 }
@@ -374,6 +487,19 @@ void Ludo::checkLeaderBoard(Player* currentPly)
             leaderBoard.insert(currentPly);
         }
     }
+}
+
+void Ludo::checkLeaderBoardTeams(Player* plyr)
+{
+    int teamIndex = getPlayerTeamIndex(plyr, teams);
+    for (int i = 0; i < teams[teamIndex].size(); i++)
+    {
+        int end = teams[teamIndex][i]->getPlayerKey(_end);
+        if ((*myBoard)[end].myPiece.size() != 4)
+            return;
+    }
+    if (teamLeaderBoard.find(teamIndex) == teamLeaderBoard.end())
+        teamLeaderBoard.insert(teamIndex);
 }
 
 bool Ludo::isGameEnd()
@@ -395,13 +521,44 @@ bool Ludo::isGameEnd()
         return false;
 }
 
-void Ludo::displayResult() const // for now printing on console
+bool Ludo::isGameEndTeams(const int totalTeams)
+{
+    if (teamLeaderBoard.size() == totalTeams-1)
+    {
+        for (int i = 0; i<teams.size(); i++)
+        {
+            if (teamLeaderBoard.find(i) == teamLeaderBoard.end())
+            {
+                teamLeaderBoard.insert(i);
+                return true;
+            }
+        }
+        throw("Invalid Case found");
+    }
+    else
+        return false;
+}
+
+void Ludo::displayResult() const //TODO= CHANGE TO PROPER SCREEN
 {
     int count = 1;
     cout << "Results are in" << endl;
     for (auto iT = leaderBoard.begin(); iT != leaderBoard.end(); iT++)
     {
         cout << count++ <<"- Player "<< (*iT)->getPlayerColor() << endl;
+    }
+}
+
+void Ludo::displayResultTeams() const//TODO= CHANGE TO PROPER SCREEN
+{
+    int count = 1;
+    cout << "Results are in" << endl;
+    for (auto iT = teamLeaderBoard.begin(); iT != teamLeaderBoard.end(); iT++)
+    {
+        cout << count++ << " Team of ";
+        for (int i = 0; i < teams[(*iT)].size(); i++)
+            cout << teams[(*iT)][i]->getPlayerColor() << " ";
+        cout << endl;
     }
 }
 
@@ -450,11 +607,11 @@ void Ludo::play() {
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
                 }
-                else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {//TODO=enhance for teams
+                else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {
                     if ((*myBoard)[selectedBoardIndex].myPiece.size()>1) {
                         do {
-                            selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);//TODO=enhance for teams
-                        } while ((*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor());
+                            selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);//TODO=enhance for teams and for look up
+                        } while ((!isTeamMode && (*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor() || (isTeamMode && !isTeamPiece((*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor()))));
                     }
                     if (isLegal(selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {//TODO=enhance for teams and joota
                         break;
@@ -480,10 +637,16 @@ void Ludo::play() {
             window.display();
         }
         diceRolls.clear();
-        checkLeaderBoard(players[currentTurn]);//TODO=enhance for teams
-        if (isGameEnd())//TODO=enhance for teams
+        if (isTeamMode)
+            checkLeaderBoardTeams(players[currentTurn]);
+        else
+            checkLeaderBoard(players[currentTurn]);
+        if (isGameEnd())
         {
-            displayResult();// TODO=change to proper leader board display
+            if(isTeamMode)
+                displayResultTeams();
+            else
+                displayResult();// TODO=change to proper leader board display and end game
         }
         changeTurn(currentTurn, noOfPlayers);
 

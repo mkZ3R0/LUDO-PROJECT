@@ -83,7 +83,7 @@ void Board::loadAssets() {
         cerr << "Cannot load purple_k.png" << endl;
         exit(1);
     }
-    if (!Piece::orange.loadFromFile("Assets/orange.png")) {
+    if (!Piece::orange_k.loadFromFile("Assets/orange_k.png")) {
         cerr << "Cannot load orange_k.png" << endl;
         exit(1);
     }
