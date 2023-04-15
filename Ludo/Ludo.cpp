@@ -352,7 +352,7 @@ void Ludo::play() {
         __sleep(500);
         while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(diceRolls, players[currentTurn]))
         {
-            myBoard->displayBoard(window, players[currentTurn]);// so that dices are displayed over the board;
+            myBoard->displayBoard(window, players[currentTurn]);
             displayRolls(window, diceRolls, myDice);
             window.display();
             int diceIndex=-1;
@@ -372,13 +372,13 @@ void Ludo::play() {
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
                 }
-                else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {
+                else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {//TODO=enhance for teams
                     if ((*myBoard)[selectedBoardIndex].myPiece.size()>1) {
                         do {
-                            selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);
+                            selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);//TODO=enhance for teams
                         } while ((*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor());
                     }
-                    if (isLegal(selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {
+                    if (isLegal(selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {//TODO=enhance for teams and joota
                         break;
                     } else {
                         selectedPieceIndex = 0;
@@ -392,17 +392,17 @@ void Ludo::play() {
             }
             else
             {
-                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);// no check for killing insert it
-                myBoard->kill(window, currentIndex, players[currentTurn]);
+                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);//TODO=no check for killing insert it
+                myBoard->kill(window, currentIndex, players[currentTurn]);//TODO=enhance for teams
                 myBoard->displayBoard(window, players[currentTurn]);
             }
             window.display();
         }
         diceRolls.clear();
-        checkLeaderBoard(players[currentTurn]);
-        if (isGameEnd())
+        checkLeaderBoard(players[currentTurn]);//TODO=enhance for teams
+        if (isGameEnd())//TODO=enhance for teams
         {
-            displayResult();// change to proper leader board display
+            displayResult();// TODO=change to proper leader board display
         }
         changeTurn(currentTurn, noOfPlayers);
 
