@@ -4,15 +4,10 @@
 
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
-    assert(num > 0 && num <= 6);
+    assert(num > 1 && num <= 6);
     vector<Player*> p;
     switch (num)
     {
-        case 1:
-        {
-            p.push_back(new Player(Purple));
-            return p;
-        }
         case 2:
         {
             p.push_back(new Player(Purple));
@@ -71,7 +66,7 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
-    noOfPlayers=2; // input this with a different window
+    noOfPlayers=1; // input this with a different window
     currentTurn = rand()%noOfPlayers;
     Ludo::players = allocatePlayers(noOfPlayers);
 
@@ -312,7 +307,7 @@ bool Ludo::isGameEnd()
         for (auto iT = players.begin(); iT != players.end(); iT++)
         {
             Player* p = *iT;
-            if (leaderBoard.find(*iT) != leaderBoard.end())
+            if (leaderBoard.find(*iT) == leaderBoard.end())
             {
                 leaderBoard.insert(p);
                 return true;
@@ -346,8 +341,8 @@ void Ludo::play() {
         do
         {
             myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn]);
-            roll = myDice->rollDice();
-            // roll = myDice->cheatRoll(window);//cheat
+            //roll = myDice->rollDice();
+            roll = myDice->cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll==6 && rollCount!=3);
