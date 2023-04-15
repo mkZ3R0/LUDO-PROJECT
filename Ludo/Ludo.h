@@ -24,6 +24,7 @@ class Ludo {
     bool isTeamPiece(const colorType)const;
     static void changeTurn(int&, const int);
     bool isReleased(const int, const Player*, const int) const;
+    bool isTeamPieceReleased(const int, const Player*, const int)const;
     void releasePiece(const int);
     static bool allSixes(const vector<int>&);
     static int convertIndexToDiceIndex(const int);

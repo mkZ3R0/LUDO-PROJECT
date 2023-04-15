@@ -11,7 +11,8 @@ void Player::assignKeyAndHome(Player& p, const colorType cl)
 			p.pK.myPathToVic = 88;
 			p.pK.vicDoor = 90;
 			for (int i = 126; i <= 129; i++)
-				p.myHome.push_back(i);
+				//p.myHome.push_back(i);
+				p.myHome.push_back(95);
 			return;
 		}
 		case Orange:

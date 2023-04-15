@@ -363,6 +363,26 @@ bool Ludo::isReleased(const int roll, const Player* plyr, const int boardIndex) 
     return false;
 }
 
+bool Ludo::isTeamPieceReleased(const int roll, const Player* plyr, const int boardIndex)const
+{
+    cout << "check if wanting to release team member piece" << endl;// TODO::REMOVE for testing purpose remove later on
+    if (roll != 6)
+        return false;
+    int teamIndex = getPlayerTeamIndex(plyr, teams);
+    for (int i = 0; i < teams[teamIndex].size(); i++)
+    {
+        auto home = teams[teamIndex][i]->getPlayerHome();
+        for (auto iT = home.begin(); iT != home.end(); iT++)
+        {
+            if (!((*myBoard)[*iT].myPiece.empty()) && (*iT)==boardIndex)
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 void Ludo::releasePiece(const int boardIndex)
 {
     cout << "releasing piece" << endl;// for testing purpose remove later on
@@ -447,6 +467,11 @@ int Ludo::countPieceColor(const colorType c, const int bIndex) const
 
 bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, const Player* player) const {
     if (isReleased(rolledNumber, player, boardIndex)) return true;
+    if (isTeamMode)
+    {
+        if(isTeamPieceReleased(rolledNumber, player, boardIndex))
+            return true;
+    }
     Piece* pToMove = (*myBoard)[boardIndex].myPiece[0];//TODO CONFIRM IF DEFAULT 0 INDEX OR SHOULD BE SELECTEDPIECEINDEX
     auto playerTurn = pToMove->getMyPlayer();
     int currentIndex = boardIndex;
@@ -621,7 +646,7 @@ void Ludo::play() {
                 }
             } while (true);
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
-            if (isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
+            if ((!isTeamMode && isReleased(currentRoll, players[currentTurn], selectedBoardIndex)) || (isTeamMode && isTeamPieceReleased(currentRoll,players[currentTurn],selectedBoardIndex)))
             {
                 releasePiece(selectedBoardIndex);
             }
