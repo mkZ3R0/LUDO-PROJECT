@@ -419,7 +419,7 @@ void Board::displayBoard(sf::RenderWindow& window)const
     {
         for (auto iT = path[i].myPiece.begin(); iT != path[i].myPiece.end(); iT++)
         {
-            (*iT)->displayPiece(window, i);
+            (*iT)->displayPiece(window, getBoardPlc(i));
         }
     }
 }
@@ -442,7 +442,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             rolledNumber--;
             currentIndex = playerTurn->getPlayerKey(_door);
             displayBoard(window);
-            pToMove->displayPiece(window, currentIndex);
+            pToMove->displayPiece(window, getBoardPlc(currentIndex));
             window.display();
             __sleep(100);
         }
@@ -454,7 +454,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             else
                 currentIndex++;
             displayBoard(window);
-            pToMove->displayPiece(window, currentIndex);
+            pToMove->displayPiece(window, getBoardPlc(currentIndex));
             window.display();
             __sleep(100);
         }
@@ -471,7 +471,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             {
                 path[*i].myPiece.push_back(pToMove);
                 displayBoard(window);
-                pToMove->displayPiece(window, *i);
+                pToMove->displayPiece(window, getBoardPlc(*i));
                 window.display();
                 break;
             }
@@ -493,7 +493,7 @@ void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlay
                 if (path[*i].myPiece.empty()) {
                     path[*i].myPiece.push_back(pToKill);
                     displayBoard(window);
-                    pToKill->displayPiece(window, *i);
+                    pToKill->displayPiece(window, getBoardPlc(*i));
                     window.display();
                     break;
                 }

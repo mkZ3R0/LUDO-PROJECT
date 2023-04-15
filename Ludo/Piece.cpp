@@ -63,7 +63,6 @@ void Piece::displayPiece(sf::RenderWindow& window,const int index)
         break;
     }
 
-    placement image=Board::getBoardPlc(index);
     auto _pieceSize = static_cast<sf::Vector2f>(p.getTexture()->getSize());
     auto scaleFactor = std::min(Board::xOffSet / _pieceSize.x, Board::yOffSet / _pieceSize.y);
 
