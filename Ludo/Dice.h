@@ -19,7 +19,7 @@ public:
 	int rollDice();
 	int giveSix();//cheat;
 	int cheatRoll(sf::RenderWindow&);//cheat;
-	void rollingDice(const vector<int>&,const int);//for animation
+	void rollingDice(sf::RenderWindow&,const Board*,const vector<int>&,const int);//for animation
 	void displayRoll(sf::RenderWindow&,const int,const int)const;
 };
 

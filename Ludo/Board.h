@@ -23,7 +23,7 @@ public:
     static void calculateBoardPlc();//for now public for testing, but later turn it private
     void loadAssets();
     static placement mouseClick(sf::RenderWindow&); //TODO: make private
-    int clickToIndex(placement);
+    static int clickToIndex(placement);
     int movePiece(sf::RenderWindow&, int, int, int = 0);
     void kill(sf::RenderWindow&, int, Player*);
 
