@@ -18,7 +18,7 @@ void Piece::changeKilledStatus()
 {
     this->hasKilled = !(this->hasKilled);
 }
-void Piece::displayPiece(sf::RenderWindow& window,const int index)
+void Piece::displayPiece(sf::RenderWindow& window,const placement image)
 {
     sf::Sprite p;
     switch (pColor) {

@@ -15,6 +15,7 @@ class Ludo {
     static vector<Player*> allocatePlayers(const int);
     static vector<Piece*> allocatePiece(const Player*);
     static int select(sf::RenderWindow&,const Board*);
+    static int selectPiece(const vector<Piece*>&);
     static bool isValidDiceSelect(const int,int);
     static int convertIndexToDice(const vector<int>&,int);
     static bool isValidSelection(sf::RenderWindow&,const Board*,const int,const Player*, const int);
@@ -29,7 +30,7 @@ class Ludo {
     static bool isGameEnd(unordered_set<Player*>&, const vector<Player*>&);
     static void displayResult(const unordered_set<Player*>&);
     bool canPlayMore(const vector<int>&, const Player*);
-    bool isLegal(const Board*,const int, const int, const Player*);
+    bool isLegal(const Board*, const int, const int, const int, const Player*);
     // private attributes
     vector<int> diceRolls;
     vector<Player*> players;

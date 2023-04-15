@@ -2,6 +2,8 @@
 #include "utility.h"
 #include "Ludo.h"
 
+class Board;
+
 class Dice
 {
 	int roll;

@@ -88,6 +88,26 @@ int Ludo::select(sf::RenderWindow& window,const Board* myBoard) {
     return myBoard->clickToIndex(Board::mouseClick(window));
 }
 
+int Ludo::selectPiece(const vector<Piece *>& myPiece) {
+    auto s = myPiece.size();
+    sf::RenderWindow selectWindow(sf::VideoMode(Board::xOffSet*s, Board::yOffSet), "Select Piece", sf::Style::Titlebar);
+    auto p = sf::VideoMode::getDesktopMode();
+    sf::Vector2i a = {(int)p.width/2, (int)p.height/2};
+    selectWindow.setPosition(a);
+    selectWindow.clear(sf::Color::White);
+    for (int i = 0; i < s; i++) {
+        placement pl = {static_cast<float>(Board::xOffSet*(i) + Board::xOffSet/2.0), static_cast<float>(Board::yOffSet/2.0)};
+        myPiece[i]->displayPiece(selectWindow, pl);
+    }
+    selectWindow.display();
+    
+    while(selectWindow.isOpen()) {
+        auto pl = Board::mouseClick(selectWindow);
+        return pl.x/Board::xOffSet;
+    }
+    return 0;
+}
+
 bool Ludo::isValidSelection(sf::RenderWindow& window, const Board* myBoard, const int index,const Player* p, const int currentRoll)
 {
     cout << "checking if valid selection Piece" << endl;//for testing purpose remove later on
@@ -250,8 +270,8 @@ int Ludo::countPieceColor(const Board* myBoard,const colorType c, const int bInd
 
 //will be used for legal movement involving joota
 
-bool Ludo::isLegal(const Board* myBoard,int boardIndex, int rolledNumber, const Player* player) {
-    if (isReleased(myBoard,rolledNumber, player, boardIndex)) return true;
+bool Ludo::isLegal(const Board* myBoard, int boardIndex, int selectedPieceIndex, int rolledNumber, const Player* player) {
+    if (isReleased(myBoard, rolledNumber, player, boardIndex)) return true;
     Piece* pToMove = myBoard->path[boardIndex].myPiece[0];
     auto playerTurn = pToMove->getMyPlayer();
     int currentIndex = boardIndex;
@@ -325,8 +345,8 @@ void Ludo::play() {
         int roll=0;
         do
         {
-            myDice->rollingDice(window,myBoard,diceRolls, rollCount);
-            //roll = myDice->rollDice();
+            //myDice.rollingDice(diceRolls, rollCount);
+            //roll = myDice.rollDice();
             roll = myDice->cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
@@ -348,6 +368,7 @@ void Ludo::play() {
             } while (!isValidDiceSelect(diceRolls.size(),diceIndex));
             int currentRoll = convertIndexToDice(diceRolls,diceIndex);
             int selectedBoardIndex = -1;
+            int selectedPieceIndex = 0;
             do
             {
                 selectedBoardIndex = select(window,myBoard);
@@ -356,7 +377,18 @@ void Ludo::play() {
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
                 }
-                else if (isValidSelection(window,myBoard, selectedBoardIndex,players[currentTurn], currentRoll) && isLegal(myBoard,selectedBoardIndex, currentRoll, players[currentTurn])) break;
+                else if (isValidSelection(window, myBoard, selectedBoardIndex,players[currentTurn], currentRoll)) {
+                    if (myBoard->path[selectedBoardIndex].myPiece.size()>1) {
+                        do {
+                            selectedPieceIndex = selectPiece(myBoard->path[selectedBoardIndex].myPiece);
+                        } while (myBoard->path[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor());
+                    }
+                    if (isLegal(myBoard, selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {
+                        break; 
+                    } else {
+                        selectedPieceIndex = 0;
+                    }
+                }
             } while (true);
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
             if (isReleased(myBoard,currentRoll, players[currentTurn], selectedBoardIndex))
@@ -365,7 +397,7 @@ void Ludo::play() {
             }
             else
             {
-                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll);//no check for killing insert it
+                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);//no check for killing insert it
                 myBoard->kill(window, currentIndex, players[currentTurn]);
                 myBoard->displayBoard(window);
             }
