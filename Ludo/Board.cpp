@@ -481,7 +481,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
 }
 
 void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlayer) {
-    if (path[currentIndex].myPiece.size()>1 && !path[currentIndex].special) {
+    if (path[currentIndex].myPiece.size()>1 && path[currentIndex].type != Star) {
         if (path[currentIndex].myPiece[0]->getMyPlayer()->getPlayerColor() != currentPlayer->getPlayerColor()) {
             auto pToKill = path[currentIndex].myPiece[0];
             if (pToKill->canGoHome()) {
