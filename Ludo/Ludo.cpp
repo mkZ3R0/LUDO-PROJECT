@@ -84,7 +84,7 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     }
 }
 
-int Ludo::select(sf::RenderWindow& window,const Board* myBoard) {
+int Ludo::select() {
     return myBoard->clickToIndex(Board::mouseClick(window));
 }
 
@@ -108,7 +108,7 @@ int Ludo::selectPiece(const vector<Piece *>& myPiece) {
     return 0;
 }
 
-bool Ludo::isValidSelection(sf::RenderWindow& window, const Board* myBoard, const int index,const Player* p, const int currentRoll)
+bool Ludo::isValidSelection(const int index,const Player* p, const int currentRoll) const
 {
     cout << "checking if valid selection Piece" << endl;//for testing purpose remove later on
     //for now thinking only one piece at an index extend to multiple pieces on an index
@@ -150,11 +150,11 @@ bool Ludo::isValidDiceSelect(const int totalRolls, int clickIndex)
     return true;
 }
 
-int Ludo::convertIndexToDice(const vector<int>& dicesRolled,int index)
+int Ludo::convertIndexToDice(int index) const
 {
     cout << "converting index to dice roll" << endl;//for testing purpose remove later on
     index = abs(index) - 1;
-    return dicesRolled[index];
+    return diceRolls[index];
 }
 
 void Ludo::changeTurn(int& Turn, const int totalPlayers)
@@ -163,7 +163,7 @@ void Ludo::changeTurn(int& Turn, const int totalPlayers)
     Turn = (Turn + 1) % totalPlayers;
 }
 
-bool Ludo::isReleased(const Board* myBoard,const int roll, const Player* plyr, const int boardIndex)
+bool Ludo::isReleased(const int roll, const Player* plyr, const int boardIndex) const
 {
     cout << "check if wanting to release piece" << endl;//for testing purpose remove later on
     if (roll != 6)
@@ -188,7 +188,7 @@ bool Ludo::isReleased(const Board* myBoard,const int roll, const Player* plyr, c
     return false;
 }
 
-void Ludo::releasePiece(sf::RenderWindow& window, Board* myBoard, const int boardIndex)
+void Ludo::releasePiece(const int boardIndex)
 {
     cout << "releasing piece" << endl;//for testing purpose remove later on
     Piece* p = myBoard->path[boardIndex].myPiece[0];
@@ -257,7 +257,7 @@ bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer
     return true; // have 6, come on you can play
 }
 
-int Ludo::countPieceColor(const Board* myBoard,const colorType c, const int bIndex)
+int Ludo::countPieceColor(const colorType c, const int bIndex) const
 {
     int count = 0;
     for (auto iT = myBoard->path[bIndex].myPiece.begin(); iT != myBoard->path[bIndex].myPiece.end(); iT++)
@@ -270,8 +270,8 @@ int Ludo::countPieceColor(const Board* myBoard,const colorType c, const int bInd
 
 //will be used for legal movement involving joota
 
-bool Ludo::isLegal(const Board* myBoard, int boardIndex, int selectedPieceIndex, int rolledNumber, const Player* player) {
-    if (isReleased(myBoard, rolledNumber, player, boardIndex)) return true;
+bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, const Player* player) const {
+    if (isReleased(rolledNumber, player, boardIndex)) return true;
     Piece* pToMove = myBoard->path[boardIndex].myPiece[0];
     auto playerTurn = pToMove->getMyPlayer();
     int currentIndex = boardIndex;
@@ -294,7 +294,7 @@ bool Ludo::isLegal(const Board* myBoard, int boardIndex, int selectedPieceIndex,
     return true;
 }
 
-void Ludo::checkLeaderBoard(const Board* myBoard,Player* currentPly, unordered_set<Player*>& leaderBoard)
+void Ludo::checkLeaderBoard(Player* currentPly)
 {
     if (myBoard->path[currentPly->getPlayerKey(_end)].myPiece.size() == 4)
     {
@@ -305,11 +305,11 @@ void Ludo::checkLeaderBoard(const Board* myBoard,Player* currentPly, unordered_s
     }
 }
 
-bool Ludo::isGameEnd(unordered_set<Player*>& leaderBoard, const vector<Player*>& gamePlayers)
+bool Ludo::isGameEnd()
 {
-    if (leaderBoard.size() == (gamePlayers.size() - 1))
+    if (leaderBoard.size() == (players.size() - 1))
     {
-        for (auto iT = gamePlayers.begin(); iT != gamePlayers.end(); iT++)
+        for (auto iT = players.begin(); iT != players.end(); iT++)
         {
             Player* p = *iT;
             if (leaderBoard.find(*iT) != leaderBoard.end())
@@ -324,11 +324,11 @@ bool Ludo::isGameEnd(unordered_set<Player*>& leaderBoard, const vector<Player*>&
         return false;
 }
 
-void Ludo::displayResult(const unordered_set<Player*>& result)//for now printing on console
+void Ludo::displayResult() const //for now printing on console
 {
     int count = 1;
     cout << "Results are in" << endl;
-    for (auto iT = result.begin(); iT != result.end(); iT++)
+    for (auto iT = leaderBoard.begin(); iT != leaderBoard.end(); iT++)
     {
         cout << count++ <<"- Player "<< (*iT)->getPlayerColor() << endl;
     }
@@ -363,27 +363,27 @@ void Ludo::play() {
             int diceIndex=-1;
             do
             {
-                diceIndex = select(window,myBoard);
+                diceIndex = select();
 
             } while (!isValidDiceSelect(diceRolls.size(),diceIndex));
-            int currentRoll = convertIndexToDice(diceRolls,diceIndex);
+            int currentRoll = convertIndexToDice(diceIndex);
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
             do
             {
-                selectedBoardIndex = select(window,myBoard);
+                selectedBoardIndex = select();
                 if (isValidDiceSelect(diceRolls.size(), selectedBoardIndex)) {
-                    currentRoll = convertIndexToDice(diceRolls, selectedBoardIndex);
+                    currentRoll = convertIndexToDice(selectedBoardIndex);
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
                 }
-                else if (isValidSelection(window, myBoard, selectedBoardIndex,players[currentTurn], currentRoll)) {
+                else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {
                     if (myBoard->path[selectedBoardIndex].myPiece.size()>1) {
                         do {
                             selectedPieceIndex = selectPiece(myBoard->path[selectedBoardIndex].myPiece);
                         } while (myBoard->path[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor());
                     }
-                    if (isLegal(myBoard, selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {
+                    if (isLegal(selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {
                         break; 
                     } else {
                         selectedPieceIndex = 0;
@@ -391,9 +391,9 @@ void Ludo::play() {
                 }
             } while (true);
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
-            if (isReleased(myBoard,currentRoll, players[currentTurn], selectedBoardIndex))
+            if (isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
             {
-                releasePiece(window,myBoard,selectedBoardIndex);
+                releasePiece(selectedBoardIndex);
             }
             else
             {
@@ -404,10 +404,10 @@ void Ludo::play() {
             window.display();
         }
         diceRolls.clear();
-        checkLeaderBoard(myBoard,players[currentTurn], leaderBoard);
-        if (isGameEnd(leaderBoard,players))
+        checkLeaderBoard(players[currentTurn]);
+        if (isGameEnd())
         {
-            displayResult(leaderBoard);//change to proper leader board display
+            displayResult();//change to proper leader board display
         }
         changeTurn(currentTurn,noOfPlayers);
 
