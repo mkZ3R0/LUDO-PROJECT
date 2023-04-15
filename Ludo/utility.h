@@ -17,7 +17,7 @@ using namespace std;
 
 void __sleep(unsigned int);
 
-enum colorType { Red, Green, Blue, Yellow,Purple,Orange };
+enum colorType { Orange, Green, Yellow, Purple, Red, Blue };
 
 enum positionType { Normal, Star, Home , Death };
 
