@@ -2,7 +2,6 @@
 #include <algorithm>
 
 
-sf::Font Ludo::font;
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
     assert(num > 1 && num <= 6);
@@ -66,9 +65,8 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
 {
     myBoard = new Board(window);
     myDice = new Dice();
-    Ludo::font.loadFromFile("Assets/font.ttf");
     srand(time(0));
-    noOfPlayers=2; // input this with a different window
+    noOfPlayers=6; // input this with a different window
     currentTurn = rand()%noOfPlayers;
     Ludo::players = allocatePlayers(noOfPlayers);
 

@@ -12,7 +12,6 @@ class Dice;
 
 class Ludo {
     friend class Dice;
-    static sf::Font font;
     static vector<Player*> allocatePlayers(const int);
     static vector<Piece*> allocatePiece(const Player*);
     int select();

@@ -11,11 +11,14 @@ class Board {
     std::vector<Position> path;
     std::vector<Player*> players;
     static void calculateBoardPlc();
+    static sf::Font fontB;
+    static sf::Text textB;
+    static void displayTotalPieces(sf::RenderWindow&, const int, const int);
 public:
-    static sf::Texture boardBg;
-    static sf::Texture turnBg;
-    static float yOffSet;
-    static float xOffSet;
+    static sf::Texture boardBg;//make private
+    static sf::Texture turnBg;//make private
+    static float yOffSet;//make private
+    static float xOffSet;//make private
     static vector<placement>boardPlc;
     Board(sf::RenderWindow&);
     void displayBoard(sf::RenderWindow&, const Player* = nullptr)const;

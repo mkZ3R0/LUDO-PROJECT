@@ -20,6 +20,24 @@ sf::Texture Board::turnBg;
 float Board::yOffSet;
 float Board::xOffSet;
 
+sf::Font Board::fontB;
+sf::Text Board::textB;
+
+void Board::displayTotalPieces(sf::RenderWindow& window, const int count, const int index)
+{
+    textB.setFont(fontB);
+    textB.setString(to_string(count));
+    textB.setFillColor(sf::Color::Black);
+    textB.setOrigin(Board::xOffSet / 2.4, Board::yOffSet / 2.4);
+    if(count<=9)
+        textB.setCharacterSize(18);
+    else
+        textB.setCharacterSize(15);
+    textB.setPosition(boardPlc[index].x,boardPlc[index].y);
+    textB.Style::Bold;
+    window.draw(textB);
+}
+
 void Board::loadAssets() {
     if (!Piece::blue.loadFromFile("Assets/blue.png")) {
             cerr << "Cannot load blue.png" << endl;
@@ -75,6 +93,10 @@ void Board::loadAssets() {
     }
     if (!Board::turnBg.loadFromFile("Assets/turn.png")) {
         cerr << "Cannot load board6.png" << endl;
+        exit(1);
+    }
+    if (!Board::fontB.loadFromFile("Assets/font.ttf")) {
+        cerr << "Cannot load font" << endl;
         exit(1);
     }
 }
@@ -426,6 +448,9 @@ void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)c
         {
             (*iT)->displayPiece(window, getBoardPlc(i));
         }
+        int total = path[i].myPiece.size();
+        if(total>1 && i <=125)
+            displayTotalPieces(window, path[i].myPiece.size(),i);
     }
 
     if (currentPlayer != nullptr) {
