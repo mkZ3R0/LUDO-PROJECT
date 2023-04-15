@@ -231,14 +231,16 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
-    noOfPlayers=4; // input this with a different window
+    noOfPlayers=2; // input this with a different window
+    /*
     //Changing game mode to teams here
     isTeamMode = true;// here have option to choose game mode and call allocate teams accordingly
     players = allocatePlayers(noOfPlayers);
     teams = allocateTeams(4, 2,players);//takes totalPlayers and total members in each team;
     //uptil here
+    */
     currentTurn = rand()%noOfPlayers;
-    //Ludo::players = allocatePlayers(noOfPlayers);
+    Ludo::players = allocatePlayers(noOfPlayers);
     for(auto& player: players) {
         auto pieces = allocatePiece(player);
         auto homeArea = player->getPlayerHome();
@@ -411,7 +413,6 @@ bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer
     auto homeArea = currentPlayer->getPlayerHome();
     auto winI = currentPlayer->getPlayerKey(_end);
     auto doorI = currentPlayer->getPlayerKey(_door);
-
     int emptyCount=0;
     for (int i=0; i<4; i++) {
         if ((*myBoard)[homeArea[i]].myPiece.empty()) { // home empty
@@ -587,6 +588,14 @@ void Ludo::displayResultTeams() const//TODO= CHANGE TO PROPER SCREEN
     }
 }
 
+bool Ludo::hasWon(const Player* p)const
+{
+    if (!isTeamMode && (*myBoard)[p->getPlayerKey(_end)].myPiece.size() == 4)// skips turn in individual mode if already won;
+        return true;
+    else
+        return false;
+}
+
 void Ludo::play() {
 
     int teamIndex = 0;
@@ -600,12 +609,14 @@ void Ludo::play() {
         int roll=0;
         do
         {
+            if(hasWon(players[currentTurn]))
+                break;
             myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn]);
             //roll = myDice->rollDice();
             roll = myDice->cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
-        } while (roll==6 && rollCount!=3);
+        } while (roll == 6 && rollCount != 3);
         Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         displayRolls(window, diceRolls, myDice);
         window.display();
@@ -615,7 +626,7 @@ void Ludo::play() {
             myBoard->displayBoard(window, players[currentTurn]);
             displayRolls(window, diceRolls, myDice);
             window.display();
-            int diceIndex=-1;
+            int diceIndex = -1;
             do
             {
                 diceIndex = select();
@@ -633,20 +644,21 @@ void Ludo::play() {
                     selectedBoardIndex = -1;
                 }
                 else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {
-                    if ((*myBoard)[selectedBoardIndex].myPiece.size()>1) {
+                    if ((*myBoard)[selectedBoardIndex].myPiece.size() > 1) {
                         do {
                             selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);//TODO=enhance for teams and for look up
                         } while ((!isTeamMode && (*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor() || (isTeamMode && !isTeamPiece((*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor()))));
                     }
                     if (isLegal(selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {//TODO=enhance for teams and joota
                         break;
-                    } else {
+                    }
+                    else {
                         selectedPieceIndex = 0;
                     }
                 }
             } while (true);
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
-            if ((!isTeamMode && isReleased(currentRoll, players[currentTurn], selectedBoardIndex)) || (isTeamMode && isTeamPieceReleased(currentRoll,players[currentTurn],selectedBoardIndex)))
+            if ((!isTeamMode && isReleased(currentRoll, players[currentTurn], selectedBoardIndex)) || (isTeamMode && isTeamPieceReleased(currentRoll, players[currentTurn], selectedBoardIndex)))
             {
                 releasePiece(selectedBoardIndex);
             }
@@ -666,12 +678,17 @@ void Ludo::play() {
             checkLeaderBoardTeams(players[currentTurn]);
         else
             checkLeaderBoard(players[currentTurn]);
-        if (isGameEnd())
+        if (!isTeamMode)
         {
-            if(isTeamMode)
-                displayResultTeams();
-            else
+            if (isGameEnd())
+            {
                 displayResult();// TODO=change to proper leader board display and end game
+            }
+        }
+        else if(isGameEndTeams)
+        {
+            if (isTeamMode)
+                displayResultTeams();
         }
         changeTurn(currentTurn, noOfPlayers);
 
