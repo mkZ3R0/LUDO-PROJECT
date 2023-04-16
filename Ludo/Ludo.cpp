@@ -617,10 +617,14 @@ bool Ludo::hasWon(const Player* p)const
 }
 
 void Ludo::play() {
-
+    sf::Music music;
+    if (!music.openFromFile("Assets/BGM.ogg"))
+        cout << "file not found" << endl;
+    music.play();
     int teamIndex = 0;
     while (window.isOpen())
     {
+        music.setLoop(true);
         Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         window.display();
         if (isTeamMode)

@@ -10,6 +10,8 @@ sf::Texture Dice::three;
 sf::Texture Dice::four;
 sf::Texture Dice::five;
 sf::Texture Dice::six;
+sf::SoundBuffer Dice::soundBuffer;
+
 
 Dice::Dice()
 	:roll(0)
@@ -42,6 +44,11 @@ void Dice::loadDice()
     }
     if (!Dice::six.loadFromFile("Assets/6.png")) {
         cerr << "Cannot load 6.png" << endl;
+        exit(1);
+    }
+    if (!soundBuffer.loadFromFile("Assets/diceRoll.ogg"))
+    {
+        cerr << "Cannot load diceRoll.ogg" << endl;
         exit(1);
     }
 }
@@ -153,6 +160,10 @@ void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vec
     cout << "Entering dice animation" <<endl;// for testing
     sf::Sprite d;
     int random = 0;
+    sf::Sound s;
+    s.setBuffer(soundBuffer);
+    s.play();
+    __sleep(200);
     for (int i = 0; i < 5; i++)
     {
         random = (rand() % 6) + 1;

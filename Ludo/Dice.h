@@ -10,6 +10,7 @@ class Dice
 	static void loadDice();
 	static void calculateDicePlc();
 	static vector<placement>boardDicePlc;
+	static sf::SoundBuffer soundBuffer;
 public:
 	static sf::Texture one;
 	static sf::Texture two;

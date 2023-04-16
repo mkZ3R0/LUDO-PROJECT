@@ -16,7 +16,7 @@ sf::Texture Piece::orange_k;
 sf::Texture Piece::purple_k;
 sf::Texture Board::boardBg;
 sf::Texture Board::turnBg;
-
+sf::SoundBuffer Board::buffer;
 float Board::yOffSet;
 float Board::xOffSet;
 
@@ -97,6 +97,11 @@ void Board::loadAssets() {
     }
     if (!Board::fontB.loadFromFile("Assets/font.ttf")) {
         cerr << "Cannot load font" << endl;
+        exit(1);
+    }
+    if (!buffer.loadFromFile("Assets/explosion.wav"))
+    {
+        cerr << "Cannot load explosion.wav" << endl;
         exit(1);
     }
 }
@@ -505,8 +510,12 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
         }
     }
     path[currentIndex].myPiece.push_back(pToMove);
-    if (false && path[currentIndex].special && path[currentIndex].type == Death)
+    if (path[currentIndex].special && path[currentIndex].type == Death)
     {
+        sf::Sound s;
+        s.setBuffer(buffer);
+        s.play();
+        __sleep(375);
         path[currentIndex].myPiece.erase(find(path[currentIndex].myPiece.begin(), path[currentIndex].myPiece.end(), pToMove));
         auto goHome = playerTurn->getPlayerHome();
         for (auto i = goHome.begin(); i != goHome.end(); i++)

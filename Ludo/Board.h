@@ -13,6 +13,7 @@ class Board {
     static void calculateBoardPlc();
     static sf::Font fontB;
     static sf::Text textB;
+    static sf::SoundBuffer buffer;
     static void displayTotalPieces(sf::RenderWindow&, const int, const int);
 public:
     static sf::Texture boardBg;//make private
