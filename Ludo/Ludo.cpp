@@ -2,6 +2,8 @@
 #include <algorithm>
 
 
+sf::SoundBuffer Ludo::sB;
+
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
     assert(num > 1 && num <= 6);
@@ -248,6 +250,11 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
         for (int i=0; i<4; i++) {
             (*myBoard)[homeArea[i]].myPiece.push_back(pieces[i]);
         }
+    }
+    if (!sB.loadFromFile("Assets/results.ogg"))
+    {
+        cerr << "Cannot load results.ogg" << endl;
+        exit(1);
     }
 }
 
@@ -587,6 +594,9 @@ bool Ludo::isGameEndTeams(const int totalTeams)
 
 void Ludo::displayResult() const //TODO= CHANGE TO PROPER SCREEN
 {
+    sf::Sound s;
+    s.setBuffer(sB);
+    s.play();
     int count = 1;
     cout << "Results are in" << endl;
     for (auto iT = leaderBoard.begin(); iT != leaderBoard.end(); iT++)
@@ -597,6 +607,9 @@ void Ludo::displayResult() const //TODO= CHANGE TO PROPER SCREEN
 
 void Ludo::displayResultTeams() const//TODO= CHANGE TO PROPER SCREEN
 {
+    sf::Sound s;
+    s.setBuffer(sB);
+    s.play();
     int count = 1;
     cout << "Results are in" << endl;
     for (auto iT = teamLeaderBoard.begin(); iT != teamLeaderBoard.end(); iT++)

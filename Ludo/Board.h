@@ -14,6 +14,7 @@ class Board {
     static sf::Font fontB;
     static sf::Text textB;
     static sf::SoundBuffer buffer;
+    static sf::SoundBuffer buffer2;
     static void displayTotalPieces(sf::RenderWindow&, const int, const int);
 public:
     static sf::Texture boardBg;//make private

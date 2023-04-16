@@ -12,6 +12,7 @@ class Dice;
 
 class Ludo {
     friend class Dice;
+    static sf::SoundBuffer sB  ; // FOR MUSIC
     static vector<Player*> allocatePlayers(const int);
     static vector<Piece*> allocatePiece(const Player*);
     static vector<vector<Player*>> allocateTeams(const int, const int,const vector<Player*>&);

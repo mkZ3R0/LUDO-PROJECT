@@ -17,6 +17,7 @@ sf::Texture Piece::purple_k;
 sf::Texture Board::boardBg;
 sf::Texture Board::turnBg;
 sf::SoundBuffer Board::buffer;
+sf::SoundBuffer Board::buffer2;
 float Board::yOffSet;
 float Board::xOffSet;
 
@@ -102,6 +103,11 @@ void Board::loadAssets() {
     if (!buffer.loadFromFile("Assets/explosion.wav"))
     {
         cerr << "Cannot load explosion.wav" << endl;
+        exit(1);
+    }
+    if (!buffer2.loadFromFile("Assets/scream.wav"))
+    {
+        cerr << "Cannot load scream.wav" << endl;
         exit(1);
     }
 }
@@ -542,6 +548,10 @@ void Board::kill(sf::RenderWindow& window, int currentIndex, Player* currentPlay
             if (pToKill->canGoHome()) {
                 pToKill->changeKilledStatus();
             }
+            sf::Sound s;
+            s.setBuffer(buffer2);
+            s.play();
+            __sleep(1000);
             auto home = pToKill->getMyPlayer()->getPlayerHome();
             path[currentIndex].myPiece.erase(path[currentIndex].myPiece.begin());
             for (auto i = home.begin(); i != home.end(); i++) {
@@ -573,6 +583,10 @@ void Board::killTeam(sf::RenderWindow& window, int currentIndex, Player* current
             if (pToKill->canGoHome()) {
                 pToKill->changeKilledStatus();
             }
+            sf::Sound s;
+            s.setBuffer(buffer2);
+            s.play();
+            __sleep(1000);
             auto home = pToKill->getMyPlayer()->getPlayerHome();
             path[currentIndex].myPiece.erase(path[currentIndex].myPiece.begin());
             for (auto i = home.begin(); i != home.end(); i++) {
