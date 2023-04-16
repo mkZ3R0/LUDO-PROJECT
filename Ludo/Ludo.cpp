@@ -3,6 +3,7 @@
 
 
 sf::SoundBuffer Ludo::sB;
+sf::Music Ludo::bgm;
 
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
@@ -256,6 +257,8 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
         cerr << "Cannot load results.ogg" << endl;
         exit(1);
     }
+    if (!bgm.openFromFile("Assets/BGM.ogg"))
+        cout << "file not found" << endl;
 }
 
 int Ludo::select() {
@@ -630,14 +633,11 @@ bool Ludo::hasWon(const Player* p)const
 }
 
 void Ludo::play() {
-    sf::Music music;
-    if (!music.openFromFile("Assets/BGM.ogg"))
-        cout << "file not found" << endl;
-    music.play();
+    bgm.play();
     int teamIndex = 0;
     while (window.isOpen())
     {
-        music.setLoop(true);
+        bgm.setLoop(true);
         Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         window.display();
         if (isTeamMode)
