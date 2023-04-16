@@ -37,7 +37,7 @@ class Ludo {
     bool isGameEndTeams(const int);
     void displayResult() const;
     void displayResultTeams() const;
-    bool canPlayMore(const vector<int>&, const Player*);
+    bool canPlayMore(const Player*);
     bool isLegal(const int, const int, const int, const Player*) const;
     // private attributes
     vector<int> diceRolls;

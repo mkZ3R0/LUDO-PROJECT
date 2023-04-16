@@ -410,7 +410,7 @@ void Ludo::displayRolls(sf::RenderWindow& window, const vector<int>& myRolls, co
     }
 }
 
-bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer) {
+bool Ludo::canPlayMore(const Player* currentPlayer) {
     auto homeArea = currentPlayer->getPlayerHome();
     auto winI = currentPlayer->getPlayerKey(_end);
     auto doorI = currentPlayer->getPlayerKey(_door);
@@ -452,6 +452,25 @@ bool Ludo::canPlayMore(const vector<int> &diceRolls, const Player* currentPlayer
         return true; // have some free piece on board
     }
     return true; // have 6, come on you can play
+    // Mukees is legal movement function
+    for (int i = 0; i < 89; i++)
+    {
+        for (int j =0;j< (*myBoard)[i].myPiece.size(); j++)
+        {
+            for (auto dice = diceRolls.begin(); dice != diceRolls.end(); dice++)
+            {
+                if (!isTeamMode)
+                {
+                    if ((*myBoard)[i].myPiece[j]->getColor() == currentPlayer->getPlayerColor())
+                    {
+                        if (isLegal(i, j, *dice, currentPlayer))
+                            return true;
+                    }
+                }
+            }
+        }
+    }
+    return false;
 }
 
 int Ludo::countPieceColor(const colorType c, const int bIndex) const
@@ -622,7 +641,7 @@ void Ludo::play() {
         displayRolls(window, diceRolls, myDice);
         window.display();
         __sleep(500);
-        while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(diceRolls, players[currentTurn]))
+        while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(players[currentTurn]))
         {
             myBoard->displayBoard(window, players[currentTurn]);
             displayRolls(window, diceRolls, myDice);
