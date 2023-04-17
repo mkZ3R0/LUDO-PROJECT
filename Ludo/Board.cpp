@@ -543,7 +543,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
         sf::Sound s;
         s.setBuffer(buffer);
         s.play();
-        __sleep(375);
+        __sleep(800);
         path[currentIndex].myPiece.erase(find(path[currentIndex].myPiece.begin(), path[currentIndex].myPiece.end(), pToMove));
         auto goHome = playerTurn->getPlayerHome();
         for (auto i = goHome.begin(); i != goHome.end(); i++)
