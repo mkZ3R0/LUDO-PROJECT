@@ -229,22 +229,133 @@ int Ludo::getPlayerTeamIndex(const Player* plyr, const vector<vector<Player*>>& 
     throw("Unexpected Case");
 }
 
+sf::Texture Ludo::background;
+void Ludo::prepareWindow() {
+    sf::Sprite s(background);
+    s.setColor(sf::Color::White);
+    s.setPosition(0, 0);
+    // scale to window
+    float scaleX = (float)window.getSize().x / background.getSize().x;
+    float scaleY = (float)window.getSize().y / background.getSize().y;
+    s.setScale(scaleX, scaleY);
+    window.draw(s);    
+
+    sf::Text text = {"Madni Ludo", Board::fontB, 128};
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(window.getSize().x/2 - text.getLocalBounds().width/2, window.getSize().y/10 - text.getLocalBounds().height/2);
+    window.draw(text);
+}
+
+void Ludo::teamSelect() {
+    this->prepareWindow();
+
+    ////
+    sf::Text soloMode("Solo Play", Board::fontB, 32);
+    soloMode.setFillColor(sf::Color::Red);
+    soloMode.setPosition(window.getSize().x/2 - soloMode.getLocalBounds().width/2, window.getSize().y/2 - soloMode.getLocalBounds().height/2);
+    window.draw(soloMode);
+
+    sf::Text teamMode("Team Play", Board::fontB, 32);
+    teamMode.setFillColor(sf::Color::Red);
+    teamMode.setPosition(window.getSize().x/2 - teamMode.getLocalBounds().width/2, window.getSize().y/2 - teamMode.getLocalBounds().height/2 + window.getSize().y/6);
+    window.draw(teamMode);
+
+    window.display();
+
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.waitEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+            exit(0);
+        }
+        else if (event.type == sf::Event::MouseButtonPressed) {
+            if (soloMode.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                this->isTeamMode = false;
+                cout << "solo selected" << endl;
+                return;
+            }
+            else if (teamMode.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                this->isTeamMode = true;
+                cout << "team selected" << endl;
+                return;
+            }
+        }
+        }
+    }
+}
+
+int Ludo::selectNumber(const char* msg, vector<int> nums) {
+    this->prepareWindow();
+
+    sf::Text text(msg, Board::fontB, 32);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(window.getSize().x/2 - text.getLocalBounds().width/2, window.getSize().y/2 - text.getLocalBounds().height/2 - window.getSize().y/6);
+    window.draw(text); 
+
+    vector<sf::Text> nos;
+    for (auto& i: nums) {
+        nos.push_back({std::to_string(i), Board::fontB, 32});
+    }
+
+    for(int i=0; i<nos.size(); i++) {
+        nos[i].setFillColor(sf::Color::Red);
+        nos[i].setPosition(window.getSize().x/2 - nos[i].getLocalBounds().width/2, window.getSize().y/2 - nos[i].getLocalBounds().height/2 + i*(window.getSize().y/10) );
+        window.draw(nos[i]);
+    }
+
+    window.display();
+
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.waitEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+            exit(0);
+        }
+        else if (event.type == sf::Event::MouseButtonPressed) {
+            for(auto& n: nos) {
+                if (n.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                    int _rval = atoi(static_cast<std::string>(n.getString()).c_str());
+                    cout << msg << " " << _rval << endl;
+                    return _rval;  
+                }
+            }
+        }
+        }
+    }
+    return -1;
+}
+
 Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
 {
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
-    isTeamMode = false;
-    noOfPlayers=2; // input this with a different window
-    /*
-    //Changing game mode to teams here
-    isTeamMode = true;// here have option to choose game mode and call allocate teams accordingly
+
+    if (!background.loadFromFile("Assets/backgroud.png")) {
+        cerr << "coult not open background.png" << endl;
+        exit(1);
+    }
+
+    // TODO: move out of constructor
+    this->teamSelect();
+    if (isTeamMode) {
+        noOfPlayers = this->selectNumber("Number of Players", {4, 6});
+        if (noOfPlayers == 4) totalTeamMembers = 2;
+        else if (noOfPlayers == 6) {
+            totalTeamMembers = this->selectNumber("Players per teams", {2, 3});
+        }
+    } else {
+        noOfPlayers = this->selectNumber("Number of Players");
+    }
+    assert(noOfPlayers >= 2 && noOfPlayers <= 6);
+    if (isTeamMode) assert(totalTeamMembers == 2 || totalTeamMembers == 3);
+
     players = allocatePlayers(noOfPlayers);
-    teams = allocateTeams(4, 2,players);//takes totalPlayers and total members in each team;
-    //uptil here
-    */
+    if (isTeamMode) teams = allocateTeams(noOfPlayers, totalTeamMembers, players);
     currentTurn = rand()%noOfPlayers;
-    Ludo::players = allocatePlayers(noOfPlayers);
+
     for(auto& player: players) {
         auto pieces = allocatePiece(player);
         auto homeArea = player->getPlayerHome();
@@ -252,13 +363,16 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
             (*myBoard)[homeArea[i]].myPiece.push_back(pieces[i]);
         }
     }
+
     if (!sB.loadFromFile("Assets/results.ogg"))
     {
         cerr << "Cannot load results.ogg" << endl;
         exit(1);
     }
-    if (!bgm.openFromFile("Assets/BGM.ogg"))
-        cout << "file not found" << endl;
+    if (!bgm.openFromFile("Assets/BGM.ogg")) {
+        cerr << "file not found" << endl;
+        exit(1);
+    }
 }
 
 int Ludo::select() {

@@ -14,6 +14,7 @@ class Ludo {
     friend class Dice;
     static sf::SoundBuffer sB  ; // FOR MUSIC
     static sf::Music bgm;
+    static sf::Texture background;
     static vector<Player*> allocatePlayers(const int);
     static vector<Piece*> allocatePiece(const Player*);
     static vector<vector<Player*>> allocateTeams(const int, const int,const vector<Player*>&);
@@ -52,6 +53,13 @@ class Ludo {
     Board* myBoard;
     Dice* myDice;
     bool isTeamMode;
+    int totalTeamMembers;
+
+    void prepareWindow();
+    void teamSelect();
+    int selectNumber(const char*, vector<int> = {2,3,4,5,6});
+    void TeamNumber();
+
 public:
     Ludo();
     void play();

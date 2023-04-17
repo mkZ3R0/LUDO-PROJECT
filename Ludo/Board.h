@@ -11,13 +11,13 @@ class Board {
     std::vector<Position> path;
     std::vector<Player*> players;
     static void calculateBoardPlc();
-    static sf::Font fontB;
     static sf::Text textB;
     static sf::SoundBuffer buffer;
     static sf::SoundBuffer buffer2;
     static void displayTotalPieces(sf::RenderWindow&, const int, const int);
     int countPieceColor(const colorType, const int) const;
 public:
+    static sf::Font fontB; // todo: do something about this, we need this font in Ludo as well
     static sf::Texture boardBg;//make private
     static sf::Texture turnBg;//make private
     static float yOffSet;//make private
