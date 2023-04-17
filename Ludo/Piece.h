@@ -22,11 +22,12 @@ public:
     static sf::Texture green_k;
     static sf::Texture orange_k;
     static sf::Texture purple_k;
+    static sf::Texture multi;
     Piece(const Player*);
     colorType getColor()const;
     bool canGoHome()const;
     void changeKilledStatus();
-    void displayPiece(sf::RenderWindow&, const placement);
+    void displayPiece(sf::RenderWindow&, const placement, bool=false);
     const Player* getMyPlayer()const;
 };
 

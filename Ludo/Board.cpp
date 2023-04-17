@@ -14,6 +14,7 @@ sf::Texture Piece::yellow_k;
 sf::Texture Piece::green_k;
 sf::Texture Piece::orange_k;
 sf::Texture Piece::purple_k;
+sf::Texture Piece::multi;
 sf::Texture Board::boardBg;
 sf::Texture Board::turnBg;
 sf::SoundBuffer Board::buffer;
@@ -86,6 +87,10 @@ void Board::loadAssets() {
     }
     if (!Piece::orange_k.loadFromFile("Assets/orange_k.png")) {
         cerr << "Cannot load orange_k.png" << endl;
+        exit(1);
+    }
+    if (!Piece::multi.loadFromFile("Assets/multi_color.png")) {
+        cerr << "Cannot load multi.png" << endl;
         exit(1);
     }
     if (!Board::boardBg.loadFromFile("Assets/board6.png")) {
@@ -455,13 +460,12 @@ void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)c
     window.draw(s);
     for (int i = 0; i < path.size(); i++)
     {
-        for (auto iT = path[i].myPiece.begin(); iT != path[i].myPiece.end(); iT++)
-        {
-            (*iT)->displayPiece(window, getBoardPlc(i));
-        }
-        int total = path[i].myPiece.size();
-        if(total>1 && i <=125)
+        if (path[i].myPiece.size()>1) {
+            path[i].myPiece.front()->displayPiece(window, getBoardPlc(i), true);
             displayTotalPieces(window, path[i].myPiece.size(),i);
+        } else if (path[i].myPiece.size()==1){
+            path[i].myPiece.front()->displayPiece(window, getBoardPlc(i));
+        }           
     }
 
     if (currentPlayer != nullptr) {

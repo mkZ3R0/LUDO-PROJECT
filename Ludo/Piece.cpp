@@ -18,49 +18,53 @@ void Piece::changeKilledStatus()
 {
     this->hasKilled = !(this->hasKilled);
 }
-void Piece::displayPiece(sf::RenderWindow& window, const placement image)
+void Piece::displayPiece(sf::RenderWindow& window, const placement image, bool _multi)
 {
     sf::Sprite p;
-    switch (pColor) {
-    case Blue:
-        if (this->canGoHome()) {
-            p.setTexture(blue_k);
-        } else {
-            p.setTexture(blue);
-        }
-        break;
-    case Green:
-        if (this->canGoHome()) {
-            p.setTexture(green_k);
-        } else {
-            p.setTexture(green);
-        }        break;
-    case Red:
-        if (this->canGoHome()) {
-            p.setTexture(red_k);
-        } else {
-            p.setTexture(red);
-        }        break;
-    case Yellow:
-        if (this->canGoHome()) {
-            p.setTexture(yellow_k);
-        } else {
-            p.setTexture(yellow);
-        }        break;
-    case Purple:
-        if (this->canGoHome()) {
-            p.setTexture(purple_k);
-        } else {
-            p.setTexture(purple);
-        }        break;
-    case Orange:
-        if (this->canGoHome()) {
-            p.setTexture(orange_k);
-        } else {
-            p.setTexture(orange);
-        }        break;
-    default:
-        break;
+    if (_multi) {
+        p.setTexture(multi);
+    } else {
+        switch (pColor) {
+        case Blue:
+            if (this->canGoHome()) {
+                p.setTexture(blue_k);
+            } else {
+                p.setTexture(blue);
+            }
+            break;
+        case Green:
+            if (this->canGoHome()) {
+                p.setTexture(green_k);
+            } else {
+                p.setTexture(green);
+            }        break;
+        case Red:
+            if (this->canGoHome()) {
+                p.setTexture(red_k);
+            } else {
+                p.setTexture(red);
+            }        break;
+        case Yellow:
+            if (this->canGoHome()) {
+                p.setTexture(yellow_k);
+            } else {
+                p.setTexture(yellow);
+            }        break;
+        case Purple:
+            if (this->canGoHome()) {
+                p.setTexture(purple_k);
+            } else {
+                p.setTexture(purple);
+            }        break;
+        case Orange:
+            if (this->canGoHome()) {
+                p.setTexture(orange_k);
+            } else {
+                p.setTexture(orange);
+            }        break;
+        default:
+            break;
+        } 
     }
 
     auto _pieceSize = static_cast<sf::Vector2f>(p.getTexture()->getSize());
