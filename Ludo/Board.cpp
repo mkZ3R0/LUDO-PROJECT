@@ -444,6 +444,17 @@ void Board::calculateBoardPlc()
     }
 }
 
+int Board::countPieceColor(const colorType c, const int bIndex) const
+{
+    int count = 0;
+    for (auto iT = (*this)[bIndex].myPiece.begin(); iT != (*this)[bIndex].myPiece.end(); iT++)
+    {
+        if ((*iT)->getColor() == c)
+            count++;
+    }
+    return count;
+}
+
 void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)const
 {
     int index = 0;
@@ -460,12 +471,19 @@ void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)c
     window.draw(s);
     for (int i = 0; i < path.size(); i++)
     {
-        if (path[i].myPiece.size()>1) {
-            path[i].myPiece.front()->displayPiece(window, getBoardPlc(i), true);
-            displayTotalPieces(window, path[i].myPiece.size(),i);
-        } else if (path[i].myPiece.size()==1){
-            path[i].myPiece.front()->displayPiece(window, getBoardPlc(i));
-        }           
+        if (path[i].myPiece.size() != 0)
+        {
+            if (path[i].myPiece.size() != countPieceColor(path[i].myPiece[0]->getColor(), i)) {
+                path[i].myPiece.front()->displayPiece(window, getBoardPlc(i), true);
+            }
+            else {
+                path[i].myPiece.front()->displayPiece(window, getBoardPlc(i));
+            }
+        }
+        if(path[i].myPiece.size()>1)
+        {
+            displayTotalPieces(window, path[i].myPiece.size(), i);
+        }
     }
 
     if (currentPlayer != nullptr) {

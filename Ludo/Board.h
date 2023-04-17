@@ -16,6 +16,7 @@ class Board {
     static sf::SoundBuffer buffer;
     static sf::SoundBuffer buffer2;
     static void displayTotalPieces(sf::RenderWindow&, const int, const int);
+    int countPieceColor(const colorType, const int) const;
 public:
     static sf::Texture boardBg;//make private
     static sf::Texture turnBg;//make private

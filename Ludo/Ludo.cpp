@@ -287,7 +287,7 @@ int Ludo::selectPiece(const vector<Piece *>& myPiece) {
 
 bool Ludo::isValidSelection(const int index, const Player* p, const int currentRoll) const
 {
-    cout << "checking if valid selection Piece" << endl;// for testing purpose remove later on
+    cout << "checking if valid selection Piece" << endl;//TODO: for testing purpose remove later on
     // for now thinking only one piece at an index extend to multiple pieces on an index
     if (index < 0)
         return false;
@@ -311,6 +311,7 @@ bool Ludo::isValidSelection(const int index, const Player* p, const int currentR
         else if (p->isMyPiece((*iT)->getColor()))
             return true;
     }
+    cout << "exiting valid selection Piece" << endl;//TODO: for testing purpose remove later on
     return false;
 }
 
@@ -481,17 +482,6 @@ bool Ludo::canPlayMore(const Player* currentPlayer) {
         }
     }
     return false;
-}
-
-int Ludo::countPieceColor(const colorType c, const int bIndex) const
-{
-    int count = 0;
-    for (auto iT = (*myBoard)[bIndex].myPiece.begin(); iT != (*myBoard)[bIndex].myPiece.end(); iT++)
-    {
-        if ((*iT)->getColor() == c)
-            count++;
-    }
-    return count;
 }
 
 // will be used for legal movement involving joota
