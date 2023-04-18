@@ -156,7 +156,7 @@ void Dice::calculateDicePlc()
         boardDicePlc[i] = { boardDicePlc[i-1].x + Board::xOffSet , boardDicePlc[i-1].y };
 }
 
-void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vector<int>& myRolls, const int rollNumber, const Player* currentPlayer)
+void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vector<int>& myRolls, const int rollNumber, const placement q, const Player* currentPlayer)
 {
     cout << "Entering dice animation" <<endl;// for testing
     sf::Sprite d;
@@ -196,6 +196,7 @@ void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vec
         d.setScale(scaleFactor, scaleFactor);
         d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
         myBoard->displayBoard(window, currentPlayer);
+        Ludo::displayQuit(window,q);
         Ludo::displayRolls(window, myRolls, this);
         window.draw(d);
         window.display();

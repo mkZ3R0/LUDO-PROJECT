@@ -18,10 +18,12 @@ class Ludo {
     static vector<Player*> allocatePlayers(const int);
     static vector<Piece*> allocatePiece(const Player*);
     static vector<vector<Player*>> allocateTeams(const int, const int,const vector<Player*>&);
+    static sf::Texture quit;
     int select();
     static int selectPiece(const vector<Piece*>&);
     static bool isValidDiceSelect(const int, int);
     static int getPlayerTeamIndex(const Player*, const vector<vector<Player*>>&);
+    static void displayQuit(sf::RenderWindow&, const placement);
     int convertIndexToDice(int) const;
     bool isValidSelection(const int, const int, const Player*, const int) const;
     bool isTeamPiece(const colorType)const;
@@ -55,6 +57,7 @@ class Ludo {
     Dice* myDice;
     bool isTeamMode;
     int totalTeamMembers;
+    placement quitPlc;
 
     void prepareWindow();
     void teamSelect();
