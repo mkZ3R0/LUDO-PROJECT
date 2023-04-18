@@ -535,12 +535,12 @@ int Ludo::convertIndexToDiceIndex(const int index)
     return (abs(index)-1);
 }
 
-void Ludo::displayRolls(sf::RenderWindow& window, const vector<int>& myRolls, const Dice* myDice)
+void Ludo::displayRolls(sf::RenderWindow& window, const vector<int>& myRolls, const Dice* myDice, const int selected)
 {
     int index = 0;
     for (auto iT = myRolls.begin(); iT != myRolls.end(); iT++)
     {
-        myDice->displayRoll(window, index++, *iT);
+        myDice->displayRoll(window, index++, *iT, selected==index);
     }
 }
 
@@ -780,16 +780,17 @@ void Ludo::play() {
             int currentRoll = convertIndexToDice(diceIndex);
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
+            myBoard->displayBoard(window, players[currentTurn]);
+            displayRolls(window, diceRolls, myDice, convertIndexToDiceIndex(diceIndex));
+            window.display();
             while(true) {
-                myBoard->displayBoard(window, players[currentTurn]);
-                displayRolls(window, diceRolls, myDice);
-                myDice->displayRoll(window, convertIndexToDiceIndex(diceIndex), currentRoll, true);
-                window.display();
                 selectedBoardIndex = select();
                 if (isValidDiceSelect(diceRolls.size(), selectedBoardIndex)) {
                     currentRoll = convertIndexToDice(selectedBoardIndex);
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
+                    displayRolls(window, diceRolls, myDice, convertIndexToDiceIndex(diceIndex));
+                    window.display();
                     continue;
                 }
                 if ((*myBoard)[selectedBoardIndex].myPiece.size() > 1) {

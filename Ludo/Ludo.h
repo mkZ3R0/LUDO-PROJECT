@@ -33,7 +33,7 @@ class Ludo {
     void releasePiece(const int);
     static bool allSixes(const vector<int>&);
     static int convertIndexToDiceIndex(const int);
-    static void displayRolls(sf::RenderWindow&, const vector<int>&, const Dice*);
+    static void displayRolls(sf::RenderWindow&, const vector<int>&, const Dice*, const int = -1);
     void checkLeaderBoard(Player*);
     void checkLeaderBoardTeams(Player*);
     bool isGameEnd();
