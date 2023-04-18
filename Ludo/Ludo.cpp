@@ -414,7 +414,7 @@ bool Ludo::isValidSelection(const int index, const Player* p, const int currentR
         if (isTeamMode)
         {
             int end = p->getPlayerKey(_end);
-            if ((*myBoard)[end].myPiece.size() == 4)
+            if ((*myBoard)[end].myPiece.size() == 1)
             {
                 if (isTeamPiece((*iT)->getColor()))
                     return true;
@@ -581,7 +581,7 @@ bool Ludo::canPlayMore(const Player* currentPlayer)const {
 
 bool Ludo::teamCanPlayMore(const Player* plyr)const
 {
-    if ((*myBoard)[plyr->getPlayerKey(_end)].myPiece.size() != 4)
+    if ((*myBoard)[plyr->getPlayerKey(_end)].myPiece.size() != 1)
     {
         return canPlayMore(plyr);
     }
@@ -634,7 +634,7 @@ bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, con
         colorType c = (*myBoard)[boardIndex].myPiece[selectedPieceIndex]->getColor();
         if (isTeamPiece(c) && player->getPlayerColor() != c)
         {
-            if ((*myBoard)[player->getPlayerKey(_end)].myPiece.size() != 4)
+            if ((*myBoard)[player->getPlayerKey(_end)].myPiece.size() != 1)
                 return false;
         }
     }
@@ -658,7 +658,7 @@ void Ludo::checkLeaderBoardTeams(Player* plyr)
     for (int i = 0; i < teams[teamIndex].size(); i++)
     {
         int end = teams[teamIndex][i]->getPlayerKey(_end);
-        if ((*myBoard)[end].myPiece.size() != 4)
+        if ((*myBoard)[end].myPiece.size() != 1)
             return;
     }
     if (teamLeaderBoard.find(teamIndex) == teamLeaderBoard.end())
@@ -733,7 +733,7 @@ void Ludo::displayResultTeams() const//TODO= CHANGE TO PROPER SCREEN
 
 bool Ludo::hasWon(const Player* p)const
 {
-    if (!isTeamMode && (*myBoard)[p->getPlayerKey(_end)].myPiece.size() == 4)// skips turn in individual mode if already won;
+    if (!isTeamMode && (*myBoard)[p->getPlayerKey(_end)].myPiece.size() == 1)// skips turn in individual mode if already won;
         return true;
     else
         return false;
