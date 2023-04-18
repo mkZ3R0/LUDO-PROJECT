@@ -563,7 +563,7 @@ bool Ludo::canPlayMore(const Player* currentPlayer) {
                         return false;
                     } else {
                         for (int j = i+1; j < winI; j++) {
-                            if ((*myBoard)[i].myPiece.size()>0) {
+                            if ((*myBoard)[j].myPiece.size()>0) {
                                 return false;
                             } else {
                                 return true;
