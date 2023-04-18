@@ -767,15 +767,16 @@ void Ludo::play() {
         __sleep(500);
         while (!diceRolls.empty() && !allSixes(diceRolls) && ((!isTeamMode && canPlayMore(players[currentTurn]) || (isTeamMode && teamCanPlayMore(players[currentTurn])))))
         {
-            myBoard->displayBoard(window, players[currentTurn]);
-            displayRolls(window, diceRolls, myDice);
-            window.display();
             int diceIndex = -1;
             int currentRoll = convertIndexToDice(diceIndex);
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
             do
             {
+                myBoard->displayBoard(window, players[currentTurn]);
+                displayRolls(window, diceRolls, myDice);
+                myDice->displayRoll(window, convertIndexToDiceIndex(diceIndex), currentRoll, true);
+                window.display();
                 selectedBoardIndex = select();
                 if (isValidDiceSelect(diceRolls.size(), selectedBoardIndex)) {
                     currentRoll = convertIndexToDice(selectedBoardIndex);

@@ -112,7 +112,7 @@ int Dice::giveSix()
     return 6;
 }
 
-void Dice::displayRoll(sf::RenderWindow& window, const int rollNumber, const int myRoll)const
+void Dice::displayRoll(sf::RenderWindow& window, const int rollNumber, const int myRoll,bool selected)const
 {
     sf::Sprite d;
     switch (myRoll) {
@@ -139,7 +139,8 @@ void Dice::displayRoll(sf::RenderWindow& window, const int rollNumber, const int
     }
     auto _diceSize = static_cast<sf::Vector2f>(d.getTexture()->getSize());
     auto scaleFactor = std::min(Board::xOffSet / _diceSize.x, Board::yOffSet / _diceSize.y);
-
+    if(selected)
+        d.setColor(sf::Color::Yellow);
     d.setOrigin(_diceSize.x / 2, _diceSize.y / 2);
     d.setScale(scaleFactor, scaleFactor);
     d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
