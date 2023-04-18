@@ -765,7 +765,7 @@ void Ludo::play() {
         displayRolls(window, diceRolls, myDice);
         window.display();
         __sleep(500);
-        while (!diceRolls.empty() && !allSixes(diceRolls) && canPlayMore(players[currentTurn]))
+        while (!diceRolls.empty() && !allSixes(diceRolls) && ((!isTeamMode && canPlayMore(players[currentTurn]) || (isTeamMode && teamCanPlayMore(players[currentTurn])))))
         {
             myBoard->displayBoard(window, players[currentTurn]);
             displayRolls(window, diceRolls, myDice);
