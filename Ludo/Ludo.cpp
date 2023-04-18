@@ -359,10 +359,20 @@ void Ludo::init() {
 
 void Ludo::cleanup() {
     for(int i=0; i<150; i++) {
+        for (auto iT = (*myBoard)[i].myPiece.begin(); iT != (*myBoard)[i].myPiece.end(); iT++)
+        {
+            delete[](*iT);
+        }
         (*myBoard)[i].myPiece.clear();
     }
     if (isTeamMode) teams.clear();
+    for (auto i = players.begin(); i != players.end(); i++)
+        delete(*i);
     players.clear();
+    diceRolls.clear();
+    leaderBoard.clear();
+    if (isTeamMode)
+        teamLeaderBoard.clear();
 }
 
 Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
