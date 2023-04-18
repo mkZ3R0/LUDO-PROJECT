@@ -227,9 +227,8 @@ int Board::clickToIndex(placement click) {
         }
     }
     if (y==7) {
-        if (x==11) return -1;
-        else if (x==12) return -2;
-        else if (x==13) return -3;
+        if (x==9) return -4;
+        else if (x>=11 && x<=13) return -1*(x-10);
     }
     return -99;
 }

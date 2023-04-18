@@ -59,7 +59,9 @@ class Ludo {
     void prepareWindow();
     void teamSelect();
     int selectNumber(const char*, vector<int> = {2,3,4,5,6});
-    void TeamNumber();
+    void mainMenu();
+    void init();
+    void cleanup();
 
 public:
     Ludo();

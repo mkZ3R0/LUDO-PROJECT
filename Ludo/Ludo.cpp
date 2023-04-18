@@ -327,18 +327,7 @@ int Ludo::selectNumber(const char* msg, vector<int> nums) {
     return -1;
 }
 
-Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
-{
-    myBoard = new Board(window);
-    myDice = new Dice();
-    srand(time(0));
-
-    if (!background.loadFromFile("Assets/backgroud.png")) {
-        cerr << "coult not open background.png" << endl;
-        exit(1);
-    }
-
-    // TODO: move out of constructor
+void Ludo::mainMenu() {
     this->teamSelect();
     if (isTeamMode) {
         noOfPlayers = this->selectNumber("Number of Players", {4, 6});
@@ -349,9 +338,12 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
     } else {
         noOfPlayers = this->selectNumber("Number of Players");
     }
+
     assert(noOfPlayers >= 2 && noOfPlayers <= 6);
     if (isTeamMode) assert(totalTeamMembers == 2 || totalTeamMembers == 3);
+}
 
+void Ludo::init() {
     players = allocatePlayers(noOfPlayers);
     if (isTeamMode) teams = allocateTeams(noOfPlayers, totalTeamMembers, players);
     currentTurn = rand()%noOfPlayers;
@@ -362,6 +354,26 @@ Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar 
         for (int i=0; i<4; i++) {
             (*myBoard)[homeArea[i]].myPiece.push_back(pieces[i]);
         }
+    }
+}
+
+void Ludo::cleanup() {
+    for(int i=0; i<150; i++) {
+        (*myBoard)[i].myPiece.clear();
+    }
+    if (isTeamMode) teams.clear();
+    players.clear();
+}
+
+Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
+{
+    myBoard = new Board(window);
+    myDice = new Dice();
+    srand(time(0));
+
+    if (!background.loadFromFile("Assets/backgroud.png")) {
+        cerr << "coult not open background.png" << endl;
+        exit(1);
     }
 
     if (!sB.loadFromFile("Assets/results.ogg"))
@@ -750,6 +762,9 @@ bool Ludo::hasWon(const Player* p)const
 
 void Ludo::play() {
     bgm.play();
+    START:
+    this->mainMenu();
+    this->init();
     int teamIndex = 0;
     while (window.isOpen())
     {
@@ -785,6 +800,10 @@ void Ludo::play() {
             window.display();
             while(true) {
                 selectedBoardIndex = select();
+                if (selectedBoardIndex == -4) {
+                    this->cleanup();
+                    goto START;
+                }
                 if (isValidDiceSelect(diceRolls.size(), selectedBoardIndex)) {
                     currentRoll = convertIndexToDice(selectedBoardIndex);
                     diceIndex = selectedBoardIndex;
