@@ -535,7 +535,7 @@ void Ludo::displayRolls(sf::RenderWindow& window, const vector<int>& myRolls, co
     }
 }
 
-bool Ludo::canPlayMore(const Player* currentPlayer) {
+bool Ludo::canPlayMore(const Player* currentPlayer)const {
     auto homeArea = currentPlayer->getPlayerHome();
     auto winI = currentPlayer->getPlayerKey(_end);
     auto doorI = currentPlayer->getPlayerKey(_door);
@@ -577,6 +577,28 @@ bool Ludo::canPlayMore(const Player* currentPlayer) {
         return true; // have some free piece on board
     }
     return true; // have 6, come on you can play
+}
+
+bool Ludo::teamCanPlayMore(const Player* plyr)const
+{
+    if ((*myBoard)[plyr->getPlayerKey(_end)].myPiece.size() != 4)
+    {
+        return canPlayMore(plyr);
+    }
+    else
+    {
+        bool status = true;
+        int myTeam = getPlayerTeamIndex(plyr, teams);
+        for (auto iT=teams[myTeam].begin();iT!=teams[myTeam].end();iT++)
+        {
+            if ((*iT) == plyr)
+                continue;
+            status = canPlayMore((*iT));
+            if (status == true)
+                return status;
+        }
+        return status;
+    }
 }
 
 // will be used for legal movement involving joota

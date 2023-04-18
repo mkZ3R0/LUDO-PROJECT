@@ -26,6 +26,7 @@ class Ludo {
     bool isValidSelection(const int, const Player*, const int) const;
     bool isTeamPiece(const colorType)const;
     static void changeTurn(int&, const int);
+    bool teamCanPlayMore(const Player*)const;
     bool isReleased(const int, const Player*, const int) const;
     bool isTeamPieceReleased(const int, const Player*, const int)const;
     bool hasWon(const Player*)const;
@@ -39,7 +40,7 @@ class Ludo {
     bool isGameEndTeams(const int);
     void displayResult() const;
     void displayResultTeams() const;
-    bool canPlayMore(const Player*);
+    bool canPlayMore(const Player*)const;
     bool isLegal(const int, const int, const int, const Player*) const;
     // private attributes
     vector<int> diceRolls;
