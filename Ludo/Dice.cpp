@@ -140,7 +140,7 @@ void Dice::displayRoll(sf::RenderWindow& window, const int rollNumber, const int
     auto _diceSize = static_cast<sf::Vector2f>(d.getTexture()->getSize());
     auto scaleFactor = std::min(Board::xOffSet / _diceSize.x, Board::yOffSet / _diceSize.y);
     if(selected)
-        d.setColor(sf::Color::Yellow);
+        d.setColor(sf::Color(255, 255, 143));
     d.setOrigin(_diceSize.x / 2, _diceSize.y / 2);
     d.setScale(scaleFactor, scaleFactor);
     d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
