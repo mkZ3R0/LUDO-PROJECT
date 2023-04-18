@@ -381,7 +381,7 @@ int Ludo::select() {
 
 int Ludo::selectPiece(const vector<Piece *>& myPiece) {
     auto s = myPiece.size();
-    sf::RenderWindow selectWindow(sf::VideoMode(Board::xOffSet*s, Board::yOffSet), "Select Piece", sf::Style::Titlebar);
+    sf::RenderWindow selectWindow(sf::VideoMode(Board::xOffSet*s, Board::yOffSet), "Select Piece", sf::Style::Titlebar | sf::Style::Close);
     auto p = sf::VideoMode::getDesktopMode();
     sf::Vector2i a = {(int)p.width/2, (int)p.height/2};
     selectWindow.setPosition(a);
@@ -392,39 +392,48 @@ int Ludo::selectPiece(const vector<Piece *>& myPiece) {
     }
     selectWindow.display();
 
+    sf::Event event;
     while(selectWindow.isOpen()) {
-        auto pl = Board::mouseClick(selectWindow);
-        return pl.x/Board::xOffSet;
+        while (selectWindow.waitEvent(event)) {
+            switch (event.type) {
+                case sf::Event::Closed:
+                    selectWindow.close();
+                    return -1;
+                    break;
+                case sf::Event::MouseButtonReleased:
+                    if (event.mouseButton.button == sf::Mouse::Left) {
+                        return event.mouseButton.x / Board::xOffSet;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
     }
     return 0;
 }
 
-bool Ludo::isValidSelection(const int index, const Player* p, const int currentRoll) const
+bool Ludo::isValidSelection(const int Boardindex, const int pieceIndex, const Player* p, const int currentRoll) const
 {
     cout << "checking if valid selection Piece" << endl;//TODO: for testing purpose remove later on
     // for now thinking only one piece at an index extend to multiple pieces on an index
-    if (index < 0)
+    if (Boardindex < 0)
         return false;
     auto home = p->getPlayerHome();
-    if (find(home.begin(), home.end(), index) != home.end() && currentRoll!=6) {
+    if (find(home.begin(), home.end(), Boardindex) != home.end() && currentRoll!=6) {
         return false;
     }
-    for (auto iT = (*myBoard)[index].myPiece.begin(); iT != (*myBoard)[index].myPiece.end();iT++)
-    {
-        if (isTeamMode)
-        {
-            int end = p->getPlayerKey(_end);
-            if ((*myBoard)[end].myPiece.size() == 4)
-            {
-                if (isTeamPiece((*iT)->getColor()))
-                    return true;
-            }
-            else if(p->isMyPiece((*iT)->getColor()))
+    if ((*myBoard)[Boardindex].myPiece.empty()) return false;
+    auto& selectedPiece = (*myBoard)[Boardindex].myPiece[pieceIndex];
+    if (isTeamMode) {
+        int end = p->getPlayerKey(_end);
+        if ((*myBoard)[end].myPiece.size() == 4) {
+            if (isTeamPiece(selectedPiece->getColor()))
                 return true;
-        }
-        else if (p->isMyPiece((*iT)->getColor()))
+        } else if(p->isMyPiece(selectedPiece->getColor()))
             return true;
-    }
+    } else if (p->isMyPiece(selectedPiece->getColor()))
+        return true;
     cout << "exiting valid selection Piece" << endl;//TODO: for testing purpose remove later on
     return false;
 }
@@ -771,8 +780,7 @@ void Ludo::play() {
             int currentRoll = convertIndexToDice(diceIndex);
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
-            do
-            {
+            while(true) {
                 myBoard->displayBoard(window, players[currentTurn]);
                 displayRolls(window, diceRolls, myDice);
                 myDice->displayRoll(window, convertIndexToDiceIndex(diceIndex), currentRoll, true);
@@ -782,13 +790,16 @@ void Ludo::play() {
                     currentRoll = convertIndexToDice(selectedBoardIndex);
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
+                    continue;
                 }
-                else if (isValidSelection(selectedBoardIndex, players[currentTurn], currentRoll)) {
-                    if ((*myBoard)[selectedBoardIndex].myPiece.size() > 1) {
-                        do {
-                            selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);//TODO=enhance for teams and for look up
-                        } while ((!isTeamMode && (*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor() != players[currentTurn]->getPlayerColor() || (isTeamMode && !isTeamPiece((*myBoard)[selectedBoardIndex].myPiece[selectedPieceIndex]->getColor()))));
+                if ((*myBoard)[selectedBoardIndex].myPiece.size() > 1) {
+                    selectedPieceIndex = selectPiece((*myBoard)[selectedBoardIndex].myPiece);
+                    if (selectedPieceIndex<0) {
+                        selectedPieceIndex=0;
+                        continue;
                     }
+                }
+                if (isValidSelection(selectedBoardIndex, selectedPieceIndex, players[currentTurn], currentRoll)) {
                     if (isLegal(selectedBoardIndex, selectedPieceIndex, currentRoll, players[currentTurn])) {//TODO=enhance for teams and joota
                         break;
                     }
@@ -796,7 +807,7 @@ void Ludo::play() {
                         selectedPieceIndex = 0;
                     }
                 }
-            } while (true);
+            }
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
             if ((!isTeamMode && isReleased(currentRoll, players[currentTurn], selectedBoardIndex)) || (isTeamMode && isTeamPieceReleased(currentRoll, players[currentTurn], selectedBoardIndex)))
             {

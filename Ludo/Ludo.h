@@ -23,7 +23,7 @@ class Ludo {
     static bool isValidDiceSelect(const int, int);
     static int getPlayerTeamIndex(const Player*, const vector<vector<Player*>>&);
     int convertIndexToDice(int) const;
-    bool isValidSelection(const int, const Player*, const int) const;
+    bool isValidSelection(const int, const int, const Player*, const int) const;
     bool isTeamPiece(const colorType)const;
     static void changeTurn(int&, const int);
     bool teamCanPlayMore(const Player*)const;
