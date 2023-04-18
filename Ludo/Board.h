@@ -20,6 +20,7 @@ public:
     static sf::Font fontB; // todo: do something about this, we need this font in Ludo as well
     static sf::Texture boardBg;//make private
     static sf::Texture turnBg;//make private
+    static sf::Texture quit;
     static float yOffSet;//make private
     static float xOffSet;//make private
     static vector<placement>boardPlc;

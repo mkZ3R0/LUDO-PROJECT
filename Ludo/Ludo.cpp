@@ -4,7 +4,6 @@
 
 sf::SoundBuffer Ludo::sB;
 sf::Music Ludo::bgm;
-sf::Texture Ludo::quit;
 
 vector<Player*> Ludo::allocatePlayers(const int num)
 {
@@ -328,34 +327,16 @@ int Ludo::selectNumber(const char* msg, vector<int> nums) {
     return -1;
 }
 
-void Ludo::displayQuit(sf::RenderWindow& window,const placement plc)
-{
-    sf::Sprite q;
-    q.setTexture(quit);
-    auto _quitSize = static_cast<sf::Vector2f>(q.getTexture()->getSize());
-    auto scaleFactor = std::min(Board::xOffSet / _quitSize.x, Board::yOffSet / _quitSize.y);
-    q.setOrigin(_quitSize.x / 2, _quitSize.y / 2);
-    q.setScale(scaleFactor, scaleFactor);
-    q.setPosition(plc.x,plc.y);
-
-    window.draw(q);
-}
-
-Ludo::Ludo() :window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
+Ludo::Ludo():window(sf::VideoMode(1184, 740), "Madni Ludo", sf::Style::Titlebar | sf::Style::Close)
 {
     myBoard = new Board(window);
     myDice = new Dice();
     srand(time(0));
 
     if (!background.loadFromFile("Assets/backgroud.png")) {
-        cerr << "could not open background.png" << endl;
+        cerr << "coult not open background.png" << endl;
         exit(1);
     }
-    if (!quit.loadFromFile("Assets/quit.png")) {
-        cerr << "could not open quit.png" << endl;
-        exit(1);
-    }
-    quitPlc = {Board::boardPlc[81].x, Board::boardPlc[81].y - Board::yOffSet};
 
     // TODO: move out of constructor
     this->teamSelect();
@@ -783,7 +764,7 @@ void Ludo::play() {
         {
             if(hasWon(players[currentTurn]))
                 break;
-            myDice->rollingDice(window, myBoard, diceRolls, rollCount, quitPlc, players[currentTurn]);
+            myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn]);
             //roll = myDice->rollDice();
             roll = myDice->cheatRoll(window);//cheat
             diceRolls.push_back(roll);
@@ -791,7 +772,6 @@ void Ludo::play() {
         } while (roll == 6 && rollCount != 3);
         Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
         displayRolls(window, diceRolls, myDice);
-        displayQuit(window,quitPlc);
         window.display();
         __sleep(500);
         while (!diceRolls.empty() && !allSixes(diceRolls) && ((!isTeamMode && canPlayMore(players[currentTurn]) || (isTeamMode && teamCanPlayMore(players[currentTurn])))))
@@ -802,7 +782,6 @@ void Ludo::play() {
             int selectedPieceIndex = 0;
             myBoard->displayBoard(window, players[currentTurn]);
             displayRolls(window, diceRolls, myDice, convertIndexToDiceIndex(diceIndex));
-            displayQuit(window, quitPlc);
             window.display();
             while(true) {
                 selectedBoardIndex = select();
@@ -811,7 +790,6 @@ void Ludo::play() {
                     diceIndex = selectedBoardIndex;
                     selectedBoardIndex = -1;
                     displayRolls(window, diceRolls, myDice, convertIndexToDiceIndex(diceIndex));
-                    displayQuit(window, quitPlc);
                     window.display();
                     continue;
                 }
@@ -844,7 +822,6 @@ void Ludo::play() {
                 else
                     myBoard->kill(window, currentIndex, players[currentTurn]);
                 myBoard->displayBoard(window, players[currentTurn]);
-                displayQuit(window, quitPlc);
             }
             window.display();
         }

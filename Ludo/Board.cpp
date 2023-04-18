@@ -17,6 +17,7 @@ sf::Texture Piece::purple_k;
 sf::Texture Piece::multi;
 sf::Texture Board::boardBg;
 sf::Texture Board::turnBg;
+sf::Texture Board::quit;
 sf::SoundBuffer Board::buffer;
 sf::SoundBuffer Board::buffer2;
 float Board::yOffSet;
@@ -103,6 +104,10 @@ void Board::loadAssets() {
     }
     if (!Board::fontB.loadFromFile("Assets/font.ttf")) {
         cerr << "Cannot load font" << endl;
+        exit(1);
+    }
+    if (!Board::quit.loadFromFile("Assets/quit.png")) {
+        cerr << "Cannot load quit.png" << endl;
         exit(1);
     }
     if (!buffer.loadFromFile("Assets/explosion.wav"))
@@ -485,6 +490,15 @@ void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)c
             displayTotalPieces(window, path[i].myPiece.size(), i);
         }
     }
+
+    sf::Sprite q;
+    q.setTexture(quit);
+    auto _quitSize = static_cast<sf::Vector2f>(quit.getSize());
+    auto scaleFactor = std::min(xOffSet / _quitSize.x, yOffSet / _quitSize.y);
+    q.setOrigin(_quitSize.x / 2, _quitSize.y / 2);
+    q.setScale(scaleFactor, scaleFactor);
+    q.setPosition(boardPlc[81].x, boardPlc[81].y - yOffSet);
+    window.draw(q);
 
     if (currentPlayer != nullptr) {
         auto home = currentPlayer->getPlayerHome()[3];
