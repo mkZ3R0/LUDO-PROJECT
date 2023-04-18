@@ -771,11 +771,6 @@ void Ludo::play() {
             displayRolls(window, diceRolls, myDice);
             window.display();
             int diceIndex = -1;
-            do
-            {
-                diceIndex = select();
-
-            } while (!isValidDiceSelect(diceRolls.size(), diceIndex));
             int currentRoll = convertIndexToDice(diceIndex);
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
