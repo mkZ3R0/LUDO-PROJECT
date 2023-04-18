@@ -577,25 +577,6 @@ bool Ludo::canPlayMore(const Player* currentPlayer) {
         return true; // have some free piece on board
     }
     return true; // have 6, come on you can play
-    // Mukees is legal movement function
-    for (int i = 0; i < 89; i++)
-    {
-        for (int j =0;j< (*myBoard)[i].myPiece.size(); j++)
-        {
-            for (auto dice = diceRolls.begin(); dice != diceRolls.end(); dice++)
-            {
-                if (!isTeamMode)
-                {
-                    if ((*myBoard)[i].myPiece[j]->getColor() == currentPlayer->getPlayerColor())
-                    {
-                        if (isLegal(i, j, *dice, currentPlayer))
-                            return true;
-                    }
-                }
-            }
-        }
-    }
-    return false;
 }
 
 // will be used for legal movement involving joota
