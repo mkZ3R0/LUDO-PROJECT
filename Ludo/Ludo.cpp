@@ -530,13 +530,17 @@ bool Ludo::isTeamPieceReleased(const int roll, const Player* plyr, const int boa
     return false;
 }
 
-void Ludo::releasePiece(const int boardIndex)
+void Ludo::releasePiece(const int boardIndex, const int teamIndex)
 {
     Piece* p =(*myBoard)[boardIndex].myPiece[0];
     (*myBoard)[boardIndex].myPiece.erase((*myBoard)[boardIndex].myPiece.begin());
     int startIndex = p->getMyPlayer()->getPlayerKey(_start);
     (*myBoard)[startIndex].myPiece.push_back(p);
-    myBoard->displayBoard(window, p->getMyPlayer());
+    if (isTeamMode) 
+        myBoard->displayBoard(window, p->getMyPlayer(), teams[teamIndex]);
+    else {
+        myBoard->displayBoard(window, p->getMyPlayer());
+    }
 }
 
 int Ludo::convertIndexToDiceIndex(const int index)
@@ -780,8 +784,8 @@ bool Ludo::hasWon(const Player* p)const
 }
 
 void Ludo::play() {
-    bgm.play();
     START:
+    bgm.play();
     this->mainMenu();
     this->init();
     int teamIndex = 0;
@@ -801,13 +805,20 @@ void Ludo::play() {
         {
             if(hasWon(players[currentTurn]))
                 break;
-            myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn]);
+            if (isTeamMode)
+                myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn], teams[teamIndex]);
+            else
+                myDice->rollingDice(window, myBoard, diceRolls, rollCount, players[currentTurn]);
             //roll = myDice->rollDice();
             roll = myDice->cheatRoll(window);//cheat
             diceRolls.push_back(roll);
             rollCount++;
         } while (roll == 6 && rollCount != 3);
-        Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
+        if (isTeamMode) {
+            Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn], teams[teamIndex]);
+        } else {
+            Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
+        }
         displayRolls(window, diceRolls, myDice);
         window.display();
         __sleep(500);
@@ -818,7 +829,6 @@ void Ludo::play() {
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
             if (isTeamMode) {
-                teamIndex = getPlayerTeamIndex(players[currentTurn], teams);
                 Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn], teams[teamIndex]);
             } else {
                 Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
@@ -856,17 +866,20 @@ void Ludo::play() {
                 }
             }
             diceRolls.erase(diceRolls.begin() + convertIndexToDiceIndex(diceIndex));
-            if ((!isTeamMode && isReleased(currentRoll, players[currentTurn], selectedBoardIndex)) || (isTeamMode && isTeamPieceReleased(currentRoll, players[currentTurn], selectedBoardIndex)))
+            if (!isTeamMode && isReleased(currentRoll, players[currentTurn], selectedBoardIndex))
             {
                 releasePiece(selectedBoardIndex);
+            } else if (isTeamMode && isTeamPieceReleased(currentRoll, players[currentTurn], selectedBoardIndex)) {
+                releasePiece(selectedBoardIndex, teamIndex);
             }
             else
             {
-                auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);
                 if (isTeamMode) {
+                    auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex, teams[teamIndex]);
                     myBoard->killTeam(window, currentIndex, players[currentTurn], teams[teamIndex]);
                     myBoard->displayBoard(window, players[currentTurn], teams[teamIndex]);
                 } else {
+                    auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);
                     myBoard->kill(window, currentIndex, players[currentTurn]);
                     myBoard->displayBoard(window, players[currentTurn]);
                 }
@@ -881,6 +894,7 @@ void Ludo::play() {
         if (!isTeamMode)
         {
             if (isGameEnd()) {
+                bgm.stop();
                 displayResult();
                 this->cleanup();
                 goto START;
@@ -889,6 +903,7 @@ void Ludo::play() {
         else if(isGameEndTeams(teams.size()))
         {
             if (isTeamMode) {
+                bgm.stop();
                 displayResultTeams();
                 this->cleanup();
                 goto START;

@@ -541,7 +541,7 @@ placement Board::getBoardPlc(const int index)
     return boardPlc[index];
 }
 
-int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber, int indexPieceNum)
+int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber, int indexPieceNum, const vector<Player*> team)
 {
     Piece* pToMove = path[boardIndex].myPiece[indexPieceNum];
     auto playerTurn = pToMove->getMyPlayer();
@@ -553,7 +553,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
         {
             rolledNumber--;
             currentIndex = playerTurn->getPlayerKey(_door);
-            displayBoard(window, playerTurn);
+            displayBoard(window, playerTurn, team);
             pToMove->displayPiece(window, getBoardPlc(currentIndex));
             window.display();
             __sleep(100);
@@ -565,7 +565,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
                 currentIndex = 0;
             else
                 currentIndex++;
-            displayBoard(window, playerTurn);
+            displayBoard(window, playerTurn, team);
             pToMove->displayPiece(window, getBoardPlc(currentIndex));
             window.display();
             __sleep(100);
@@ -585,7 +585,7 @@ int Board::movePiece(sf::RenderWindow& window, int boardIndex, int rolledNumber,
             if (path[*i].myPiece.empty())
             {
                 path[*i].myPiece.push_back(pToMove);
-                displayBoard(window, playerTurn);
+                displayBoard(window, playerTurn, team);
                 pToMove->displayPiece(window, getBoardPlc(*i));
                 window.display();
                 break;
@@ -648,7 +648,7 @@ void Board::killTeam(sf::RenderWindow& window, int currentIndex, Player* current
             for (auto i = home.begin(); i != home.end(); i++) {
                 if (path[*i].myPiece.empty()) {
                     path[*i].myPiece.push_back(pToKill);
-                    displayBoard(window, pToKill->getMyPlayer());
+                    displayBoard(window, pToKill->getMyPlayer(), team);
                     pToKill->displayPiece(window, getBoardPlc(*i));
                     window.display();
                     break;
