@@ -907,6 +907,7 @@ void Ludo::play() {
                 bgm.stop();
                 displayResult();
             }
+        }
         else if(isGameEndTeams(teams.size()))
         {
             if (isTeamMode) {
