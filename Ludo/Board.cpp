@@ -17,6 +17,7 @@ sf::Texture Piece::purple_k;
 sf::Texture Piece::multi;
 sf::Texture Board::boardBg;
 sf::Texture Board::turnBg;
+sf::Texture Board::teamBg;
 sf::Texture Board::quit;
 sf::SoundBuffer Board::buffer;
 sf::SoundBuffer Board::buffer2;
@@ -99,7 +100,11 @@ void Board::loadAssets() {
         exit(1);
     }
     if (!Board::turnBg.loadFromFile("Assets/turn.png")) {
-        cerr << "Cannot load board6.png" << endl;
+        cerr << "Cannot load turn.png" << endl;
+        exit(1);
+    }
+    if (!Board::teamBg.loadFromFile("Assets/team.png")) {
+        cerr << "Cannot load team.png" << endl;
         exit(1);
     }
     if (!Board::fontB.loadFromFile("Assets/font.ttf")) {
@@ -459,7 +464,7 @@ int Board::countPieceColor(const colorType c, const int bIndex) const
     return count;
 }
 
-void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)const
+void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer, const vector<Player*> team)const
 {
     int index = 0;
     sf::Sprite s(boardBg);
@@ -512,6 +517,22 @@ void Board::displayBoard(sf::RenderWindow& window, const Player* currentPlayer)c
         highlight.setPosition(p.x, p.y);
         highlight.setScale(scaleX, scaleY);
         window.draw(highlight);
+    }
+    if (!team.empty()) {
+        for(auto& player: team) {
+            auto home = player->getPlayerHome()[3];
+            auto pos = getBoardPlc(home);
+            placement p = {(float)(pos.x-(0.50*xOffSet)), (float)(pos.y-(0.50*yOffSet))};
+            sf::Sprite highlight(teamBg);
+
+            auto _Size = static_cast<sf::Vector2f>(teamBg.getSize());
+
+            highlight.setOrigin(_Size.x/2, _Size.y/2);
+
+            highlight.setPosition(p.x, p.y);
+            highlight.setScale(scaleX, scaleY);
+            window.draw(highlight);
+        }
     }
 }
 

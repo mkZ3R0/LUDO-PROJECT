@@ -22,7 +22,7 @@ public:
 	int rollDice();
 	int giveSix();// cheat;
 	int cheatRoll(sf::RenderWindow&);// cheat;
-	void rollingDice(sf::RenderWindow&, const Board*, const vector<int>&, const int, const Player* = nullptr);// for animation
+	void rollingDice(sf::RenderWindow&, const Board*, const vector<int>&, const int, const Player* = nullptr, const vector<Player*> = vector<Player*>());// for animation
 	void displayRoll(sf::RenderWindow&, const int, const int,bool=false)const;
 };
 

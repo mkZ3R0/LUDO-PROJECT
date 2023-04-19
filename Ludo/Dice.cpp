@@ -156,7 +156,7 @@ void Dice::calculateDicePlc()
         boardDicePlc[i] = { boardDicePlc[i-1].x + Board::xOffSet , boardDicePlc[i-1].y };
 }
 
-void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vector<int>& myRolls, const int rollNumber, const Player* currentPlayer)
+void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vector<int>& myRolls, const int rollNumber, const Player* currentPlayer, const vector<Player*> team)
 {
     sf::Sprite d;
     int random = 0;
@@ -194,7 +194,7 @@ void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vec
         d.setOrigin(_diceSize.x / 2, _diceSize.y / 2);
         d.setScale(scaleFactor, scaleFactor);
         d.setPosition(boardDicePlc[rollNumber].x, boardDicePlc[rollNumber].y);
-        myBoard->displayBoard(window, currentPlayer);
+        myBoard->displayBoard(window, currentPlayer, team);
         Ludo::displayRolls(window, myRolls, this);
         window.draw(d);
         window.display();

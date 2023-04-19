@@ -20,12 +20,13 @@ public:
     static sf::Font fontB; // todo: do something about this, we need this font in Ludo as well
     static sf::Texture boardBg;//make private
     static sf::Texture turnBg;//make private
+    static sf::Texture teamBg;
     static sf::Texture quit;
     static float yOffSet;//make private
     static float xOffSet;//make private
     static vector<placement>boardPlc;
     Board(sf::RenderWindow&);
-    void displayBoard(sf::RenderWindow&, const Player* = nullptr)const;
+    void displayBoard(sf::RenderWindow&, const Player* = nullptr, const vector<Player*> = vector<Player*>())const;
     static placement getBoardPlc(const int);
     void loadAssets();
     static placement mouseClick(sf::RenderWindow&); // TODO: make private

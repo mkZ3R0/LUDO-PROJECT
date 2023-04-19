@@ -788,10 +788,13 @@ void Ludo::play() {
     while (window.isOpen())
     {
         bgm.setLoop(true);
-        Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
-        window.display();
-        if (isTeamMode)
+        if (isTeamMode) {
             teamIndex = getPlayerTeamIndex(players[currentTurn], teams);
+            Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn], teams[teamIndex]);
+        } else {
+            Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
+        }
+        window.display();
         int rollCount = 0;
         int roll=0;
         do
@@ -814,7 +817,12 @@ void Ludo::play() {
             int currentRoll = convertIndexToDice(diceIndex);
             int selectedBoardIndex = -1;
             int selectedPieceIndex = 0;
-            myBoard->displayBoard(window, players[currentTurn]);
+            if (isTeamMode) {
+                teamIndex = getPlayerTeamIndex(players[currentTurn], teams);
+                Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn], teams[teamIndex]);
+            } else {
+                Ludo::myBoard->displayBoard(Ludo::window, players[currentTurn]);
+            }            
             displayRolls(window, diceRolls, myDice, convertIndexToDiceIndex(diceIndex));
             window.display();
             while(true) {
@@ -855,11 +863,13 @@ void Ludo::play() {
             else
             {
                 auto currentIndex = myBoard->movePiece(window, selectedBoardIndex, currentRoll, selectedPieceIndex);
-                if (isTeamMode)
+                if (isTeamMode) {
                     myBoard->killTeam(window, currentIndex, players[currentTurn], teams[teamIndex]);
-                else
+                    myBoard->displayBoard(window, players[currentTurn], teams[teamIndex]);
+                } else {
                     myBoard->kill(window, currentIndex, players[currentTurn]);
-                myBoard->displayBoard(window, players[currentTurn]);
+                    myBoard->displayBoard(window, players[currentTurn]);
+                }
             }
             window.display();
         }
