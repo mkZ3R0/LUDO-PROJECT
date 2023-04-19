@@ -733,32 +733,74 @@ bool Ludo::isGameEndTeams(const int totalTeams)
         return false;
 }
 
-void Ludo::displayResult() const //TODO= CHANGE TO PROPER SCREEN
-{
+void Ludo::displayResult() {
     sf::Sound s;
     s.setBuffer(sB);
     s.play();
-    int count = 1;
-    cout << "Results are in" << endl;
-    for (auto iT = leaderBoard.begin(); iT != leaderBoard.end(); iT++)
-    {
-        cout << count++ <<"- Player "<< (*iT)->getPlayerColor() << endl;
+    this->prepareWindow();
+
+    sf::Text text("Leaderboard", Board::fontB, 32);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(window.getSize().x/2 - text.getLocalBounds().width/2, window.getSize().y/2 - text.getLocalBounds().height/2 - window.getSize().y/6);
+    window.draw(text); 
+
+    int count = 0;
+    for (auto iT = leaderBoard.begin(); iT != leaderBoard.end(); iT++, count++) {
+        sf::Text n = {to_string(count+1), Board::fontB, 32};
+        n.setFillColor(sf::Color::Red);
+        n.setPosition(window.getSize().x/3 - n.getLocalBounds().width/2, window.getSize().y/2 - n.getLocalBounds().height/2 + count*(window.getSize().y/12) );
+        window.draw(n);
+        
+        auto tmp = Piece(*iT);
+        tmp.displayPiece(window, {(float)window.getSize().x/2, (float)window.getSize().y/2 + count*(window.getSize().y/12)});
+    }
+    window.display();
+
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.waitEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+            exit(0);
+        }
+        }
     }
 }
 
-void Ludo::displayResultTeams() const//TODO= CHANGE TO PROPER SCREEN
+void Ludo::displayResultTeams()
 {
     sf::Sound s;
     s.setBuffer(sB);
     s.play();
-    int count = 1;
-    cout << "Results are in" << endl;
-    for (auto iT = teamLeaderBoard.begin(); iT != teamLeaderBoard.end(); iT++)
-    {
-        cout << count++ << " Team of ";
-        for (int i = 0; i < teams[(*iT)].size(); i++)
-            cout << teams[(*iT)][i]->getPlayerColor() << " ";
-        cout << endl;
+    this->prepareWindow();
+
+    sf::Text text("Team Leaderboard", Board::fontB, 32);
+    text.setFillColor(sf::Color::Red);
+    text.setPosition(window.getSize().x/2 - text.getLocalBounds().width/2, window.getSize().y/2 - text.getLocalBounds().height/2 - window.getSize().y/6);
+    window.draw(text); 
+
+    int count = 0;
+    for (auto iT = teamLeaderBoard.begin(); iT != teamLeaderBoard.end(); iT++, count++) {
+        sf::Text n = {to_string(count+1), Board::fontB, 32};
+        n.setFillColor(sf::Color::Red);
+        n.setPosition(window.getSize().x/3 - n.getLocalBounds().width/2, window.getSize().y/2 - n.getLocalBounds().height/2 + count*(window.getSize().y/12) );
+        window.draw(n);
+        
+        for (int i = 0; i < teams[(*iT)].size(); i++) {
+            auto tmp = Piece(teams[(*iT)][i]);
+            tmp.displayPiece(window, {(float)window.getSize().x/2+i*(window.getSize().x/10), (float)window.getSize().y/2 + count*(window.getSize().y/12)});
+        }
+    }
+    window.display();
+    
+    while(window.isOpen()) {
+        sf::Event event;
+        while(window.waitEvent(event)) {
+        if (event.type == sf::Event::Closed) {
+            window.close();
+            exit(0);
+        }
+        }
     }
 }
 
@@ -861,15 +903,16 @@ void Ludo::play() {
             checkLeaderBoard(players[currentTurn]);
         if (!isTeamMode)
         {
-            if (isGameEnd())
-            {
-                displayResult();// TODO=change to proper leader board display and end game
+            if (isGameEnd()) {
+                bgm.stop();
+                displayResult();
             }
-        }
         else if(isGameEndTeams(teams.size()))
         {
-            if (isTeamMode)
+            if (isTeamMode) {
+                bgm.stop();
                 displayResultTeams();
+            }
         }
         changeTurn(currentTurn, noOfPlayers);
 

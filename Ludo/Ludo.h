@@ -38,8 +38,8 @@ class Ludo {
     void checkLeaderBoardTeams(Player*);
     bool isGameEnd();
     bool isGameEndTeams(const int);
-    void displayResult() const;
-    void displayResultTeams() const;
+    void displayResult();
+    void displayResultTeams();
     bool canPlayMore(const Player*)const;
     bool isLegal(const int, const int, const int, const Player*) const;
     // private attributes
