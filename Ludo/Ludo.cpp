@@ -201,7 +201,7 @@ vector<vector<Player*>> Ludo::allocateTeams(const int totalPlayers, const int to
     }
 }
 
-bool Ludo::isTeamPiece(const colorType selectedPieceClr)const // TODO = IMPLEMENT IN TEAM GAME MODE
+bool Ludo::isTeamPiece(const colorType selectedPieceClr)const
 {
     int teamIndex = -1;
     teamIndex = getPlayerTeamIndex(players[currentTurn], teams);
@@ -272,12 +272,10 @@ void Ludo::teamSelect() {
         else if (event.type == sf::Event::MouseButtonPressed) {
             if (soloMode.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                 this->isTeamMode = false;
-                cout << "solo selected" << endl;
                 return;
             }
             else if (teamMode.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                 this->isTeamMode = true;
-                cout << "team selected" << endl;
                 return;
             }
         }
@@ -317,7 +315,6 @@ int Ludo::selectNumber(const char* msg, vector<int> nums) {
             for(auto& n: nos) {
                 if (n.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
                     int _rval = atoi(static_cast<std::string>(n.getString()).c_str());
-                    cout << msg << " " << _rval << endl;
                     return _rval;  
                 }
             }
@@ -437,8 +434,6 @@ int Ludo::selectPiece(const vector<Piece *>& myPiece) {
 
 bool Ludo::isValidSelection(const int Boardindex, const int pieceIndex, const Player* p, const int currentRoll) const
 {
-    cout << "checking if valid selection Piece" << endl;//TODO: for testing purpose remove later on
-    // for now thinking only one piece at an index extend to multiple pieces on an index
     if (Boardindex < 0)
         return false;
     auto home = p->getPlayerHome();
@@ -456,13 +451,11 @@ bool Ludo::isValidSelection(const int Boardindex, const int pieceIndex, const Pl
             return true;
     } else if (p->isMyPiece(selectedPiece->getColor()))
         return true;
-    cout << "exiting valid selection Piece" << endl;//TODO: for testing purpose remove later on
     return false;
 }
 
 bool Ludo::allSixes(const vector<int>& myRolls)
 {
-    cout << "checking if all sixes" << endl;// for testing purpose remove later on
     if (myRolls.size() != 3)
         return false;
     for (auto iT = myRolls.begin(); iT != myRolls.end(); iT++)
@@ -475,7 +468,6 @@ bool Ludo::allSixes(const vector<int>& myRolls)
 
 bool Ludo::isValidDiceSelect(const int totalRolls, int clickIndex)
 {
-    cout << "checking if valid dice selection" << endl;// for testing purpose remove later on
     if (clickIndex >= 0)
         return false;
     clickIndex = abs(clickIndex) - 1;
@@ -486,20 +478,17 @@ bool Ludo::isValidDiceSelect(const int totalRolls, int clickIndex)
 
 int Ludo::convertIndexToDice(int index) const
 {
-    cout << "converting index to dice roll" << endl;// for testing purpose remove later on
     index = abs(index) - 1;
     return diceRolls[index];
 }
 
 void Ludo::changeTurn(int& Turn, const int totalPlayers)
 {
-    cout << "changing turn" << endl;// for testing purpose remove later on
     Turn = (Turn + 1) % totalPlayers;
 }
 
 bool Ludo::isReleased(const int roll, const Player* plyr, const int boardIndex) const
 {
-    cout << "check if wanting to release piece" << endl;// for testing purpose remove later on
     if (roll != 6)
         return false;
     bool isHomeEmpty = true;
@@ -524,7 +513,6 @@ bool Ludo::isReleased(const int roll, const Player* plyr, const int boardIndex) 
 
 bool Ludo::isTeamPieceReleased(const int roll, const Player* plyr, const int boardIndex)const
 {
-    cout << "check if wanting to release team member piece" << endl;// TODO::REMOVE for testing purpose remove later on
     if (roll != 6)
         return false;
     int teamIndex = getPlayerTeamIndex(plyr, teams);
@@ -544,7 +532,6 @@ bool Ludo::isTeamPieceReleased(const int roll, const Player* plyr, const int boa
 
 void Ludo::releasePiece(const int boardIndex)
 {
-    cout << "releasing piece" << endl;// for testing purpose remove later on
     Piece* p =(*myBoard)[boardIndex].myPiece[0];
     (*myBoard)[boardIndex].myPiece.erase((*myBoard)[boardIndex].myPiece.begin());
     int startIndex = p->getMyPlayer()->getPlayerKey(_start);
@@ -632,8 +619,6 @@ bool Ludo::teamCanPlayMore(const Player* plyr)const
     }
 }
 
-// will be used for legal movement involving joota
-
 bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, const Player* player) const {
     if (isReleased(rolledNumber, player, boardIndex)) return true;
     if (isTeamMode)
@@ -641,7 +626,7 @@ bool Ludo::isLegal(int boardIndex, int selectedPieceIndex, int rolledNumber, con
         if(isTeamPieceReleased(rolledNumber, player, boardIndex))
             return true;
     }
-    Piece* pToMove = (*myBoard)[boardIndex].myPiece[0];//TODO CONFIRM IF DEFAULT 0 INDEX OR SHOULD BE SELECTEDPIECEINDEX
+    Piece* pToMove = (*myBoard)[boardIndex].myPiece[0];
     auto playerTurn = pToMove->getMyPlayer();
     int currentIndex = boardIndex;
     while (rolledNumber != 0) {

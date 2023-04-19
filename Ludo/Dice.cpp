@@ -158,7 +158,6 @@ void Dice::calculateDicePlc()
 
 void Dice::rollingDice(sf::RenderWindow& window, const Board* myBoard, const vector<int>& myRolls, const int rollNumber, const Player* currentPlayer)
 {
-    cout << "Entering dice animation" <<endl;// for testing
     sf::Sprite d;
     int random = 0;
     sf::Sound s;
