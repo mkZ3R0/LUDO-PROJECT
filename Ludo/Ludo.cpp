@@ -740,16 +740,7 @@ void Ludo::displayResult() {
         tmp.displayPiece(window, {(float)window.getSize().x/2, (float)window.getSize().y/2 + count*(window.getSize().y/12)});
     }
     window.display();
-
-    while(window.isOpen()) {
-        sf::Event event;
-        while(window.waitEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
-            exit(0);
-        }
-        }
-    }
+    __sleep(9000);
 }
 
 void Ludo::displayResultTeams()
@@ -777,16 +768,7 @@ void Ludo::displayResultTeams()
         }
     }
     window.display();
-    
-    while(window.isOpen()) {
-        sf::Event event;
-        while(window.waitEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
-            exit(0);
-        }
-        }
-    }
+    __sleep(9000);
 }
 
 bool Ludo::hasWon(const Player* p)const
@@ -889,15 +871,17 @@ void Ludo::play() {
         if (!isTeamMode)
         {
             if (isGameEnd()) {
-                bgm.stop();
                 displayResult();
+                this->cleanup();
+                goto START;
             }
         }
         else if(isGameEndTeams(teams.size()))
         {
             if (isTeamMode) {
-                bgm.stop();
                 displayResultTeams();
+                this->cleanup();
+                goto START;
             }
         }
         changeTurn(currentTurn, noOfPlayers);
